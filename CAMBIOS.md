@@ -1,5 +1,47 @@
 # Registro de cambios
 
+## 2026-11-22 · Todo sincronizado: contraseñas en .env, limpieza, guía al día y scripts
+
+**1. Contraseñas de Nextcloud fuera del compose (VM 102)**
+- Estaban escritas en `/srv/data/stacks/nextcloud/docker-compose.yml`. El `.env` que ya existía usaba otros nombres y otros valores, y nada lo leía.
+- Las contraseñas contienen `$`, que Docker Compose trata como variable. Por eso no se copió el texto escrito, sino lo que reciben de verdad los contenedores (`docker compose config`). Se guardó en un `.env` nuevo, con los valores entre comillas simples y permisos `600`.
+- Ahora el compose solo tiene `${MARIADB_ROOT_PASSWORD}`, `${MARIADB_PASSWORD}` y `${MYSQL_PASSWORD}`.
+- Comprobación: el hash de `docker compose config` es idéntico antes y después, así que los contenedores no se reiniciaron.
+- Copias: `.env.bak-20261122` (el `.env` antiguo) y `docker-compose.yml.bak-20261122-antes-env`, ambos `600`. El `docker-compose.yml.bak` antiguo también pasa a `600`.
+
+**2. Limpieza de imágenes Docker**
+- VM 102: se borraron `nextcloud:apache`, `mariadb:11` y `hello-world`, sin uso, y se liberaron 2,6 GB.
+- VM 102 y LXC 101: se quitaron las etiquetas sobrantes (`latest`, `gethomepage/homepage:v2.7.0`), que apuntaban a imágenes en uso. Las imágenes se conservan.
+- Las carpetas de copia de hoy se mantienen unos días, por si acaso.
+
+**3. Guía (`/servidor/`) al día con el servidor real**
+- Discos de sistema y del LXC 101 en el espejo ZFS, con cómo moverlos en caliente.
+- Pasos nuevos en las VMs: límite de logs de Docker y `unattended-upgrades`.
+- Compose de Nextcloud con `.env` (y el error del `$`), tareas de fondo con cron, versiones fijas (Kuma 2.5.8, Redis 7.4.12) y Portainer en compose.
+- Portfolio: nginx con versión fija y su `default.conf` (redirecciones relativas, cabeceras y www).
+- Seguridad: SSH solo con clave y comprobaciones nuevas.
+- Copias: `dbdump.sh` y `backup-config.sh` iguales a los del repositorio (estilo de clase), con el cron a las 02:45 y el `PATH`.
+- 6 recuadros de "Error real" y 8 filas nuevas en la tabla de errores: cron sin `PATH`, Nextcloud en AJAX, compose sin recrear, `$` en contraseñas, DNS bloqueado, `ssh.socket`, matcher sin Telegram y caché de Cloudflare. Dos lecciones nuevas.
+- "Última revisión: 22 de noviembre de 2026" en la portada.
+- Incidencia: al insertar los scripts en la guía, se borró el principio de tres bloques de código. Lo detectó la comprobación de etiquetas, se corrigió antes de publicar y se revisó en el navegador.
+
+**4. Repositorio y servidor iguales**
+- `scripts/sincronizar.sh` compara los 22 ficheros de configuración del servidor con los del repositorio y dice si son iguales, si solo cambian comentarios o espacios, o si son distintos.
+  - `traer` copia al repositorio solo lo que cambia de verdad, sin secretos. Así no pisa los comentarios.
+  - `llevar` sube lo editado aquí, con copia previa en el servidor. Si el cambio es real, solo lo sube cuando se nombra el fichero.
+- Sustituye a `traer-config.sh`, que se creó y se retiró en esta misma sesión porque sobrescribía los comentarios.
+- `scripts/publicar-web.sh` publica `web/portfolio` en la VM 103 con copia previa y comprueba que las páginas dan 200.
+- Llevado al servidor (copia previa `*.bak-20261122-2041` junto a cada fichero):
+  - los compose de NPM, cloudflared, Nextcloud, utilidades y portfolio;
+  - `default.conf`;
+  - `backup-config.sh` y `dbdump.sh`, con la versión de estilo de clase.
+- Comprobación:
+  - la configuración efectiva de los 7 compose es idéntica antes y después;
+  - `nginx -t` correcto y nginx recargado;
+  - `backup-config.sh` probado como lo lanza cron: copia y volcado OK;
+  - www y `/servidor` redirigen bien y las cabeceras siguen ahí.
+- Web publicada con el script (copia `/srv/data/portfolio-backup-web-20261122-2043`). Las 7 páginas dan 200, y el CSS y el JS públicos coinciden con el repositorio.
+
 ## 2026-11-22 · Código y comentarios con mi estilo de clase
 
 **Qué y por qué**
@@ -13,7 +55,7 @@
 - Probé el portfolio y la guía en local: menú, enlace activo, barra de progreso, animaciones, validación del formulario, capítulos, botón de completado y botones de copiar. Sin errores en la consola.
 
 **Pendiente**
-- Estos archivos todavía no están copiados al servidor; lo que hay en marcha allí funciona igual.
+- ~~Estos archivos todavía no están copiados al servidor.~~ Copiados con `scripts/sincronizar.sh llevar` y publicados con `scripts/publicar-web.sh`: ver la entrada "Todo sincronizado".
 
 ## 2026-11-22 · Reinicio del nodo Proxmox (kernel nuevo)
 

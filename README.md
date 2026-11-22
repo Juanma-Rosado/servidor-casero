@@ -19,11 +19,32 @@ He escrito una guía paso a paso de cómo lo monté: https://juanmarosado.com/se
 | `vm10x-*/etc-docker-daemon.json` | Límite de tamaño de los logs de Docker | `/etc/docker/daemon.json` |
 | `lxc101-npm/` | Nginx Proxy Manager y cloudflared | LXC 101, `/opt/npm` y `/opt/cloudflared` |
 | `pve/` | El nodo Proxmox: copias, cron, sanoid, vzdump, almacenamiento, avisos, firewall, SSH y la configuración de cada máquina | Nodo `pve` |
+| `scripts/` | Scripts para mantener el servidor y el repositorio iguales y publicar la web | Mi PC |
 | `CAMBIOS.md` | Lo que voy cambiando y por qué | — |
+
+## Cómo trabajo con este repositorio
+
+El repositorio es la referencia: lo que hay aquí es lo que hay en el servidor. Después de cada cambio:
+
+1. Lo apunto arriba del todo en `CAMBIOS.md`: qué, por qué, la copia previa, cómo lo comprobé y cómo deshacerlo.
+2. Comparo el servidor con el repositorio:
+   ```bash
+   scripts/sincronizar.sh             # solo compara
+   scripts/sincronizar.sh traer       # trae lo que cambié en el servidor, sin secretos
+   scripts/sincronizar.sh llevar      # sube lo que edité aquí, con copia previa
+   ```
+   Distingue un cambio de verdad de uno que solo toca comentarios o espacios, para no pisar nunca los comentarios del repositorio.
+3. Si el cambio afecta a algo que explica la guía, la actualizo, con su "Error real" si lo hubo.
+4. Si es un proyecto nuevo, lo añado al portfolio.
+5. Publico la web, que hace una copia antes y comprueba que todo da 200:
+   ```bash
+   scripts/publicar-web.sh
+   ```
+6. Commit y push.
 
 ## Cómo está montado
 
-- Nodo Proxmox `pve` (192.168.0.254): dos discos en espejo ZFS y copias diarias con vzdump.
+- Nodo Proxmox `pve` (192.168.0.254): dos discos en espejo ZFS, donde están todas las máquinas, y copias diarias con vzdump.
 - LXC 100 `adguard` (192.168.0.253): AdGuard Home para el DNS y Tailscale para entrar desde fuera.
 - LXC 101 `npm` (192.168.0.252): Nginx Proxy Manager y el túnel de Cloudflare.
 - VM 102 `personal` (192.168.0.250): Nextcloud, Uptime Kuma, Homepage y Portainer.
