@@ -1,5 +1,24 @@
 # Registro de cambios
 
+## 2026-11-22 · Repositorio privado en GitHub
+
+**Qué se hizo**
+- Se creó el repositorio **privado** `Juanma-Rosado/servidor-casero`. Esta carpeta del PC es ahora su copia local (rama `main`).
+- Se subió:
+  - la web tal como está en la VM 103: portfolio y guía, en `web/portfolio/`;
+  - el compose y `default.conf` del portfolio (`vm103-profesional/`);
+  - los compose de Nextcloud y utilidades y el crontab de juanma (`vm102-personal/`);
+
+**Seguridad**
+- Las contraseñas de MariaDB están escritas directamente en el compose real de Nextcloud. Se sustituyeron por `${VARIABLE}` **en la propia VM**, antes de copiar, así que nunca han salido de ella. Se añadió un `.env.example` como plantilla.
+- Antes del commit se buscaron contraseñas, tokens, claves privadas y cadenas largas aleatorias en todo lo preparado. No apareció nada.
+- `.gitignore` excluye `.env`, claves, volcados SQL, `.zip` y copias. Con eso quedó fuera `servidor-web.zip`: la guía ya está descomprimida en `web/portfolio/servidor/`.
+- `.gitattributes` fuerza finales de línea LF, porque los ficheros se usan en servidores Linux.
+
+**Pendiente**
+- Faltan la configuración de Proxmox, de los LXC 100 y 101 y la de Homepage, que puede contener claves de API. Habría que revisarla antes de subirla.
+- El repositorio es una foto del 22-11-2026. Si cambias algo en el servidor, hay que copiarlo aquí y hacer commit.
+
 ## 2026-11-22 · Retirada la carpeta `zip/` del portfolio (VM 103)
 
 **Qué y por qué**
