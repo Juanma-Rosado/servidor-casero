@@ -1,0 +1,17 @@
+# Secretos: nunca al repositorio
+.env
+*.env
+!*.env.example
+*.key
+*.pem
+secrets/
+
+# Copias y ficheros grandes
+*.zip
+*.sql
+*.sql.gz
+backups/
+
+# Locales
+Thumbs.db
+desktop.ini

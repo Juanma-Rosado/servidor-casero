@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Contacto | Juanma Rosado</title>
+  <link rel="icon" href="img/logo.svg" type="image/svg+xml">
+  <meta name="description" content="Contacta con Juanma Rosado para prácticas y colaboraciones.">
+  <link rel="canonical" href="https://juanmarosado.com/contacto.html">
+  <meta property="og:type" content="website">
+  <meta property="og:locale" content="es_ES">
+  <meta property="og:site_name" content="Juanma Rosado">
+  <meta property="og:title" content="Contacto | Juanma Rosado">
+  <meta property="og:description" content="Contacta con Juanma Rosado para prácticas y colaboraciones.">
+  <meta property="og:url" content="https://juanmarosado.com/contacto.html">
+  <meta property="og:image" content="https://juanmarosado.com/img/og.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
+  <link rel="stylesheet" href="css/fonts.css">
+  <link rel="stylesheet" href="css/styles.css?v=20261122">
+</head>
+<body>
+  <header class="header">
+    <nav class="nav container" aria-label="Principal">
+      <a href="index.html" class="logo"><img src="img/logo.svg" alt="" width="34" height="34"><span>juanma</span></a>
+      <button class="nav__toggle" aria-label="Abrir menú" aria-expanded="false" aria-controls="menu"><span></span><span></span><span></span></button>
+      <ul class="nav__menu" id="menu">
+        <li><a href="index.html">Inicio</a></li>
+        <li><a href="sobre-mi.html">Sobre mí</a></li>
+        <li><a href="habilidades.html">Habilidades</a></li>
+        <li><a href="proyectos.html">Proyectos</a></li>
+        <li><a href="contacto.html">Contacto</a></li>
+      </ul>
+    </nav>
+    <div class="progress"></div>
+  </header>
+
+  <main class="page container">
+    <h1 class="page__title">Contacto</h1>
+    <p class="page__lead reveal">Busco prácticas donde seguir aprendiendo. Escríbeme y te respondo lo antes posible.</p>
+
+    <div class="contact">
+      <!-- novalidate: la validación la hace main.js para mostrar mensajes propios -->
+      <form id="form" class="form reveal" novalidate>
+        <div class="field">
+          <label for="nombre">Nombre</label>
+          <input type="text" id="nombre" name="nombre" autocomplete="name" required>
+          <small class="error" aria-live="polite"></small>
+        </div>
+        <div class="field">
+          <label for="email">Correo electrónico</label>
+          <input type="email" id="email" name="email" autocomplete="email" required>
+          <small class="error" aria-live="polite"></small>
+        </div>
+        <div class="field">
+          <label for="mensaje">Mensaje</label>
+          <textarea id="mensaje" name="mensaje" rows="5" required></textarea>
+          <small class="error" aria-live="polite"></small>
+        </div>
+        <button type="submit" class="btn btn--primary">Enviar mensaje</button>
+        <p class="form__status" role="status"></p>
+      </form>
+
+      <!-- Enlaces directos -->
+      <aside class="links">
+        <a class="card tilt reveal" href="https://www.linkedin.com/in/juanma-rosado-trujillo-b841962b5" target="_blank" rel="noopener"><h3>LinkedIn</h3><p>juanma-rosado-trujillo</p></a>
+        <a class="card tilt reveal" href="https://github.com/Juanma-Rosado" target="_blank" rel="noopener"><h3>GitHub</h3><p>Juanma-Rosado</p></a>
+        <a class="card tilt reveal" href="mailto:rosadotrujillojuanma@gmail.com"><h3>Correo</h3><p>rosadotrujillojuanma@gmail.com</p></a>
+      </aside>
+    </div>
+  </main>
+
+  <footer class="footer">
+    <p>© <span id="year"></span> Juanma Rosado</p>
+    <p class="footer__links">
+      <a href="https://github.com/Juanma-Rosado" target="_blank" rel="noopener">GitHub</a>
+      <a href="https://www.linkedin.com/in/juanma-rosado-trujillo-b841962b5" target="_blank" rel="noopener">LinkedIn</a>
+    </p>
+  </footer>
+  <script src="js/main.js" defer></script>
+</body>
+</html>

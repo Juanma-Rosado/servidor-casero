@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Proyectos | Juanma Rosado</title>
+  <link rel="icon" href="img/logo.svg" type="image/svg+xml">
+  <meta name="description" content="Proyectos de Juanma Rosado. El primero: un servidor casero con Proxmox VE, ZFS, Docker y Cloudflare Tunnel.">
+  <link rel="canonical" href="https://juanmarosado.com/proyectos.html">
+  <meta property="og:type" content="website">
+  <meta property="og:locale" content="es_ES">
+  <meta property="og:site_name" content="Juanma Rosado">
+  <meta property="og:title" content="Proyectos | Juanma Rosado">
+  <meta property="og:description" content="Proyectos de Juanma Rosado. El primero: un servidor casero con Proxmox VE, ZFS, Docker y Cloudflare Tunnel.">
+  <meta property="og:url" content="https://juanmarosado.com/proyectos.html">
+  <meta property="og:image" content="https://juanmarosado.com/img/og.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
+  <link rel="stylesheet" href="css/fonts.css">
+  <link rel="stylesheet" href="css/styles.css?v=20261122">
+</head>
+<body>
+  <header class="header">
+    <nav class="nav container" aria-label="Principal">
+      <a href="index.html" class="logo"><img src="img/logo.svg" alt="" width="34" height="34"><span>juanma</span></a>
+      <button class="nav__toggle" aria-label="Abrir menú" aria-expanded="false" aria-controls="menu"><span></span><span></span><span></span></button>
+      <ul class="nav__menu" id="menu">
+        <li><a href="index.html">Inicio</a></li>
+        <li><a href="sobre-mi.html">Sobre mí</a></li>
+        <li><a href="habilidades.html">Habilidades</a></li>
+        <li><a href="proyectos.html">Proyectos</a></li>
+        <li><a href="contacto.html">Contacto</a></li>
+      </ul>
+    </nav>
+    <div class="progress"></div>
+  </header>
+
+  <main class="page container">
+    <h1 class="page__title">Proyectos</h1>
+
+    <p class="page__lead reveal">Lo que voy construyendo mientras aprendo. Cada proyecto incluye cómo lo hice y por qué.</p>
+
+    <!-- PROYECTO 01: servidor casero con Proxmox -->
+    <article class="project reveal">
+      <a href="/servidor/" class="project__media"><img src="img/proyecto-proxmox.webp" width="1200" height="675" alt="Portada del proyecto: servidor casero con Proxmox VE"></a>
+      <div class="project__body">
+        <p class="project__num">Proyecto 01 · Sistemas</p>
+        <h2>Instalación y configuración de Proxmox</h2>
+        <p>He montado en casa un servidor con Proxmox VE que aloja esta web, una nube privada y un bloqueador de anuncios para toda la red, sin abrir ningún puerto del router. Lo he documentado en una guía paso a paso.</p>
+        <ul class="project__list">
+          <li>Proxmox VE sobre dos discos en espejo ZFS.</li>
+          <li>Dos contenedores LXC: DNS con AdGuard Home y VPN con Tailscale; proxy inverso con Nginx Proxy Manager.</li>
+          <li>Dos máquinas virtuales con Docker: Nextcloud, Uptime Kuma y Homepage en una; esta web en otra, aislada de la red de casa.</li>
+          <li>Web pública con Cloudflare Tunnel y HTTPS con certificado comodín para los servicios internos.</li>
+          <li>Copias automáticas diarias, instantáneas ZFS y avisos por Telegram.</li>
+        </ul>
+        <ul class="tags"><li>Proxmox VE</li><li>ZFS</li><li>LXC</li><li>Docker</li><li>Nginx</li><li>Cloudflare Tunnel</li><li>AdGuard Home</li><li>Tailscale</li><li>Nextcloud</li><li>Linux</li></ul>
+        <div class="project__actions">
+          <a href="/servidor/" class="btn btn--primary">Leer la guía</a>
+        </div>
+      </div>
+    </article>
+
+    <!-- Próximos proyectos -->
+    <section class="next reveal">
+      <h2>Próximamente</h2>
+      <p>Estoy preparando mis primeros proyectos de DAW. Mientras tanto, puedes ver mi código en GitHub.</p>
+      <div class="bar" role="img" aria-label="Barra de obras en marcha"></div>
+      <a href="https://github.com/Juanma-Rosado" target="_blank" rel="noopener" class="btn btn--ghost">Ver mi GitHub</a>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <p>© <span id="year"></span> Juanma Rosado</p>
+    <p class="footer__links">
+      <a href="https://github.com/Juanma-Rosado" target="_blank" rel="noopener">GitHub</a>
+      <a href="https://www.linkedin.com/in/juanma-rosado-trujillo-b841962b5" target="_blank" rel="noopener">LinkedIn</a>
+    </p>
+  </footer>
+  <script src="js/main.js" defer></script>
+</body>
+</html>

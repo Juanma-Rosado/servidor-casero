@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Juanma Rosado | Estudiante de DAW</title>
+  <meta name="description" content="Portfolio de Juanma Rosado, estudiante de Desarrollo de Aplicaciones Web en Málaga.">
+  <link rel="icon" href="img/logo.svg" type="image/svg+xml">
+  <link rel="canonical" href="https://juanmarosado.com/">
+  <meta property="og:type" content="website">
+  <meta property="og:locale" content="es_ES">
+  <meta property="og:site_name" content="Juanma Rosado">
+  <meta property="og:title" content="Juanma Rosado | Estudiante de DAW">
+  <meta property="og:description" content="Portfolio de Juanma Rosado, estudiante de Desarrollo de Aplicaciones Web en Málaga.">
+  <meta property="og:url" content="https://juanmarosado.com/">
+  <meta property="og:image" content="https://juanmarosado.com/img/og.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
+  <link rel="stylesheet" href="css/fonts.css">
+  <link rel="stylesheet" href="css/styles.css?v=20261122">
+</head>
+<body>
+  <!-- CABECERA: igual en todas las páginas. El enlace activo lo marca main.js -->
+  <header class="header">
+    <nav class="nav container" aria-label="Principal">
+      <a href="index.html" class="logo"><img src="img/logo.svg" alt="" width="34" height="34"><span>juanma</span></a>
+      <button class="nav__toggle" aria-label="Abrir menú" aria-expanded="false" aria-controls="menu"><span></span><span></span><span></span></button>
+      <ul class="nav__menu" id="menu">
+        <li><a href="index.html">Inicio</a></li>
+        <li><a href="sobre-mi.html">Sobre mí</a></li>
+        <li><a href="habilidades.html">Habilidades</a></li>
+        <li><a href="proyectos.html">Proyectos</a></li>
+        <li><a href="contacto.html">Contacto</a></li>
+      </ul>
+    </nav>
+    <div class="progress"></div> <!-- barra de progreso del scroll -->
+  </header>
+
+  <main>
+    <!-- HERO: canvas de partículas + manchas de color de fondo -->
+    <section class="hero">
+      <canvas id="net" aria-hidden="true"></canvas>
+      <span class="blob b1"></span><span class="blob b2"></span>
+
+      <div class="hero__inner container">
+        <div class="hero__text">
+          <p class="hero__hello">Hola, soy</p>
+          <h1>Juanma<span class="dot">.</span></h1>
+          <p class="hero__type">Me interesa <span id="typed" data-words="el desarrollo web|los servidores con Docker|las redes y los sistemas|aprender cada día"></span></p>
+          <p class="hero__lead">Estudiante de 1º de DAW en Málaga. Vengo de Sistemas y Redes, así que me gusta entender cómo funciona una aplicación por dentro y por fuera.</p>
+          <div class="hero__actions">
+            <a href="proyectos.html" class="btn btn--primary">Ver proyectos</a>
+            <a href="contacto.html" class="btn btn--ghost">Contactar</a>
+          </div>
+        </div>
+
+        <div class="code float" aria-hidden="true">
+          <div class="code__bar"><i></i><i></i><i></i><span>perfil.js</span></div>
+          <pre><code><b>const</b> juanma = {
+  estudio: <em>"DAW, 1º curso"</em>,
+  base: <em>"Sistemas y Redes"</em>,
+  aprendiendo: [<em>"HTML"</em>, <em>"CSS"</em>, <em>"JS"</em>,
+                <em>"Java"</em>, <em>"Python"</em>],
+  buscando: <em>"prácticas"</em>
+};</code></pre>
+        </div>
+      </div>
+    </section>
+
+    <!-- PROYECTO DESTACADO -->
+    <section class="section container">
+      <h2 class="reveal">Último proyecto</h2>
+      <a href="proyectos.html" class="card tilt reveal feature">
+        <img src="img/proyecto-proxmox.webp" width="1200" height="675" alt="" loading="lazy">
+        <div>
+          <h3>Instalación y configuración de Proxmox</h3>
+          <p>Un servidor en casa con Proxmox VE, ZFS, contenedores LXC y Docker que aloja esta web, sin abrir puertos del router.</p>
+          <span class="feature__more">Ver proyecto →</span>
+        </div>
+      </a>
+    </section>
+
+    <!-- ACCESOS A LAS DEMÁS PÁGINAS -->
+    <section class="section container">
+      <h2 class="reveal">Explora</h2>
+      <div class="grid grid--4">
+        <a href="sobre-mi.html" class="card tilt reveal"><h3>Sobre mí</h3><p>Mi formación y mi experiencia.</p></a>
+        <a href="habilidades.html" class="card tilt reveal"><h3>Habilidades</h3><p>Lo que sé y lo que estoy aprendiendo.</p></a>
+        <a href="proyectos.html" class="card tilt reveal"><h3>Proyectos</h3><p>Mi servidor casero con Proxmox y lo que viene.</p></a>
+        <a href="contacto.html" class="card tilt reveal"><h3>Contacto</h3><p>Hablemos de prácticas y colaboraciones.</p></a>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <p>© <span id="year"></span> Juanma Rosado</p>
+    <p class="footer__links">
+      <a href="https://github.com/Juanma-Rosado" target="_blank" rel="noopener">GitHub</a>
+      <a href="https://www.linkedin.com/in/juanma-rosado-trujillo-b841962b5" target="_blank" rel="noopener">LinkedIn</a>
+    </p>
+  </footer>
+  <script src="js/main.js" defer></script>
+</body>
+</html>

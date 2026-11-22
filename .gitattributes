@@ -1,0 +1,5 @@
+# Finales de línea LF: los ficheros se usan en servidores Linux
+* text=auto eol=lf
+*.woff2 binary
+*.webp binary
+*.png binary

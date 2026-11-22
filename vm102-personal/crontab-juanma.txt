@@ -1,0 +1,2 @@
+# Nextcloud: tareas de fondo cada 5 min (anadido 2026-11-22)
+*/5 * * * * docker exec -u www-data nextcloud php -f /var/www/html/cron.php >/dev/null 2>&1

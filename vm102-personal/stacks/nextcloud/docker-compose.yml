@@ -1,0 +1,35 @@
+services:
+  db:
+    image: mariadb:11.8.9
+    container_name: nextcloud-db
+    restart: unless-stopped
+    command: --transaction-isolation=READ-COMMITTED --binlog-format=ROW
+    environment:
+      MARIADB_ROOT_PASSWORD: ${MARIADB_ROOT_PASSWORD}  # valor real solo en la VM
+      MARIADB_DATABASE: nextcloud
+      MARIADB_USER: nextcloud
+      MARIADB_PASSWORD: ${MARIADB_PASSWORD}  # valor real solo en la VM
+    volumes:
+      - /srv/data/nextcloud/db:/var/lib/mysql
+  redis:
+    image: redis:7-alpine
+    container_name: nextcloud-redis
+    restart: unless-stopped
+  app:
+    image: nextcloud:35.0.2-apache
+    container_name: nextcloud
+    restart: unless-stopped
+    depends_on:
+      - db
+      - redis
+    ports:
+      - "8080:80"
+    environment:
+      MYSQL_HOST: db
+      MYSQL_DATABASE: nextcloud
+      MYSQL_USER: nextcloud
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}  # valor real solo en la VM
+      REDIS_HOST: redis
+      NEXTCLOUD_TRUSTED_DOMAINS: 192.168.0.250 nextcloud.juanmarosado.com
+    volumes:
+      - /srv/data/nextcloud/html:/var/www/html
