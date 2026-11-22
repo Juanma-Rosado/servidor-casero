@@ -1,20 +1,27 @@
+# Nextcloud con MariaDB y Redis (VM 102).
+# Las contraseñas van en el .env del servidor, no en el repositorio.
 services:
+  # Base de datos
   db:
     image: mariadb:11.8.9
     container_name: nextcloud-db
     restart: unless-stopped
     command: --transaction-isolation=READ-COMMITTED --binlog-format=ROW
     environment:
-      MARIADB_ROOT_PASSWORD: ${MARIADB_ROOT_PASSWORD}  # valor real solo en el servidor
+      MARIADB_ROOT_PASSWORD: ${MARIADB_ROOT_PASSWORD}
       MARIADB_DATABASE: nextcloud
       MARIADB_USER: nextcloud
-      MARIADB_PASSWORD: ${MARIADB_PASSWORD}  # valor real solo en el servidor
+      MARIADB_PASSWORD: ${MARIADB_PASSWORD}
     volumes:
       - /srv/data/nextcloud/db:/var/lib/mysql
+
+  # Caché para que Nextcloud vaya más rápido
   redis:
     image: redis:7.4.12-alpine@sha256:8da19c7399dca900c6822a1cf30f9d2285585e2c4b457ff4095b0f4500054d3f
     container_name: nextcloud-redis
     restart: unless-stopped
+
+  # Nextcloud
   app:
     image: nextcloud:35.0.2-apache
     container_name: nextcloud
@@ -28,7 +35,7 @@ services:
       MYSQL_HOST: db
       MYSQL_DATABASE: nextcloud
       MYSQL_USER: nextcloud
-      MYSQL_PASSWORD: ${MYSQL_PASSWORD}  # valor real solo en el servidor
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
       REDIS_HOST: redis
       NEXTCLOUD_TRUSTED_DOMAINS: 192.168.0.250 nextcloud.juanmarosado.com
     volumes:

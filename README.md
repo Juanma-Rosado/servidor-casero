@@ -1,36 +1,36 @@
 # Servidor casero con Proxmox
 
-Configuración y web de mi servidor casero: Proxmox VE con ZFS, dos contenedores LXC y dos máquinas virtuales con Docker. Está publicado en https://juanmarosado.com sin abrir puertos del router, gracias a Cloudflare Tunnel.
+Este es mi servidor casero: Proxmox VE con ZFS, dos contenedores LXC y dos máquinas virtuales con Docker. Mi web, https://juanmarosado.com, sale de aquí sin abrir puertos del router, gracias a Cloudflare Tunnel.
 
-La guía completa, paso a paso, está en https://juanmarosado.com/servidor/
+He escrito una guía paso a paso de cómo lo monté: https://juanmarosado.com/servidor/
 
-## Contenido
+## Qué hay en cada carpeta
 
-| Carpeta | Qué hay | Dónde vive en el servidor |
+| Carpeta | Qué hay | Dónde está en el servidor |
 |---|---|---|
-| `web/portfolio/` | Portfolio (HTML, CSS y JS sin frameworks) | VM 103, `/srv/data/portfolio` |
-| `web/portfolio/servidor/` | Guía del servidor | VM 103, `/srv/data/portfolio/servidor` |
+| `web/portfolio/` | Mi portfolio (HTML, CSS y JavaScript, sin frameworks) | VM 103, `/srv/data/portfolio` |
+| `web/portfolio/servidor/` | La guía del servidor | VM 103, `/srv/data/portfolio/servidor` |
 | `vm103-profesional/stacks/portfolio/` | Compose y nginx del portfolio | VM 103, `/srv/data/stacks/portfolio` |
-| `vm102-personal/stacks/nextcloud/` | Nextcloud, MariaDB y Redis | VM 102, `/srv/data/stacks/nextcloud` |
+| `vm102-personal/stacks/nextcloud/` | Nextcloud con MariaDB y Redis | VM 102, `/srv/data/stacks/nextcloud` |
 | `vm102-personal/stacks/utilidades/` | Uptime Kuma y Homepage | VM 102, `/srv/data/stacks/utilidades` |
-| `vm102-personal/crontab-juanma.txt` | Cron de las tareas de fondo de Nextcloud | VM 102, crontab de juanma |
-| `vm102-personal/usr-local-bin-dbdump.sh` | Volcado de la BD de Nextcloud | VM 102, `/usr/local/bin/dbdump.sh` |
+| `vm102-personal/crontab-juanma.txt` | Tareas de fondo de Nextcloud | VM 102, crontab de juanma |
+| `vm102-personal/usr-local-bin-dbdump.sh` | Volcado de la base de datos de Nextcloud | VM 102, `/usr/local/bin/dbdump.sh` |
 | `vm10x-*/stacks/portainer/` | Portainer en cada VM | VM 102 y 103, `/srv/data/stacks/portainer` |
-| `vm10x-*/etc-docker-daemon.json` | Límite de logs de Docker | `/etc/docker/daemon.json` |
-| `lxc101-npm/` | Compose de NPM y cloudflared y `daemon.json` | LXC 101, `/opt/npm`, `/opt/cloudflared` |
-| `pve/` | Nodo Proxmox: script de copias, cron, sanoid, vzdump, almacenamiento, avisos, firewall, SSH y configuración de cada máquina | Nodo `pve` |
-| `CAMBIOS.md` | Registro de cada cambio y su motivo | — |
+| `vm10x-*/etc-docker-daemon.json` | Límite de tamaño de los logs de Docker | `/etc/docker/daemon.json` |
+| `lxc101-npm/` | Nginx Proxy Manager y cloudflared | LXC 101, `/opt/npm` y `/opt/cloudflared` |
+| `pve/` | El nodo Proxmox: copias, cron, sanoid, vzdump, almacenamiento, avisos, firewall, SSH y la configuración de cada máquina | Nodo `pve` |
+| `CAMBIOS.md` | Lo que voy cambiando y por qué | — |
 
-## Mapa
+## Cómo está montado
 
-- Nodo Proxmox `pve`, 192.168.0.254: ZFS en espejo y copias vzdump diarias.
-- LXC 100 `adguard`, 192.168.0.253: AdGuard Home y Tailscale.
-- LXC 101 `npm`, 192.168.0.252: Nginx Proxy Manager y cloudflared.
-- VM 102 `personal`, 192.168.0.250: Nextcloud, Uptime Kuma, Homepage y Portainer.
-- VM 103 `profesional`, 192.168.0.251: el portfolio. No puede alcanzar la LAN, por diseño.
+- Nodo Proxmox `pve` (192.168.0.254): dos discos en espejo ZFS y copias diarias con vzdump.
+- LXC 100 `adguard` (192.168.0.253): AdGuard Home para el DNS y Tailscale para entrar desde fuera.
+- LXC 101 `npm` (192.168.0.252): Nginx Proxy Manager y el túnel de Cloudflare.
+- VM 102 `personal` (192.168.0.250): Nextcloud, Uptime Kuma, Homepage y Portainer.
+- VM 103 `profesional` (192.168.0.251): el portfolio. Está aislada y no puede llegar al resto de la red de casa.
 
-## Secretos
+## Contraseñas
 
-Las contraseñas **no** están en este repositorio. En los compose aparecen como `${VARIABLE}` y su valor real está solo en el servidor. Usa `.env.example` como plantilla. Del aviso de Telegram (`pve/etc/pve/notifications.cfg`) se han quitado la URL, la cabecera y el cuerpo, porque contienen el token del bot.
+Aquí no hay ninguna contraseña. En los compose aparecen como `${VARIABLE}` y el valor real solo está en el servidor; `.env.example` sirve de plantilla. Del aviso de Telegram (`pve/etc/pve/notifications.cfg`) quité la URL, la cabecera y el cuerpo porque llevan el token del bot.
 
-No están a propósito, porque contienen secretos: la configuración de AdGuard Home (hash de la contraseña), los `.env` de cloudflared y Nextcloud, la base de datos de NPM y la carpeta de configuración de Homepage, que puede tener claves de API.
+Tampoco he subido, a propósito, la configuración de AdGuard Home (lleva el hash de la contraseña), los `.env` de cloudflared y Nextcloud, la base de datos de NPM ni la configuración de Homepage, que puede tener claves de API.

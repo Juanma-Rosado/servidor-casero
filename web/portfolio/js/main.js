@@ -1,210 +1,322 @@
-/* ==========================================================
-   main.js: JavaScript nativo compartido por todas las páginas.
-   Cada bloque comprueba que existe el elemento que necesita,
-   así el mismo archivo sirve para las 5 páginas.
-   ========================================================== */
+// main.js: código de todas las páginas del portfolio.
+// Cada parte comprueba antes si su elemento existe en la página.
 
-// Activa los estilos de .reveal (si JS falla, el contenido sigue visible)
+const REDUCIR_MOVIMIENTO = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+const EMAIL_DESTINO = "rosadotrujillojuanma@gmail.com";
+const RETARDO_SALIDA = 250;
+const DISTANCIA_LINEA = 120;
+const MAX_PUNTOS = 70;
+
+// Con la clase "js" se activan las animaciones de .reveal.
+// Si el JavaScript falla, el contenido se sigue viendo.
 document.documentElement.classList.add("js");
 
-// ¿El usuario prefiere menos animaciones? Lo respetamos en los efectos más pesados
-const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-
 document.addEventListener("DOMContentLoaded", () => {
+  iniciarMenu();
+  marcarEnlaceActivo();
+  iniciarTransiciones();
+  iniciarBarraProgreso();
+  iniciarApariciones();
+  iniciarInclinacion();
+  iniciarLuz();
+  iniciarEscritura();
+  iniciarParticulas();
+  iniciarFormulario();
+  document.getElementById("year").textContent = new Date().getFullYear();
+});
 
-  /* ---------- 1. MENÚ HAMBURGUESA ---------- */
-  const toggle = document.querySelector(".nav__toggle");
+// Menú hamburguesa del móvil
+function iniciarMenu() {
+  const boton = document.querySelector(".nav__toggle");
   const menu = document.querySelector(".nav__menu");
 
-  function setMenu(open) {
-    menu.classList.toggle("open", open);
-    toggle.setAttribute("aria-expanded", String(open));
-    toggle.setAttribute("aria-label", open ? "Cerrar menú" : "Abrir menú");
-  }
-  toggle.addEventListener("click", () => setMenu(!menu.classList.contains("open")));
-
-  /* ---------- 2. ENLACE ACTIVO SEGÚN LA PÁGINA ACTUAL ---------- */
-  // Ejemplo: en /sobre-mi.html la última parte de la ruta es "sobre-mi.html"
-  const current = location.pathname.split("/").pop() || "index.html";
-  document.querySelectorAll(".nav__menu a").forEach((a) => {
-    if (a.getAttribute("href") === current) a.classList.add("active");
+  boton.addEventListener("click", () => {
+    const abierto = !menu.classList.contains("open");
+    menu.classList.toggle("open", abierto);
+    boton.setAttribute("aria-expanded", String(abierto));
+    boton.setAttribute("aria-label", abierto ? "Cerrar menú" : "Abrir menú");
   });
+}
 
-  /* ---------- 3. TRANSICIÓN ENTRE PÁGINAS ---------- */
-  // Al pulsar un enlace interno, desvanecemos la página y luego navegamos
-  document.querySelectorAll('a[href$=".html"]').forEach((link) => {
-    link.addEventListener("click", (e) => {
-      if (e.ctrlKey || e.metaKey || link.target === "_blank" || reduceMotion) return;
-      e.preventDefault();
+// Resalta en el menú la página en la que estamos
+function marcarEnlaceActivo() {
+  const paginaActual = location.pathname.split("/").pop() || "index.html";
+
+  document.querySelectorAll(".nav__menu a").forEach((enlace) => {
+    if (enlace.getAttribute("href") === paginaActual) {
+      enlace.classList.add("active");
+    }
+  });
+}
+
+// Al pulsar un enlace interno, la página se desvanece antes de cambiar
+function iniciarTransiciones() {
+  document.querySelectorAll('a[href$=".html"]').forEach((enlace) => {
+    enlace.addEventListener("click", (evento) => {
+      const nuevaPestana = evento.ctrlKey || evento.metaKey || enlace.target === "_blank";
+      if (nuevaPestana || REDUCIR_MOVIMIENTO) {
+        return;
+      }
+      evento.preventDefault();
       document.body.classList.add("leaving");
-      setTimeout(() => (window.location.href = link.href), 250);
+      setTimeout(() => {
+        window.location.href = enlace.href;
+      }, RETARDO_SALIDA);
     });
   });
-  // Si el usuario vuelve atrás, quitamos el desvanecido
-  window.addEventListener("pageshow", () => document.body.classList.remove("leaving"));
 
-  /* ---------- 4. BARRA DE PROGRESO DEL SCROLL ---------- */
-  const progress = document.querySelector(".progress");
+  // Al volver atrás con el navegador, se quita el desvanecido
+  window.addEventListener("pageshow", () => {
+    document.body.classList.remove("leaving");
+  });
+}
+
+// Barra de arriba que muestra cuánto se ha bajado en la página
+function iniciarBarraProgreso() {
+  const barra = document.querySelector(".progress");
+
   window.addEventListener("scroll", () => {
-    const max = document.documentElement.scrollHeight - window.innerHeight;
-    progress.style.width = (max > 0 ? (window.scrollY / max) * 100 : 0) + "%";
+    const maximo = document.documentElement.scrollHeight - window.innerHeight;
+    let porcentaje = 0;
+    if (maximo > 0) {
+      porcentaje = window.scrollY / maximo * 100;
+    }
+    barra.style.width = porcentaje + "%";
   }, { passive: true });
+}
 
-  /* ---------- 5. APARICIÓN AL HACER SCROLL (.reveal) ---------- */
-  const revealObserver = new IntersectionObserver((entries) => {
-    entries.forEach((entry) => {
-      if (!entry.isIntersecting) return;
-      entry.target.classList.add("show");
-      revealObserver.unobserve(entry.target);          // solo la primera vez
+// Los elementos .reveal aparecen al llegar a ellos, uno detrás de otro
+function iniciarApariciones() {
+  const observador = new IntersectionObserver((entradas) => {
+    entradas.forEach((entrada) => {
+      if (entrada.isIntersecting) {
+        entrada.target.classList.add("show");
+        // Solo hace falta animarlo la primera vez
+        observador.unobserve(entrada.target);
+      }
     });
   }, { threshold: 0.15 });
 
-  document.querySelectorAll(".reveal").forEach((el, i) => {
-    el.style.transitionDelay = (i % 4) * 90 + "ms";    // efecto escalonado
-    revealObserver.observe(el);
+  document.querySelectorAll(".reveal").forEach((elemento, i) => {
+    elemento.style.transitionDelay = (i % 4) * 90 + "ms";
+    observador.observe(elemento);
+  });
+}
+
+// Las tarjetas .tilt se inclinan hacia donde está el ratón
+function iniciarInclinacion() {
+  if (REDUCIR_MOVIMIENTO) {
+    return;
+  }
+
+  document.querySelectorAll(".tilt").forEach((tarjeta) => {
+    tarjeta.addEventListener("mousemove", (evento) => {
+      const caja = tarjeta.getBoundingClientRect();
+      // Posición del ratón dentro de la tarjeta, de -0.5 a 0.5
+      const x = (evento.clientX - caja.left) / caja.width - 0.5;
+      const y = (evento.clientY - caja.top) / caja.height - 0.5;
+      tarjeta.style.setProperty("--ry", x * 10 + "deg");
+      tarjeta.style.setProperty("--rx", -y * 10 + "deg");
+    });
+
+    tarjeta.addEventListener("mouseleave", () => {
+      tarjeta.style.setProperty("--rx", "0deg");
+      tarjeta.style.setProperty("--ry", "0deg");
+    });
+  });
+}
+
+// Luz de fondo que sigue al ratón (solo en ordenador)
+function iniciarLuz() {
+  const hayRaton = window.matchMedia("(hover: hover)").matches;
+  if (REDUCIR_MOVIMIENTO || !hayRaton) {
+    return;
+  }
+
+  const luz = document.createElement("div");
+  luz.className = "glow";
+  document.body.prepend(luz);
+
+  window.addEventListener("mousemove", (evento) => {
+    luz.style.transform = `translate(${evento.clientX}px, ${evento.clientY}px)`;
+  });
+}
+
+// Efecto de máquina de escribir del inicio
+function iniciarEscritura() {
+  const texto = document.getElementById("typed");
+  if (!texto) {
+    return;
+  }
+
+  const palabras = texto.dataset.words.split("|");
+  if (REDUCIR_MOVIMIENTO) {
+    texto.textContent = palabras[0];
+    return;
+  }
+
+  let numPalabra = 0;
+  let numLetras = 0;
+  let borrando = false;
+
+  function escribir() {
+    const palabra = palabras[numPalabra];
+    texto.textContent = palabra.slice(0, numLetras);
+
+    // Palabra completa: espera un poco y empieza a borrar
+    if (!borrando && numLetras === palabra.length) {
+      borrando = true;
+      setTimeout(escribir, 1500);
+      return;
+    }
+
+    // Palabra borrada: pasa a la siguiente
+    if (borrando && numLetras === 0) {
+      borrando = false;
+      numPalabra = (numPalabra + 1) % palabras.length;
+    }
+
+    if (borrando) {
+      numLetras--;
+      setTimeout(escribir, 35);
+    } else {
+      numLetras++;
+      setTimeout(escribir, 75);
+    }
+  }
+
+  escribir();
+}
+
+// Red de puntos que se mueven en el fondo del inicio
+function iniciarParticulas() {
+  const lienzo = document.getElementById("net");
+  if (!lienzo || REDUCIR_MOVIMIENTO) {
+    return;
+  }
+
+  const ctx = lienzo.getContext("2d");
+  let ancho;
+  let alto;
+  let puntos;
+
+  // Ajusta el tamaño del lienzo y crea los puntos
+  function preparar() {
+    ancho = lienzo.offsetWidth;
+    alto = lienzo.offsetHeight;
+    lienzo.width = ancho;
+    lienzo.height = alto;
+
+    const cantidad = Math.min(MAX_PUNTOS, Math.floor(ancho / 18));
+    puntos = [];
+    for (let i = 0; i < cantidad; i++) {
+      puntos.push({
+        x: Math.random() * ancho,
+        y: Math.random() * alto,
+        vx: (Math.random() - 0.5) * 0.4,
+        vy: (Math.random() - 0.5) * 0.4
+      });
+    }
+  }
+
+  function dibujar() {
+    ctx.clearRect(0, 0, ancho, alto);
+
+    for (let i = 0; i < puntos.length; i++) {
+      const p = puntos[i];
+      p.x += p.vx;
+      p.y += p.vy;
+
+      // Si llega a un borde, rebota
+      if (p.x < 0 || p.x > ancho) {
+        p.vx *= -1;
+      }
+      if (p.y < 0 || p.y > alto) {
+        p.vy *= -1;
+      }
+
+      ctx.fillStyle = "rgba(43,179,201,.8)";
+      ctx.beginPath();
+      ctx.arc(p.x, p.y, 2, 0, Math.PI * 2);
+      ctx.fill();
+
+      // Une con una línea los puntos cercanos; cuanto más lejos, más transparente
+      for (let j = i + 1; j < puntos.length; j++) {
+        const otro = puntos[j];
+        const distancia = Math.hypot(p.x - otro.x, p.y - otro.y);
+        if (distancia < DISTANCIA_LINEA) {
+          const opacidad = 0.35 * (1 - distancia / DISTANCIA_LINEA);
+          ctx.strokeStyle = `rgba(124,92,255,${opacidad})`;
+          ctx.beginPath();
+          ctx.moveTo(p.x, p.y);
+          ctx.lineTo(otro.x, otro.y);
+          ctx.stroke();
+        }
+      }
+    }
+
+    requestAnimationFrame(dibujar);
+  }
+
+  preparar();
+  dibujar();
+  window.addEventListener("resize", preparar);
+}
+
+// Formulario de contacto: valida los campos y abre el correo
+function iniciarFormulario() {
+  const formulario = document.getElementById("form");
+  if (!formulario) {
+    return;
+  }
+
+  const estado = formulario.querySelector(".form__status");
+  const campos = formulario.querySelectorAll("input, textarea");
+
+  campos.forEach((campo) => {
+    campo.addEventListener("blur", () => validar(campo));
   });
 
-  /* ---------- 6. INCLINACIÓN 3D DE LAS TARJETAS (.tilt) ---------- */
-  if (!reduceMotion) {
-    document.querySelectorAll(".tilt").forEach((card) => {
-      card.addEventListener("mousemove", (e) => {
-        const r = card.getBoundingClientRect();
-        const x = (e.clientX - r.left) / r.width - 0.5;   // de -0.5 a 0.5
-        const y = (e.clientY - r.top) / r.height - 0.5;
-        card.style.setProperty("--ry", x * 10 + "deg");
-        card.style.setProperty("--rx", -y * 10 + "deg");
-      });
-      card.addEventListener("mouseleave", () => {
-        card.style.setProperty("--rx", "0deg");
-        card.style.setProperty("--ry", "0deg");
-      });
-    });
-  }
+  formulario.addEventListener("submit", (evento) => {
+    // Evita que la página se recargue
+    evento.preventDefault();
 
-  /* ---------- 7. LUZ QUE SIGUE AL RATÓN ---------- */
-  if (!reduceMotion && window.matchMedia("(hover: hover)").matches) {
-    const glow = document.createElement("div");
-    glow.className = "glow";
-    document.body.prepend(glow);
-    window.addEventListener("mousemove", (e) => {
-      glow.style.transform = `translate(${e.clientX}px, ${e.clientY}px)`;
-    });
-  }
-
-  /* ---------- 8. EFECTO DE ESCRITURA (solo en el inicio) ---------- */
-  const typed = document.getElementById("typed");
-  if (typed) {
-    const words = typed.dataset.words.split("|");
-    let w = 0, i = 0, deleting = false;
-
-    function type() {
-      const word = words[w];
-      typed.textContent = word.slice(0, i);
-
-      if (!deleting && i === word.length) {            // palabra completa: pausa
-        deleting = true;
-        return setTimeout(type, 1500);
-      }
-      if (deleting && i === 0) {                        // borrada: siguiente palabra
-        deleting = false;
-        w = (w + 1) % words.length;
-      }
-      i += deleting ? -1 : 1;
-      setTimeout(type, deleting ? 35 : 75);
-    }
-    reduceMotion ? (typed.textContent = words[0]) : type();
-  }
-
-  /* ---------- 9. RED DE PARTÍCULAS EN EL HERO ---------- */
-  const canvas = document.getElementById("net");
-  if (canvas && !reduceMotion) {
-    const ctx = canvas.getContext("2d");
-    let w, h, dots;
-
-    // Ajusta el tamaño del canvas y crea los puntos
-    function init() {
-      w = canvas.width = canvas.offsetWidth;
-      h = canvas.height = canvas.offsetHeight;
-      dots = Array.from({ length: Math.min(70, Math.floor(w / 18)) }, () => ({
-        x: Math.random() * w, y: Math.random() * h,
-        vx: (Math.random() - 0.5) * 0.4, vy: (Math.random() - 0.5) * 0.4,
-      }));
+    // Se validan todos para que salgan todos los errores a la vez
+    const resultados = [...campos].map(validar);
+    if (!resultados.every(Boolean)) {
+      estado.textContent = "Revisa los campos marcados.";
+      return;
     }
 
-    function draw() {
-      ctx.clearRect(0, 0, w, h);
-      dots.forEach((p, i) => {
-        p.x += p.vx; p.y += p.vy;                       // mover
-        if (p.x < 0 || p.x > w) p.vx *= -1;             // rebotar en los bordes
-        if (p.y < 0 || p.y > h) p.vy *= -1;
+    // No hay servidor de correo, así que se abre el programa de correo con el mensaje
+    const nombre = formulario.nombre.value.trim();
+    const asunto = "Contacto desde el portfolio: " + nombre;
+    const cuerpo = formulario.mensaje.value.trim()
+        + "\n\nDe: " + nombre + " (" + formulario.email.value.trim() + ")";
+    window.location.href = "mailto:" + EMAIL_DESTINO
+        + "?subject=" + encodeURIComponent(asunto)
+        + "&body=" + encodeURIComponent(cuerpo);
 
-        ctx.fillStyle = "rgba(43,179,201,.8)";
-        ctx.beginPath(); ctx.arc(p.x, p.y, 2, 0, Math.PI * 2); ctx.fill();
+    estado.textContent = "Abriendo tu aplicación de correo…";
+    formulario.reset();
+  });
+}
 
-        // Unir con línea los puntos cercanos (más transparente cuanto más lejos)
-        for (let j = i + 1; j < dots.length; j++) {
-          const d = Math.hypot(p.x - dots[j].x, p.y - dots[j].y);
-          if (d < 120) {
-            ctx.strokeStyle = `rgba(124,92,255,${0.35 * (1 - d / 120)})`;
-            ctx.beginPath(); ctx.moveTo(p.x, p.y); ctx.lineTo(dots[j].x, dots[j].y); ctx.stroke();
-          }
-        }
-      });
-      requestAnimationFrame(draw);
-    }
+// Comprueba un campo y escribe el error debajo. Devuelve true si está bien.
+function validar(campo) {
+  const caja = campo.closest(".field");
+  const valor = campo.value.trim();
+  let mensaje = "";
 
-    init();
-    draw();
-    window.addEventListener("resize", init);
+  if (!valor) {
+    mensaje = "Este campo es obligatorio.";
+  } else if (campo.type === "email" && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(valor)) {
+    mensaje = "Escribe un correo válido, por ejemplo nombre@correo.com.";
+  } else if (campo.name === "mensaje" && valor.length < 10) {
+    mensaje = "El mensaje debe tener al menos 10 caracteres.";
   }
 
-  /* ---------- 10. FORMULARIO DE CONTACTO ---------- */
-  const form = document.getElementById("form");
-  if (form) {
-    const status = form.querySelector(".form__status");
-    const EMAIL_DESTINO = "rosadotrujillojuanma@gmail.com";
-    const inputs = form.querySelectorAll("input, textarea");
-
-    // Valida un campo y muestra el error debajo de él
-    function validate(input) {
-      const field = input.closest(".field");
-      let message = "";
-
-      if (!input.value.trim()) {
-        message = "Este campo es obligatorio.";
-      } else if (input.type === "email" && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(input.value)) {
-        message = "Escribe un correo válido, por ejemplo nombre@correo.com.";
-      } else if (input.name === "mensaje" && input.value.trim().length < 10) {
-        message = "El mensaje debe tener al menos 10 caracteres.";
-      }
-
-      field.querySelector(".error").textContent = message;
-      field.classList.toggle("invalid", Boolean(message));
-      return !message;
-    }
-
-    inputs.forEach((input) => input.addEventListener("blur", () => validate(input)));
-
-    form.addEventListener("submit", (e) => {
-      e.preventDefault();                               // evita recargar la página
-      if (![...inputs].map(validate).every(Boolean)) {
-        status.textContent = "Revisa los campos marcados.";
-        return;
-      }
-
-      // Sin servidor: abrimos el correo con el mensaje escrito.
-      // Más adelante puedes sustituirlo por fetch() a un servicio como Formspree.
-      const nombre = form.nombre.value.trim();
-      const cuerpo = `${form.mensaje.value.trim()}\n\nDe: ${nombre} (${form.email.value.trim()})`;
-      window.location.href =
-        `mailto:${EMAIL_DESTINO}?subject=${encodeURIComponent("Contacto desde el portfolio: " + nombre)}` +
-        `&body=${encodeURIComponent(cuerpo)}`;
-
-      status.textContent = "Abriendo tu aplicación de correo…";
-      form.reset();
-    });
-  }
-
-  /* ---------- 11. AÑO AUTOMÁTICO EN EL PIE ---------- */
-  document.getElementById("year").textContent = new Date().getFullYear();
-});
+  caja.querySelector(".error").textContent = mensaje;
+  caja.classList.toggle("invalid", mensaje !== "");
+  return mensaje === "";
+}

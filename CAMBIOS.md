@@ -1,5 +1,20 @@
 # Registro de cambios
 
+## 2026-11-22 · Código y comentarios con mi estilo de clase
+
+**Qué y por qué**
+- Antes de hacer público el repositorio, he pasado el código a las reglas de estilo de clase: 2 espacios de sangría, llaves siempre, comentarios en su propia línea antes de lo que explican, nombres descriptivos en camelCase y constantes en MAYÚSCULAS.
+- `main.js` y `app.js`: reescritos en funciones pequeñas con nombres en español. Hacen exactamente lo mismo.
+- `styles.css` y `style.css`: una propiedad por línea y comentarios por secciones. Comprobado que, quitando espacios y comentarios, el CSS es idéntico al anterior.
+- `backup-config.sh`, `dbdump.sh`, `default.conf` y los compose: mismos comandos y opciones, solo cambian nombres de variables, sangría y comentarios.
+- README más sencillo, escrito en primera persona.
+
+**Comprobación**
+- Probé el portfolio y la guía en local: menú, enlace activo, barra de progreso, animaciones, validación del formulario, capítulos, botón de completado y botones de copiar. Sin errores en la consola.
+
+**Pendiente**
+- Estos archivos todavía no están copiados al servidor; lo que hay en marcha allí funciona igual.
+
 ## 2026-11-22 · Reinicio del nodo Proxmox (kernel nuevo)
 
 **Qué y por qué**

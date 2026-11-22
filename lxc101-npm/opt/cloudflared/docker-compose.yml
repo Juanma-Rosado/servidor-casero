@@ -1,3 +1,5 @@
+# Túnel de Cloudflare (LXC 101): publica la web sin abrir puertos del router.
+# El token del túnel está en el .env del servidor.
 services:
   cloudflared:
     image: cloudflare/cloudflared:2026.10.7

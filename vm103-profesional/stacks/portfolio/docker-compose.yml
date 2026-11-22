@@ -1,3 +1,5 @@
+# Portfolio de juanmarosado.com (VM 103).
+# nginx sirve los archivos de /srv/data/portfolio en solo lectura.
 services:
   portfolio:
     image: nginx:1.31.8-alpine3.24@sha256:785835ea65db4bba6f021acc0f3be91b0fef76a53fe41f8588c6698d2aed0606

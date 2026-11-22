@@ -1,3 +1,5 @@
+# Nginx Proxy Manager (LXC 101): reparte las peticiones a cada servicio.
+# El puerto 81 es el panel de administración.
 services:
   npm:
     image: jc21/nginx-proxy-manager:2.16.0
