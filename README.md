@@ -14,6 +14,11 @@ La guía completa, paso a paso, está en https://juanmarosado.com/servidor/
 | `vm102-personal/stacks/nextcloud/` | Nextcloud, MariaDB y Redis | VM 102, `/srv/data/stacks/nextcloud` |
 | `vm102-personal/stacks/utilidades/` | Uptime Kuma y Homepage | VM 102, `/srv/data/stacks/utilidades` |
 | `vm102-personal/crontab-juanma.txt` | Cron de las tareas de fondo de Nextcloud | VM 102, crontab de juanma |
+| `vm102-personal/usr-local-bin-dbdump.sh` | Volcado de la BD de Nextcloud | VM 102, `/usr/local/bin/dbdump.sh` |
+| `vm10x-*/stacks/portainer/` | Portainer en cada VM | VM 102 y 103, `/srv/data/stacks/portainer` |
+| `vm10x-*/etc-docker-daemon.json` | Límite de logs de Docker | `/etc/docker/daemon.json` |
+| `lxc101-npm/` | Compose de NPM y cloudflared y `daemon.json` | LXC 101, `/opt/npm`, `/opt/cloudflared` |
+| `pve/` | Nodo Proxmox: script de copias, cron, sanoid, vzdump, almacenamiento, avisos, firewall, SSH y configuración de cada máquina | Nodo `pve` |
 | `CAMBIOS.md` | Registro de cada cambio y su motivo | — |
 
 ## Mapa
@@ -26,6 +31,6 @@ La guía completa, paso a paso, está en https://juanmarosado.com/servidor/
 
 ## Secretos
 
-Las contraseñas **no** están en este repositorio. En los compose aparecen como `${VARIABLE}` y su valor real está solo en el servidor. Usa `.env.example` como plantilla.
+Las contraseñas **no** están en este repositorio. En los compose aparecen como `${VARIABLE}` y su valor real está solo en el servidor. Usa `.env.example` como plantilla. Del aviso de Telegram (`pve/etc/pve/notifications.cfg`) se han quitado la URL, la cabecera y el cuerpo, porque contienen el token del bot.
 
-Todavía faltan aquí, porque no he tenido acceso a ellos: la configuración del nodo Proxmox, de los LXC 100 y 101 y la carpeta de configuración de Homepage, que puede contener claves de API.
+No están a propósito, porque contienen secretos: la configuración de AdGuard Home (hash de la contraseña), los `.env` de cloudflared y Nextcloud, la base de datos de NPM y la carpeta de configuración de Homepage, que puede tener claves de API.

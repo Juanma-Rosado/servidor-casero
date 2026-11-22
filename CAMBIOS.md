@@ -1,5 +1,76 @@
 # Registro de cambios
 
+## 2026-11-22 · Revisión completa del servidor: copias, avisos, SSH, discos y actualizaciones
+
+**Copias previas**
+- Nodo: `/root/cambios-20261122-1717/` con el cron y el script de copias, `notifications.cfg`, `sshd_config`, la configuración de las 4 máquinas, la lista de paquetes y `/etc/ssh` y `/etc/docker` de los LXC.
+- VMs: `/srv/data/backups/cambios-20261122-vm/` con todos los stacks y `daemon.json`.
+- Además está la copia vzdump de las 4 máquinas de esa misma madrugada (03:00).
+
+**1. Volcado de la BD de Nextcloud (no se había ejecutado nunca)**
+- Causa: `/etc/cron.d/backup-config` no definía `PATH` y `qm` está en `/usr/sbin`. El error se descartaba con `>/dev/null 2>&1`, así que nadie lo veía.
+- Cambios:
+  - `backup-config.sh` define `PATH`, usa `umask 077` y da a `qm guest exec` 600 s de margen.
+  - Comprueba que el volcado termina con código 0 y anota el resultado en `/var/log/backup-config.log`. Los errores van además al journal.
+  - El cron pasa de las 03:30 a las **02:45**, para que la copia vzdump de las 03:00 ya lleve el volcado del día.
+- `dbdump.sh` (VM 102): `umask 077` y carpeta `/srv/data/dumps` con permisos `700`. Antes, los volcados los podía leer cualquier usuario.
+- `/datos/backups/config`: permisos `700` y ficheros `600`. Incluye `/etc/pve`, que tiene claves privadas.
+- Prueba con un entorno mínimo, igual que cron: OK. El volcado tiene 337 tablas.
+
+**2. Avisos de Proxmox a Telegram**
+- El webhook `telegram` existía, pero la regla `default-matcher` solo enviaba al correo, y en una semana 14 correos rebotaron y 7 llegaron.
+- Ahora la regla envía a `mail-to-root` y a `telegram`. Se quitó el destino `email`, un SMTP que estaba desactivado. Se envió un aviso de prueba.
+
+**3. SSH solo con clave**
+- Se añadió tu clave personal (`id_ed25519`) a root en el nodo y en los LXC 100 y 101, y se comprobó que entraba en los 5 equipos.
+- En el nodo, los 2 LXC y las 2 VMs se creó `/etc/ssh/sshd_config.d/00-solo-claves.conf` con `PasswordAuthentication no`, `KbdInteractiveAuthentication no` y `PermitRootLogin prohibit-password`.
+- Comprobado: en los 5 equipos entra con clave y rechaza la contraseña.
+- La consola web de Proxmox sigue funcionando con contraseña y sirve de acceso de emergencia.
+- Incidencia: en los LXC estaban activados `ssh.socket` y `ssh.service` a la vez y competían por el puerto 22. La recarga dejó el SSH del LXC 101 sin escuchar unos minutos. Se arregló dejando solo `ssh.service`, en los dos LXC.
+
+**4. Discos del SSD al espejo ZFS**
+- Los discos de sistema de las VMs 102 y 103 y el del LXC 101 estaban en `local-lvm`, el SSD único sin redundancia. Se movieron a `datos`:
+  - las VMs, en caliente con `qm disk move --delete 1`;
+  - el LXC 101, parado unos 80 s con `pct move-volume`.
+- Ahora todo está en el espejo, tiene instantáneas de sanoid y `local-lvm` queda vacío. En el SSD solo queda el sistema de Proxmox.
+
+**5. Versiones fijas y contenedores alineados**
+- NPM 2.16.0 y cloudflared 2026.10.7 funcionaban con `:latest`, aunque su compose ya fijaba la versión. Se comprobó que eran las mismas imágenes y se recrearon sin descargar nada.
+- Versiones fijadas con digest, las mismas que ya estaban en marcha:
+  - Redis `7.4.12-alpine`
+  - Uptime Kuma `2.5.8`
+  - Portainer `2.45.3`
+- Portainer, que se había lanzado a mano en las dos VMs, pasa a `/srv/data/stacks/portainer` con el mismo volumen de datos.
+- En la VM 102, `nextcloud/docker-compose.yml` y `.env` tienen ahora permisos `600`, porque contienen contraseñas.
+
+**6. Logs de Docker con límite**
+- `/etc/docker/daemon.json` en las VMs 102 y 103 y en el LXC 101: 10 MB × 3 ficheros por contenedor. Se reinició Docker y se recrearon todos los contenedores.
+
+**7. www.juanmarosado.com**
+- Ahora redirige con un 301 a `https://juanmarosado.com`, manteniendo la ruta. Se hizo con un bloque `server` en el nginx del portfolio, sin tocar NPM ni Cloudflare.
+
+**8. Actualizaciones**
+- Proxmox: 83 paquetes actualizados (pve-manager 9.2.24 → 9.2.32), registro en `/root/cambios-upgrade-20261122.log`. **Se instaló el kernel 7.0.14-30, pero el nodo sigue con el 7.0.14-26 hasta que se reinicie.**
+- LXC 100: 87 paquetes. LXC 101 ya estaba al día.
+- `unattended-upgrades` activo, solo con el repositorio de seguridad de Debian, en los LXC 100 y 101 y en la VM 102.
+- En la VM 103 no se pudo instalar: no tiene DNS (ver más abajo).
+- No se activó en el nodo Proxmox, que conviene actualizar a mano.
+- Se limpió el estado `failed` de `wtmpdb-rotate.timer` en el LXC 101.
+
+**Detectado y no tocado (firewall)**
+- En `/etc/pve/firewall/103.fw`, la regla `OUT DROP -dest 192.168.0.0/24` va **antes** que las que permiten DNS a 192.168.0.253, y gana la primera regla que coincide. Por eso la VM 103 no puede resolver nombres. Sí sale a Internet, pero `apt` no funciona.
+- Solución propuesta: mover las dos reglas `OUT ACCEPT ... -dport 53` encima del `OUT DROP`. Queda pendiente de tu permiso, porque es el firewall.
+
+**Pendiente**
+- Copia fuera del servidor: decidido dejarlo para más adelante.
+- Reiniciar el nodo para usar el kernel nuevo.
+
+**Comprobación final**
+- Pool ZFS sano y firewall de Proxmox activo.
+- Las webs pública e internas responden: juanmarosado.com, la guía, Nextcloud, Homepage, Kuma, la interfaz de Proxmox y AdGuard.
+- Nextcloud: 35.0.2, sin modo mantenimiento y con el cron activo.
+- El túnel de Cloudflare tiene 4 conexiones registradas.
+
 ## 2026-11-22 · Nueva URL de LinkedIn en el portfolio (VM 103)
 
 **Qué y por qué**

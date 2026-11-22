@@ -5,14 +5,14 @@ services:
     restart: unless-stopped
     command: --transaction-isolation=READ-COMMITTED --binlog-format=ROW
     environment:
-      MARIADB_ROOT_PASSWORD: ${MARIADB_ROOT_PASSWORD}  # valor real solo en la VM
+      MARIADB_ROOT_PASSWORD: ${MARIADB_ROOT_PASSWORD}  # valor real solo en el servidor
       MARIADB_DATABASE: nextcloud
       MARIADB_USER: nextcloud
-      MARIADB_PASSWORD: ${MARIADB_PASSWORD}  # valor real solo en la VM
+      MARIADB_PASSWORD: ${MARIADB_PASSWORD}  # valor real solo en el servidor
     volumes:
       - /srv/data/nextcloud/db:/var/lib/mysql
   redis:
-    image: redis:7-alpine
+    image: redis:7.4.12-alpine@sha256:8da19c7399dca900c6822a1cf30f9d2285585e2c4b457ff4095b0f4500054d3f
     container_name: nextcloud-redis
     restart: unless-stopped
   app:
@@ -28,7 +28,7 @@ services:
       MYSQL_HOST: db
       MYSQL_DATABASE: nextcloud
       MYSQL_USER: nextcloud
-      MYSQL_PASSWORD: ${MYSQL_PASSWORD}  # valor real solo en la VM
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}  # valor real solo en el servidor
       REDIS_HOST: redis
       NEXTCLOUD_TRUSTED_DOMAINS: 192.168.0.250 nextcloud.juanmarosado.com
     volumes:
