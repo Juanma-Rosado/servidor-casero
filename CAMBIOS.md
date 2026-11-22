@@ -1,5 +1,24 @@
 # Registro de cambios
 
+## 2026-11-22 · Reinicio del nodo Proxmox (kernel nuevo)
+
+**Qué y por qué**
+- Lo reinició Juanma hacia las 19:36 para que el nodo use el kernel instalado en la actualización (7.0.14-26 → **7.0.14-30-pve**).
+
+**Comprobación** (50 min después del arranque)
+- Nodo:
+  - kernel 7.0.14-30-pve y pve-manager 9.2.32;
+  - pool ZFS sano, firewall activo y ningún servicio fallido;
+  - en el registro de errores del arranque solo hay avisos sin efecto: el driver `nouveau` de la tarjeta gráfica y `blkmapd` de NFS, que no se usa.
+- Las 4 máquinas arrancaron solas (`onboot: 1`). En los LXC, SSH funciona y no hay servicios fallidos.
+- Todos los contenedores están en marcha con sus versiones fijas.
+- Nextcloud está en la 35.0.2, sin modo mantenimiento. Su cron se ejecutó a las 20:25.
+- La VM 103 resuelve DNS.
+- Webs y servicios:
+  - juanmarosado.com, la guía y Nextcloud, Homepage y Kuma responden;
+  - www redirige con un 301;
+  - la interfaz de Proxmox responde y AdGuard resuelve los nombres `*.casa`.
+
 ## 2026-11-22 · Firewall de la VM 103: DNS antes del bloqueo de la LAN
 
 **Problema**
@@ -82,7 +101,7 @@
 
 **Pendiente**
 - Copia fuera del servidor: decidido dejarlo para más adelante.
-- Reiniciar el nodo para usar el kernel nuevo.
+- ~~Reiniciar el nodo para usar el kernel nuevo.~~ Hecho: ver "Reinicio del nodo Proxmox".
 
 **Comprobación final**
 - Pool ZFS sano y firewall de Proxmox activo.
