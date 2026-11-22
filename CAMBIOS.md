@@ -1,5 +1,24 @@
 # Registro de cambios
 
+## 2026-11-22 · Firewall de la VM 103: DNS antes del bloqueo de la LAN
+
+**Problema**
+- En `/etc/pve/firewall/103.fw`, la regla `OUT DROP -dest 192.168.0.0/24` iba antes que las dos que permiten DNS hacia AdGuard (192.168.0.253, puerto 53). Proxmox aplica la primera regla que coincide, así que las consultas DNS se bloqueaban.
+- La web funcionaba, pero la VM no podía resolver nombres y por eso no podía actualizarse.
+
+**Cambio** (con tu permiso explícito)
+- Las dos reglas `OUT ACCEPT ... -dport 53` se pusieron encima del `OUT DROP`. No se añadió ni se quitó ninguna regla.
+- Copia previa: `/root/cambios-20261122-1717/103.fw.antes`.
+
+**Comprobación**
+- La VM 103 resuelve `deb.debian.org`.
+- Sigue sin alcanzar la LAN: AdGuard :80, la VM 102 :8080 y Proxmox :8006 siguen bloqueados.
+- La web pública da 200.
+- Con DNS ya funcionando, se instaló `unattended-upgrades` (solo seguridad) en la VM 103. No había actualizaciones pendientes.
+
+**Cómo deshacerlo**
+- `cp /root/cambios-20261122-1717/103.fw.antes /etc/pve/firewall/103.fw`
+
 ## 2026-11-22 · Revisión completa del servidor: copias, avisos, SSH, discos y actualizaciones
 
 **Copias previas**
@@ -59,7 +78,7 @@
 
 **Detectado y no tocado (firewall)**
 - En `/etc/pve/firewall/103.fw`, la regla `OUT DROP -dest 192.168.0.0/24` va **antes** que las que permiten DNS a 192.168.0.253, y gana la primera regla que coincide. Por eso la VM 103 no puede resolver nombres. Sí sale a Internet, pero `apt` no funciona.
-- Solución propuesta: mover las dos reglas `OUT ACCEPT ... -dport 53` encima del `OUT DROP`. Queda pendiente de tu permiso, porque es el firewall.
+- Corregido después, con tu permiso: ver la entrada "Firewall de la VM 103".
 
 **Pendiente**
 - Copia fuera del servidor: decidido dejarlo para más adelante.
