@@ -81,8 +81,12 @@ leerDelServidor() {
       ssh -o BatchMode=yes pve "pct exec 101 -- sed -E '$limpiarSecretos' $ruta"
       ;;
     vm102)
+      # qm guest exec codifica en UTF-8 cada byte de la salida, así que las tildes
+      # llegan dos veces codificadas: se leen como UTF-8 y se escriben con latin-1
+      # (un byte por carácter). Se escribe en binario: en Windows, sys.stdout.write
+      # añadiría \r a cada línea.
       ssh -o BatchMode=yes pve "qm guest exec 102 -- sed -E '$limpiarSecretos' $ruta" \
-        | python -I -c "import sys,json; sys.stdout.write(json.load(sys.stdin).get('out-data',''))"
+        | python -I -c "import sys,json; sys.stdout.buffer.write(json.loads(sys.stdin.buffer.read().decode('utf-8')).get('out-data','').encode('latin-1'))"
       ;;
     personal|profesional)
       if [ "$ruta" = crontab ]; then

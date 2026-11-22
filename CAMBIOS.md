@@ -1,5 +1,23 @@
 # Registro de cambios
 
+## 2026-11-22 · sincronizar.sh lee bien los ficheros de la VM 102
+
+**Qué pasaba**
+- `dbdump.sh` salía siempre como `formato` aunque era idéntico en el servidor y en el repositorio (el SHA-256 coincidía).
+- La causa estaba en la lectura con `qm guest exec`, que devuelve la salida en JSON:
+  - `qm guest exec` codifica en UTF-8 cada byte de la salida, así que las tildes llegan codificadas dos veces (`contraseña` llegaba como `contraseÃ±a`).
+  - Python en Windows añade `\r` a cada línea cuando escribe en modo texto.
+- No afectaba al servidor, pero `traer` habría metido en el repositorio tildes rotas y finales de línea de Windows.
+
+**Cambio**
+- En `scripts/sincronizar.sh`, el JSON se lee como UTF-8, el texto se vuelve a bytes con latin-1 (un byte por carácter) y se escribe en binario.
+- Además se llevó `dbdump.sh` a la VM 102 con `sincronizar.sh llevar` (copia previa: `/usr/local/bin/dbdump.sh.bak-20261122-2108`). No cambió nada porque ya era el mismo fichero.
+- Se ha restaurado el título de la entrada anterior, que se había cortado.
+
+**Comprobación**
+- `scripts/sincronizar.sh`: los 26 ficheros dan `igual`.
+- `bash -n` sobre el `dbdump.sh` del servidor: sintaxis correcta.
+
 ## 2026-11-22 · Repositorio público: menos datos personales
 
 **Revisión** (el repositorio ya era público)
@@ -17,7 +35,8 @@
 
 **Lo que no se ha cambiado**
 - El historial: los commits anteriores siguen mostrando tu Gmail como autor y los MAC y UUID antiguos. No son secretos (las MAC son virtuales, generadas por Proxmox) y reescribir el historial de un repositorio público no compensa.
-: contraseñas en .env, limpieza, guía al día y scripts
+
+## 2026-11-22 · Todo sincronizado: contraseñas en .env, limpieza, guía al día y scripts
 
 **1. Contraseñas de Nextcloud fuera del compose (VM 102)**
 - Estaban escritas en `/srv/data/stacks/nextcloud/docker-compose.yml`. El `.env` que ya existía usaba otros nombres y otros valores, y nada lo leía.
