@@ -27,9 +27,12 @@ soloEste="${2:-}"
 temporal="$(mktemp -d)"
 trap 'rm -rf "$temporal"' EXIT
 
-# Sustituye los valores secretos por ${VARIABLE} y quita la URL, la cabecera y
-# el cuerpo del webhook de Telegram, que llevan el token del bot
-limpiarSecretos='s/^([[:space:]]*-?[[:space:]]*)([A-Za-z0-9_]*(PASS|PASSWORD|SECRET|TOKEN|KEY)[A-Za-z0-9_]*)([:=])[[:space:]]*([^$[:space:]].*)$/\1\2\4 ${\2}/I; s/-p"[^"$]+"/-p"***"/g; s/^([[:space:]]*(url|body|header)[[:space:]]).*/\1***/'
+# Lo que se quita antes de que el fichero salga del servidor (el repositorio es público):
+#  - valores secretos, que pasan a ${VARIABLE}
+#  - la URL, la cabecera y el cuerpo del webhook de Telegram, que llevan el token del bot
+#  - correos electrónicos (root@pam no lo es y se queda)
+#  - direcciones MAC y los identificadores únicos de las VMs (smbios1 y vmgenid)
+limpiarSecretos='s/^([[:space:]]*-?[[:space:]]*)([A-Za-z0-9_]*(PASS|PASSWORD|SECRET|TOKEN|KEY)[A-Za-z0-9_]*)([:=])[[:space:]]*([^$[:space:]].*)$/\1\2\4 ${\2}/I; s/-p"[^"$]+"/-p"***"/g; s/^([[:space:]]*(url|body|header)[[:space:]]).*/\1***/; s/[A-Za-z0-9._%+-]+@[A-Za-z0-9-]+\.[A-Za-z.]{2,}/correo@ejemplo.com/g; s/([0-9A-Fa-f]{2}:){5}[0-9A-Fa-f]{2}/XX:XX:XX:XX:XX:XX/g; s/^(smbios1: uuid=)[0-9a-f-]+/\1quitado/; s/^(vmgenid: ).*/\1quitado/'
 
 # Lista de ficheros: ruta en el repositorio | dónde está | ruta en el servidor | se puede llevar
 # "dónde está" es pve, lxc101, vm102 (agente QEMU, como root), personal o profesional
@@ -44,6 +47,10 @@ pve/etc/pve/notifications.cfg|pve|/etc/pve/notifications.cfg|no
 pve/etc/pve/firewall/cluster.fw|pve|/etc/pve/firewall/cluster.fw|no
 pve/etc/pve/firewall/103.fw|pve|/etc/pve/firewall/103.fw|no
 pve/etc/ssh/sshd_config.d/00-solo-claves.conf|pve|/etc/ssh/sshd_config.d/00-solo-claves.conf|no
+pve/guests/lxc-100.conf|pve|/etc/pve/lxc/100.conf|no
+pve/guests/lxc-101.conf|pve|/etc/pve/lxc/101.conf|no
+pve/guests/vm-102.conf|pve|/etc/pve/qemu-server/102.conf|no
+pve/guests/vm-103.conf|pve|/etc/pve/qemu-server/103.conf|no
 lxc101-npm/opt/npm/docker-compose.yml|lxc101|/opt/npm/docker-compose.yml|si
 lxc101-npm/opt/cloudflared/docker-compose.yml|lxc101|/opt/cloudflared/docker-compose.yml|si
 lxc101-npm/etc/docker/daemon.json|lxc101|/etc/docker/daemon.json|no

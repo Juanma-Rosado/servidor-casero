@@ -1,6 +1,23 @@
 # Registro de cambios
 
-## 2026-11-22 · Todo sincronizado: contraseñas en .env, limpieza, guía al día y scripts
+## 2026-11-22 · Repositorio público: menos datos personales
+
+**Revisión** (el repositorio ya era público)
+- Se buscaron contraseñas, tokens, claves privadas, el token y el chat ID de Telegram y claves de Tailscale en los ficheros y en los 8 commits del historial. No apareció nada, así que no hay nada que cambiar en el servidor.
+- Sí se veían algunos datos personales o identificadores innecesarios. Se ha dejado lo que es contenido del proyecto: las IPs privadas, los nombres `*.casa` y las reglas de firewall, que la guía ya explica y no se pueden alcanzar desde Internet.
+
+**Cambios**
+- `scripts/sincronizar.sh` quita ahora en el servidor, antes de copiar:
+  - los correos electrónicos, que pasan a `correo@ejemplo.com`;
+  - las direcciones MAC (`XX:XX:XX:XX:XX:XX`);
+  - los identificadores únicos de las VMs (`smbios1` y `vmgenid`).
+- Las configuraciones de las 4 máquinas (`pve/guests/`) entran en la lista del script como "solo traer". Se limpiaron junto con `notifications.cfg`, que tenía tu Gmail en tres líneas.
+- Los commits de este repositorio usan ahora el correo privado de GitHub (`…@users.noreply.github.com`), configurado solo para este repositorio. La configuración global de git no cambia.
+- Tu Gmail sigue en `web/` (página de contacto y formulario) porque es tu contacto público, a propósito.
+
+**Lo que no se ha cambiado**
+- El historial: los commits anteriores siguen mostrando tu Gmail como autor y los MAC y UUID antiguos. No son secretos (las MAC son virtuales, generadas por Proxmox) y reescribir el historial de un repositorio público no compensa.
+: contraseñas en .env, limpieza, guía al día y scripts
 
 **1. Contraseñas de Nextcloud fuera del compose (VM 102)**
 - Estaban escritas en `/srv/data/stacks/nextcloud/docker-compose.yml`. El `.env` que ya existía usaba otros nombres y otros valores, y nada lo leía.
