@@ -1,5 +1,21 @@
 # Registro de cambios
 
+## 2026-11-22 · Nueva URL de LinkedIn en el portfolio (VM 103)
+
+**Qué y por qué**
+- La URL del perfil de LinkedIn pasó de `linkedin.com/in/juanma-rosado-trujillo-b841962b5` a `linkedin.com/in/juanma-rosado-trujillo`. LinkedIn no redirige la URL antigua, así que los enlaces de la web dejaban de funcionar.
+- Se cambió el enlace en `index.html`, `sobre-mi.html`, `habilidades.html`, `proyectos.html` y `contacto.html` (6 enlaces). La guía `servidor/` no enlaza a LinkedIn.
+
+**Copia previa**
+- `/srv/data/portfolio-backup-linkedin-20261122-1734/` contiene las cinco páginas antes del cambio.
+
+**Comprobación**
+- En la VM no queda ninguna página con la URL antigua; los permisos siguen siendo `juanma:juanma 644`.
+- En público las cinco páginas dan 200 y enlazan a la URL nueva (Cloudflare no las guarda en caché: `DYNAMIC`).
+
+**Cómo deshacerlo**
+- `cp -p /srv/data/portfolio-backup-linkedin-20261122-1734/*.html /srv/data/portfolio/`
+
 ## 2026-11-22 · Repositorio privado en GitHub
 
 **Qué se hizo**
