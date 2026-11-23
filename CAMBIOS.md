@@ -1,5 +1,30 @@
 # Registro de cambios
 
+## 2026-11-23 · Nueva guía: instalación dual de Windows 11 y Linux Mint
+
+**Qué**
+- Nueva guía web de la práctica de Sistemas Informáticos (1.º DAW, Unidad 2): Windows 11 Pro y Linux Mint XFCE con arranque dual en una misma máquina virtual. Está en `web/portfolio/guia-dual-w11-mint/` y se publica en `https://juanmarosado.com/guia-dual-w11-mint/`.
+- Usa el mismo estilo que la guía del servidor: se copiaron su `style.css`, las fuentes IBM Plex y `app.js`, con tres cambios:
+  - el progreso de capítulos se guarda con otra clave (`guia-dual-hecho`), para no mezclarse con el de la otra guía;
+  - las capturas ampliadas también se cierran con Esc;
+  - al final de `style.css` hay un apartado con lo propio de esta guía: los colores del diagrama del disco, la marca ✔ de las comprobaciones y la licencia CC BY 4.0 del pie.
+- En el portfolio, la página de proyectos tiene la tarjeta «Proyecto 02»; en el inicio, la tarjeta de proyectos la nombra; y en habilidades se añaden «Linux Mint» y «Arranque dual (GRUB, UEFI)».
+- `scripts/publicar-web.sh` comprueba también la guía nueva y una de sus capturas.
+
+**Por qué**
+- Juanma quería tener la práctica publicada como guía, junto al resto de proyectos del portfolio.
+
+**Copia previa**
+- La hizo `publicar-web.sh` en la VM 103: `/srv/data/portfolio-backup-web-20261123-2132` (96 ficheros).
+
+**Comprobación**
+- En local (`python -m http.server`): las 32 capturas cargan, los capítulos y la numeración de los pasos (1 a 32) son correctos, y las capturas se amplían y se cierran con Esc. También se probó en modo claro, en modo oscuro y en móvil.
+- En público, `publicar-web.sh` da 200 en todas las páginas. Además, con `curl`, dan 200 las 32 capturas, `style.css`, `fonts.css` y `app.js`.
+- Se revisaron las 32 capturas antes de publicarlas. No hay contraseñas, correos ni datos personales: solo el usuario genérico «Alumno» del PC de clase y la respuesta «usuario» a una pregunta de seguridad de la cuenta de prueba de la máquina virtual.
+
+**Cómo deshacerlo**
+- Borrar `/srv/data/portfolio/guia-dual-w11-mint/` en la VM 103 y volver a publicar `proyectos.html`, `index.html` y `habilidades.html` desde el commit anterior. Otra opción es restaurar la copia previa entera con `cp -a /srv/data/portfolio-backup-web-20261123-2132/. /srv/data/portfolio/`.
+
 ## 2026-11-22 · sincronizar.sh lee bien los ficheros de la VM 102
 
 **Qué pasaba**
