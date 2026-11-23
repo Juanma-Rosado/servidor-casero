@@ -1,5 +1,26 @@
 # Registro de cambios
 
+## 2026-11-23 · Portfolio: la guía del arranque dual, como último proyecto
+
+**Qué**
+- La guía del arranque dual tiene ahora imagen al compartir el enlace (`og:image`, con la captura del menú de GRUB) y `twitter:card`, como las demás páginas.
+- En el inicio, «Último proyecto» pasa a ser la guía del arranque dual, que es el proyecto más reciente. La tarjeta de Proxmox sigue en Proyectos.
+- En Proyectos, «Próximamente» dice «Estoy preparando más proyectos de DAW», porque ya hay uno publicado.
+- En el README se añade la carpeta de la guía.
+
+**Por qué**
+- Era lo que faltaba al revisar la publicación anterior: sin `og:image`, el enlace salía sin imagen en WhatsApp o LinkedIn, y los textos del portfolio se habían quedado anticuados.
+
+**Copia previa**
+- `/srv/data/portfolio-backup-web-20261123-2138` en la VM 103.
+
+**Comprobación**
+- En local se ve bien la tarjeta destacada del inicio.
+- En público, `publicar-web.sh` da 200 en todas las páginas, y con `curl` se ven el `og:image` de la guía, el título nuevo en el inicio y el texto nuevo de «Próximamente».
+
+**Cómo deshacerlo**
+- Volver a la versión anterior de los tres HTML (`git revert`) y publicar con `scripts/publicar-web.sh`.
+
 ## 2026-11-23 · Nueva guía: instalación dual de Windows 11 y Linux Mint
 
 **Qué**
