@@ -33,8 +33,8 @@
 - En local: las 32 capturas WebP cargan, Proyectos se ve con sus dos categorías y el inicio destaca Proxmox.
 - En público: `publicar-web.sh` da 200 en todas las páginas, y con `curl` dan 200 las 32 capturas WebP, `paso-22.png` y `styles.css?v=20261123`.
 
-**Pendiente**
-- `publicar-web.sh` no borra nada, así que en la VM 103 siguen los 31 PNG antiguos de `guia-dual-w11-mint/img/`, que ya no se usan. Borrarlos necesita permiso.
+**Limpieza en el servidor**
+- `publicar-web.sh` no borra nada, así que en la VM 103 quedaron los 31 PNG antiguos de `guia-dual-w11-mint/img/`. Con permiso de Juanma, se borraron uno a uno con `rm` (todos menos `paso-22.png`). Antes se comprobó que estaban en la copia `portfolio-backup-web-20261123-2145`. Ahora quedan las 32 WebP y `paso-22.png`, y la guía, la imagen al compartir y Proyectos siguen dando 200.
 
 **Cómo deshacerlo**
 - `git revert` de este commit y publicar con `scripts/publicar-web.sh`, o restaurar la copia previa.
