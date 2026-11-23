@@ -18,7 +18,7 @@
   <meta property="og:image:height" content="630">
   <meta name="twitter:card" content="summary_large_image">
   <link rel="stylesheet" href="css/fonts.css">
-  <link rel="stylesheet" href="css/styles.css?v=20261122">
+  <link rel="stylesheet" href="css/styles.css?v=20261123">
 </head>
 <body>
   <header class="header">
@@ -41,46 +41,66 @@
 
     <p class="page__lead reveal">Lo que voy construyendo mientras aprendo. Cada proyecto incluye cómo lo hice y por qué.</p>
 
-    <!-- Proyecto 01: servidor casero con Proxmox -->
-    <article class="project reveal">
-      <a href="/servidor/" class="project__media"><img src="img/proyecto-proxmox.webp" width="1200" height="675" alt="Portada del proyecto: servidor casero con Proxmox VE"></a>
-      <div class="project__body">
-        <p class="project__num">Proyecto 01 · Sistemas</p>
-        <h2>Instalación y configuración de Proxmox</h2>
-        <p>He montado en casa un servidor con Proxmox VE que aloja esta web, una nube privada y un bloqueador de anuncios para toda la red, sin abrir ningún puerto del router. Lo he documentado en una guía paso a paso.</p>
-        <ul class="project__list">
-          <li>Proxmox VE sobre dos discos en espejo ZFS.</li>
-          <li>Dos contenedores LXC: DNS con AdGuard Home y VPN con Tailscale; proxy inverso con Nginx Proxy Manager.</li>
-          <li>Dos máquinas virtuales con Docker: Nextcloud, Uptime Kuma y Homepage en una; esta web en otra, aislada de la red de casa.</li>
-          <li>Web pública con Cloudflare Tunnel y HTTPS con certificado comodín para los servicios internos.</li>
-          <li>Copias automáticas diarias, instantáneas ZFS y avisos por Telegram.</li>
-        </ul>
-        <ul class="tags"><li>Proxmox VE</li><li>ZFS</li><li>LXC</li><li>Docker</li><li>Nginx</li><li>Cloudflare Tunnel</li><li>AdGuard Home</li><li>Tailscale</li><li>Nextcloud</li><li>Linux</li></ul>
-        <div class="project__actions">
-          <a href="/servidor/" class="btn btn--primary">Leer la guía</a>
-        </div>
-      </div>
-    </article>
+    <!-- Índice de categorías -->
+    <nav class="categorias reveal" aria-label="Categorías de proyectos">
+      <ul class="tags">
+        <li><a href="#servidores">Servidores y virtualización</a></li>
+        <li><a href="#sistemas-operativos">Sistemas operativos</a></li>
+      </ul>
+    </nav>
 
-    <!-- Proyecto 02: arranque dual Windows 11 y Linux Mint -->
-    <article class="project reveal">
-      <a href="/guia-dual-w11-mint/" class="project__media"><img src="/guia-dual-w11-mint/img/paso-22.png" width="800" height="600" alt="Menú GRUB con Linux Mint y Windows Boot Manager en la misma máquina virtual" loading="lazy"></a>
-      <div class="project__body">
-        <p class="project__num">Proyecto 02 · Sistemas</p>
-        <h2>Instalación dual Windows 11 y Linux Mint</h2>
-        <p>Práctica de 1º de DAW: dos sistemas operativos en una misma máquina virtual de VirtualBox, con GRUB para elegir cuál arrancar. Está documentada paso a paso con 32 capturas.</p>
-        <ul class="project__list">
-          <li>Windows 11 Pro 24H2 con TPM 2.0 y Secure Boot, y cuenta local con <code>bypassnro</code>.</li>
-          <li>Particionado GPT planificado: Windows en 40 GB y Linux Mint XFCE en el resto, con la partición EFI compartida.</li>
-          <li>Preparación de Windows: Inicio rápido y BitLocker desactivados antes de instalar Linux.</li>
-          <li>Guest Additions en los dos sistemas, firmadas con clave MOK para que carguen con Secure Boot.</li>
-        </ul>
-        <ul class="tags"><li>Windows 11</li><li>Linux Mint</li><li>VirtualBox</li><li>GRUB</li><li>UEFI</li><li>GPT</li><li>Secure Boot</li></ul>
-        <div class="project__actions">
-          <a href="/guia-dual-w11-mint/" class="btn btn--primary">Leer la guía</a>
+    <!-- Categoría: servidores y virtualización -->
+    <section class="categoria" id="servidores" aria-labelledby="titulo-servidores">
+      <h2 class="categoria__titulo reveal" id="titulo-servidores">Servidores y virtualización</h2>
+      <p class="categoria__texto reveal">Servicios que funcionan de verdad, en casa y para Internet.</p>
+
+      <!-- Servidor casero con Proxmox -->
+      <article class="project reveal">
+        <a href="/servidor/" class="project__media"><img src="img/proyecto-proxmox.webp" width="1200" height="675" alt="Portada del proyecto: servidor casero con Proxmox VE"></a>
+        <div class="project__body">
+          <p class="project__num"><time datetime="2026-10">Desde octubre de 2026</time> · En marcha</p>
+          <h3>Instalación y configuración de Proxmox</h3>
+          <p>He montado en casa un servidor con Proxmox VE que aloja esta web, una nube privada y un bloqueador de anuncios para toda la red, sin abrir ningún puerto del router. Lo he documentado en una guía paso a paso.</p>
+          <ul class="project__list">
+            <li>Proxmox VE sobre dos discos en espejo ZFS.</li>
+            <li>Dos contenedores LXC: DNS con AdGuard Home y VPN con Tailscale; proxy inverso con Nginx Proxy Manager.</li>
+            <li>Dos máquinas virtuales con Docker: Nextcloud, Uptime Kuma y Homepage en una; esta web en otra, aislada de la red de casa.</li>
+            <li>Web pública con Cloudflare Tunnel y HTTPS con certificado comodín para los servicios internos.</li>
+            <li>Copias automáticas diarias, instantáneas ZFS y avisos por Telegram.</li>
+          </ul>
+          <ul class="tags"><li>Proxmox VE</li><li>ZFS</li><li>LXC</li><li>Docker</li><li>Nginx</li><li>Cloudflare Tunnel</li><li>AdGuard Home</li><li>Tailscale</li><li>Nextcloud</li><li>Linux</li></ul>
+          <div class="project__actions">
+            <a href="/servidor/" class="btn btn--primary">Leer la guía</a>
+          </div>
         </div>
-      </div>
-    </article>
+      </article>
+    </section>
+
+    <!-- Categoría: sistemas operativos -->
+    <section class="categoria" id="sistemas-operativos" aria-labelledby="titulo-sistemas">
+      <h2 class="categoria__titulo reveal" id="titulo-sistemas">Sistemas operativos</h2>
+      <p class="categoria__texto reveal">Instalación y configuración de Windows y Linux.</p>
+
+      <!-- Arranque dual Windows 11 y Linux Mint -->
+      <article class="project reveal">
+        <a href="/guia-dual-w11-mint/" class="project__media"><img src="/guia-dual-w11-mint/img/paso-22.webp" width="800" height="600" alt="Menú GRUB con Linux Mint y Windows Boot Manager en la misma máquina virtual" loading="lazy"></a>
+        <div class="project__body">
+          <p class="project__num"><time datetime="2026-11-23">23 de noviembre de 2026</time> · Práctica de clase</p>
+          <h3>Instalación dual Windows 11 y Linux Mint</h3>
+          <p>Práctica de 1º de DAW: dos sistemas operativos en una misma máquina virtual de VirtualBox, con GRUB para elegir cuál arrancar. Está documentada paso a paso con 32 capturas.</p>
+          <ul class="project__list">
+            <li>Windows 11 Pro 24H2 con TPM 2.0 y Secure Boot, y cuenta local con <code>bypassnro</code>.</li>
+            <li>Particionado GPT planificado: Windows en 40 GB y Linux Mint XFCE en el resto, con la partición EFI compartida.</li>
+            <li>Preparación de Windows: Inicio rápido y BitLocker desactivados antes de instalar Linux.</li>
+            <li>Guest Additions en los dos sistemas, firmadas con clave MOK para que carguen con Secure Boot.</li>
+          </ul>
+          <ul class="tags"><li>Windows 11</li><li>Linux Mint</li><li>VirtualBox</li><li>GRUB</li><li>UEFI</li><li>GPT</li><li>Secure Boot</li></ul>
+          <div class="project__actions">
+            <a href="/guia-dual-w11-mint/" class="btn btn--primary">Leer la guía</a>
+          </div>
+        </div>
+      </article>
+    </section>
 
     <!-- Próximos proyectos -->
     <section class="next reveal">

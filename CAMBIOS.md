@@ -1,5 +1,44 @@
 # Registro de cambios
 
+## 2026-11-23 · Proyectos por categorías y con fecha; capturas en WebP
+
+**Qué**
+- **Proyectos** se ordena por relevancia y se divide en categorías:
+  - «Servidores y virtualización» va primero, con Proxmox;
+  - «Sistemas operativos» va después, con el arranque dual.
+
+  Arriba hay un índice con enlaces a cada categoría. Las categorías son `h2` y los proyectos `h3`.
+- Cada proyecto lleva la fecha con `<time>`:
+  - Proxmox: «Desde octubre de 2026 · En marcha». Juanma confirmó que lo empezó en octubre.
+  - Arranque dual: «23 de noviembre de 2026 · Práctica de clase», la fecha de sus capturas.
+- En el **inicio** vuelve a destacarse Proxmox, con el título «Proyecto destacado» en vez de «Último proyecto».
+- `styles.css`: estilos de las categorías (`.categorias`, `.categoria`), y `.project h2` pasa a ser `.project h3`. En todas las páginas, el enlace sube a `?v=20261123` por la caché de Cloudflare.
+- **Guía del arranque dual**:
+  - las 32 capturas pasan de PNG a WebP con calidad 95, de 5,5 MB a 1,4 MB (un 75 % menos);
+  - `paso-22.png` se queda solo como imagen al compartir (`og:image`), porque algunas redes no aceptan WebP;
+  - `publicar-web.sh` comprueba ahora `paso-32.webp`.
+
+**Por qué**
+- Juanma quiere ver primero los proyectos más relevantes, agrupados por categorías y con su fecha.
+- Con WebP, la guía carga mucho más rápido.
+
+**Cómo se convirtieron las capturas**
+- En este PC no hay `cwebp` ni Pillow, y tampoco en el nodo ni en la VM 102. Se usó el codificador WebP del navegador (`canvas.toBlob`, calidad 0.95), servido por un pequeño servidor local que guardaba los ficheros. No se instaló nada.
+- Calidad: el PSNR frente al PNG va de 33,6 a 57,1 dB. En la captura peor (`paso-04`), ampliada al doble, no se distingue del PNG.
+
+**Copia previa**
+- `/srv/data/portfolio-backup-web-20261123-2145` en la VM 103.
+
+**Comprobación**
+- En local: las 32 capturas WebP cargan, Proyectos se ve con sus dos categorías y el inicio destaca Proxmox.
+- En público: `publicar-web.sh` da 200 en todas las páginas, y con `curl` dan 200 las 32 capturas WebP, `paso-22.png` y `styles.css?v=20261123`.
+
+**Pendiente**
+- `publicar-web.sh` no borra nada, así que en la VM 103 siguen los 31 PNG antiguos de `guia-dual-w11-mint/img/`, que ya no se usan. Borrarlos necesita permiso.
+
+**Cómo deshacerlo**
+- `git revert` de este commit y publicar con `scripts/publicar-web.sh`, o restaurar la copia previa.
+
 ## 2026-11-23 · Portfolio: la guía del arranque dual, como último proyecto
 
 **Qué**

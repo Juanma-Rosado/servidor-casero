@@ -15,7 +15,7 @@
 set -euo pipefail
 raiz="$(cd "$(dirname "$0")/.." && pwd)"
 carpetaWeb="$raiz/web/portfolio"
-paginas="index.html sobre-mi.html habilidades.html proyectos.html contacto.html servidor/ guia-dual-w11-mint/ guia-dual-w11-mint/img/paso-32.png"
+paginas="index.html sobre-mi.html habilidades.html proyectos.html contacto.html servidor/ guia-dual-w11-mint/ guia-dual-w11-mint/img/paso-32.webp"
 
 # Avisa si se va a publicar algo que todavía no está en un commit
 avisarCambiosSinCommit() {

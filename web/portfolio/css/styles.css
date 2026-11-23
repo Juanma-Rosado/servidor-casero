@@ -620,7 +620,38 @@ main {
   font-size: .9rem;
 }
 
-.project h2 {
+/* Categorías de proyectos, ordenadas por relevancia */
+.categorias {
+  margin-top: 1.5rem;
+}
+
+.categorias a {
+  display: block;
+  color: inherit;
+  text-decoration: none;
+}
+
+.categorias a:hover {
+  color: var(--bg);
+  background: var(--accent);
+  border-color: var(--accent);
+}
+
+.categoria {
+  margin-top: 3rem;
+  scroll-margin-top: calc(var(--header-h) + 1rem);
+}
+
+.categoria__titulo {
+  font-size: clamp(1.3rem, 3vw, 1.7rem);
+}
+
+.categoria__texto {
+  color: var(--muted);
+  margin-top: .3rem;
+}
+
+.project h3 {
   font-size: clamp(1.5rem, 3.5vw, 2rem);
   margin: .3rem 0 .8rem;
 }
