@@ -10,6 +10,7 @@ He escrito una guía paso a paso de cómo lo monté: https://juanmarosado.com/se
 |---|---|---|
 | `web/portfolio/` | Mi portfolio (HTML, CSS y JavaScript, sin frameworks) | VM 103, `/srv/data/portfolio` |
 | `web/portfolio/servidor/` | La guía del servidor | VM 103, `/srv/data/portfolio/servidor` |
+| `web/portfolio/guia-dual-w11-mint/` | La guía de la práctica de arranque dual de Windows 11 y Linux Mint | VM 103, `/srv/data/portfolio/guia-dual-w11-mint` |
 | `vm103-profesional/stacks/portfolio/` | Compose y nginx del portfolio | VM 103, `/srv/data/stacks/portfolio` |
 | `vm102-personal/stacks/nextcloud/` | Nextcloud con MariaDB y Redis | VM 102, `/srv/data/stacks/nextcloud` |
 | `vm102-personal/stacks/utilidades/` | Uptime Kuma y Homepage | VM 102, `/srv/data/stacks/utilidades` |
