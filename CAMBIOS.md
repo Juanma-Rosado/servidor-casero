@@ -1,5 +1,23 @@
 # Registro de cambios
 
+## 2026-11-24 · Verificación de Google Search Console (VM 103)
+
+**Qué**
+- Se publica `web/portfolio/googleea7266599bfd91a7.html` en la raíz de la web. Es el fichero de verificación de Search Console para la propiedad «Prefijo de URL» `https://juanmarosado.com/`.
+- El fichero solo contiene la línea de verificación que da Google. No es un secreto: Google lo comprueba públicamente.
+
+**Por qué**
+- Para dar de alta la web en Search Console y enviar el sitemap, sin tocar Cloudflare.
+
+**Copia previa**
+- `/srv/data/portfolio-backup-web-20261124-1545`.
+
+**Comprobación**
+- `https://juanmarosado.com/googleea7266599bfd91a7.html` da 200 con el contenido esperado.
+
+**Cómo deshacerlo**
+- Si se borra el fichero, Google deja de dar la propiedad por verificada. Hay que mantenerlo publicado.
+
 ## 2026-11-24 · SEO: sitemap, datos estructurados, página 404 y un h1 por guía (VM 103)
 
 **Qué**
