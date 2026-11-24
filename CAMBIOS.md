@@ -1,5 +1,24 @@
 # Registro de cambios
 
+## 2026-11-24 · Nodo: actualizaciones de seguridad de Kerberos (pve)
+
+**Qué**
+- Se instalaron las 5 actualizaciones de seguridad pendientes del nodo: `krb5-locales`, `libgssapi-krb5-2`, `libk5crypto3`, `libkrb5-3` y `libkrb5support0`, que pasan de `1.21.3-5+deb13u1` a `deb13u2`.
+- Se instalaron solo esos paquetes (`apt-get install --only-upgrade`), sin `full-upgrade`, para no arrastrar nada más.
+- Se reiniciaron `postfix`, `rpcbind` y `zfs-zed`, que seguían usando la librería antigua. La VM 102 (proceso `kvm`) la usará al reiniciarse la próxima vez; no se ha reiniciado ahora.
+
+**Por qué**
+- El nodo no tiene unattended-upgrades y la revisión del día encontró estas 5 actualizaciones de seguridad pendientes.
+
+**Copia previa**
+- La lista de versiones anteriores está en `/root/paquetes-antes-krb5-20261124.txt` del nodo.
+
+**Comprobación**
+- No quedan actualizaciones pendientes, ningún servicio ha fallado, el pool está sano y los tres servicios reiniciados están activos.
+
+**Cómo deshacerlo**
+- `apt-get install <paquete>=1.21.3-5+deb13u1` con las versiones de la lista, si siguen en la caché de apt.
+
 ## 2026-11-24 · Verificación de Google Search Console (VM 103)
 
 **Qué**
