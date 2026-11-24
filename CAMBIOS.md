@@ -1,5 +1,41 @@
 # Registro de cambios
 
+## 2026-11-24 · Auditoría de seguridad: cortafuegos del nodo, rpcbind y reinicio de las VMs
+
+**Qué**
+- Cortafuegos del nodo (`cluster.fw` y el nuevo `host.fw`):
+  - política de entrada DROP;
+  - el conjunto `management` (web 8006, SSH 22, consolas) contiene solo el PC de Juanma (192.168.0.135) y Tailscale (192.168.0.253, la IP con la que sale lo que llega por la VPN);
+  - el alias `local_network` se redefine como solo el nodo (192.168.0.254), porque si no Proxmox mete toda la red de casa en `management`;
+  - excepciones al 8006: VM 102 (Uptime Kuma y Homepage) y LXC 101 (NPM, para `proxmox.casa`). Ping permitido desde la red de casa.
+- `rpcbind` apagado y desactivado en el nodo (no hay almacenamiento NFS).
+- VMs 102 y 103 reiniciadas con `qm reboot` para cargar el kernel de seguridad 6.12.118, que estaba instalado pero sin usar. El proceso de la VM 102 deja de usar la librería Kerberos antigua de la actualización del nodo.
+- `scripts/sincronizar.sh` incluye `/etc/pve/nodes/pve/host.fw`. `jobs.cfg` solo cambia de orden (lo reescribe Proxmox).
+- Guía del servidor: nuevo paso «Cierra el nodo al resto de la red» en el capítulo de seguridad, con la trampa de `local_network`, y pruebas nuevas.
+
+**Por qué**
+- La auditoría vio que el cortafuegos del nodo estaba activado pero sin reglas: cualquier equipo de casa (móviles, tele, VMs y contenedores) llegaba a la web de Proxmox, al SSH del nodo, a la consola SPICE (3128) y a `rpcbind` (111). Si se compromete un servicio, no debe poder saltar al nodo.
+- Las VMs tenían el aviso de reinicio pendiente por el kernel.
+
+**Copia previa**
+- `/root/cluster.fw.antes-20261124-2058` en el nodo (antes no existía `host.fw`).
+- Copias vzdump de las VMs 102 y 103 de esa madrugada (03:08 y 03:12).
+- Mientras se probaba, un temporizador (`systemd-run --on-active=300`) devolvía la configuración anterior si se perdía el acceso. Se canceló tras las pruebas.
+
+**Comprobación**
+- Abierto: SSH y 8006 desde el PC, 8006 desde la VM 102 y NPM, `proxmox.casa` a través de NPM, SSH y 8006 desde el LXC 100 (Tailscale), ping desde el LXC 101.
+- Bloqueado: SSH del nodo desde la VM 102 y el LXC 101, 3128 y 111 desde el LXC 101.
+- El nodo sigue saliendo hacia las VMs (agente de la VM 102 responde). Web pública 200.
+- VMs 102 y 103 con kernel 6.12.118, sin reinicio pendiente, todos los contenedores arriba; Nextcloud, Kuma y Homepage responden.
+
+**Cómo deshacerlo**
+- `cp /root/cluster.fw.antes-20261124-2058 /etc/pve/firewall/cluster.fw; rm /etc/pve/nodes/pve/host.fw`
+- `systemctl enable --now rpcbind.socket rpcbind.service`
+- Si el PC cambia de IP, deja de entrar por SSH: entra por Tailscale o por `proxmox.casa` y añade la nueva IP a `management`. Conviene fijar la IP del PC en el router.
+
+**Pendiente (Juanma)**
+- Activar la verificación en dos pasos (TOTP) en Proxmox (`root@pam` y `juanma@pve`) y en Nextcloud.
+
 ## 2026-11-24 · Formulario de contacto preparado para Web3Forms (VM 103)
 
 **Qué**

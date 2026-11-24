@@ -738,9 +738,28 @@ $O overwrite.cli.url --value=https://nextcloud.casa.tudominio.com</code></pre>
       <div class="callout warn"><strong>Guarda los códigos de recuperación</strong><p>Si pierdes el móvil y no tienes los códigos, tendrás que entrar con <code>root@pam</code> desde el terminal para recuperarte. Déjalo como acceso de emergencia.</p></div>
     </li>
     <li><strong>Activa el firewall del datacenter</strong>
-      <p>Datacenter → Cortafuegos → Opciones → Cortafuegos: <b>Sí</b>. Antes de activarlo, crea una regla que permita el acceso a la web de Proxmox desde tu LAN, o te quedarás fuera.</p>
-<pre data-lang="text"><code>IN  ACCEPT  macro SSH         origen 192.168.0.0/24
-IN  ACCEPT  puerto 8006/tcp   origen 192.168.0.0/24</code></pre>
+      <p>Datacenter → Cortafuegos → Opciones → Cortafuegos: <b>Sí</b>. Al activarlo, Proxmox deja entrar a la web (8006) y al SSH (22) desde los equipos del conjunto <code>management</code>. Si no lo defines, ese conjunto es toda tu red local.</p>
+    </li>
+    <li><strong>Cierra el nodo al resto de la red</strong>
+      <p>Por defecto, todo lo que no tiene regla entra: cualquier móvil, tele o máquina virtual de casa llega a la web de Proxmox, a su SSH y a servicios que no usas, como <code>rpcbind</code> (111). Deja la política de entrada en DROP y da acceso solo a quien lo necesita. En <code>/etc/pve/firewall/cluster.fw</code>:</p>
+<pre data-lang="text"><code>[OPTIONS]
+enable: 1
+policy_in: DROP
+
+[ALIASES]
+local_network 192.168.0.254        # solo el propio nodo
+
+[IPSET management]                 # pueden administrar: web, SSH y consolas
+192.168.0.135                      # tu PC (fija su IP en el router)
+192.168.0.253                      # Tailscale: lo que llega por la VPN sale con esta IP</code></pre>
+      <p>Y en <code>/etc/pve/nodes/pve/host.fw</code>, las excepciones de servicios que consultan la web del nodo:</p>
+<pre data-lang="text"><code>[RULES]
+IN Ping(ACCEPT) -source 192.168.0.0/24          # ping desde casa
+IN ACCEPT -source 192.168.0.250 -p tcp -dport 8006  # Uptime Kuma y Homepage
+IN ACCEPT -source 192.168.0.252 -p tcp -dport 8006  # NPM: proxmox.casa...</code></pre>
+      <p>Apaga también <code>rpcbind</code> si no usas almacenamiento NFS: <code>systemctl disable --now rpcbind.service rpcbind.socket</code>.</p>
+      <div class="callout warn"><strong>Trampa: el alias <code>local_network</code></strong><p>Aunque definas tu propio <code>management</code>, Proxmox le añade siempre el alias automático <code>local_network</code>, que es toda la red de casa: el SSH seguía abierto para las VMs. Se ve con <code>ipset list PVEFW-0-management-v4</code>. Redefinir el alias con la IP del nodo lo arregla.</p></div>
+      <div class="callout tip"><strong>Con red de seguridad</strong><p>Antes de tocar reglas que pueden dejarte fuera, programa la vuelta atrás: <code>systemd-run --on-active=300 cp /root/cluster.fw.antes /etc/pve/firewall/cluster.fw</code>. Si todo va bien, la cancelas con <code>systemctl stop</code> del temporizador. Si te quedas fuera, en 5 minutos vuelve la configuración anterior.</p></div>
     </li>
     <li><strong>Reglas de la VM profesional (103)</strong>
       <p>VM 103 → Cortafuegos. El objetivo es que solo NPM pueda llegar a la web y que la VM no pueda tocar al resto.</p>
@@ -772,6 +791,9 @@ curl -m 5 http://192.168.0.251:8081
 curl -m 5 http://192.168.0.250:8080
 # Desde la VM 103: debe FUNCIONAR (el DNS sí está permitido)
 getent hosts deb.debian.org
+# Desde la VM 102: la web del nodo responde, pero el SSH debe FALLAR
+curl -sk -o /dev/null -w "%{http_code}\n" https://192.168.0.254:8006
+timeout 4 bash -c "&lt;/dev/tcp/192.168.0.254/22" || echo bloqueado
 # Desde tu PC, forzando contraseña: debe responder "Permission denied (publickey)"
 ssh -o PubkeyAuthentication=no root@192.168.0.254
 # La web pública sigue funcionando

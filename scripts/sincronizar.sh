@@ -46,6 +46,7 @@ pve/etc/pve/storage.cfg|pve|/etc/pve/storage.cfg|no
 pve/etc/pve/notifications.cfg|pve|/etc/pve/notifications.cfg|no
 pve/etc/pve/firewall/cluster.fw|pve|/etc/pve/firewall/cluster.fw|no
 pve/etc/pve/firewall/103.fw|pve|/etc/pve/firewall/103.fw|no
+pve/etc/pve/nodes/pve/host.fw|pve|/etc/pve/nodes/pve/host.fw|no
 pve/etc/ssh/sshd_config.d/00-solo-claves.conf|pve|/etc/ssh/sshd_config.d/00-solo-claves.conf|no
 pve/guests/lxc-100.conf|pve|/etc/pve/lxc/100.conf|no
 pve/guests/lxc-101.conf|pve|/etc/pve/lxc/101.conf|no
