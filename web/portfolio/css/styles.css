@@ -788,6 +788,12 @@ main {
   justify-self: start;
 }
 
+/* Casilla trampa para robots del formulario: oculta para las personas */
+.trampa {
+  position: absolute;
+  left: -9999px;
+}
+
 .form__status {
   color: var(--accent);
 }

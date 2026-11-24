@@ -1,5 +1,99 @@
 # Registro de cambios
 
+## 2026-11-24 · Formulario de contacto preparado para Web3Forms (VM 103)
+
+**Qué**
+- `js/main.js` envía el formulario a Web3Forms (`api.web3forms.com/submit`) cuando la constante `CLAVE_WEB3FORMS` tiene valor. Mientras esté vacía, abre el programa de correo (`mailto:`) como antes. Si Web3Forms falla, también abre el correo, para que no se pierda el mensaje.
+- La función se ha dividido en `enviarConWeb3Forms` y `abrirCorreo`.
+- En `contacto.html` hay una casilla trampa para robots (`botcheck`), oculta para las personas y excluida de la validación.
+- `main.js` y `styles.css` se enlazan con `?v=20261124` en todas las páginas, por la caché de Cloudflare.
+
+**Por qué**
+- Con `mailto:`, quien no tiene un programa de correo configurado no puede escribir. Juanma eligió Web3Forms.
+
+**Pendiente (Juanma)**
+- Pedir la clave en web3forms.com con su correo. Después hay que ponerla en `CLAVE_WEB3FORMS`, publicar y enviar un mensaje de prueba.
+
+**Copia previa**
+- `/srv/data/portfolio-backup-web-20261124-2041`.
+
+**Comprobación**
+- En local, el envío vacío muestra los 3 errores y la casilla trampa no se valida ni se ve.
+- `enviarConWeb3Forms` se probó con un `fetch` simulado: manda los 7 campos a la URL correcta, enseña «¡Mensaje enviado!» y vacía el formulario.
+- En público, `main.js?v=20261124` lleva el código nuevo y `contacto.html`, la casilla trampa.
+
+## 2026-11-24 · Copia fuera de casa en USB: script preparado (sin instalar)
+
+**Qué**
+- Están en el repositorio, sin instalar en el nodo:
+  - `pve/usr/local/bin/copia-usb.sh`;
+  - `pve/etc/systemd/system/copia-usb.service`;
+  - `pve/etc/udev/rules.d/99-copia-usb.rules`.
+- Al conectar el USB cifrado (etiqueta LUKS `copia-usb`), udev lanza el servicio y el script:
+  1. abre el cifrado con `/root/.copia-usb.key` y lo monta;
+  2. copia la última copia vzdump de las 4 máquinas y la última `pve-config-*.tar.gz`, y comprueba cada fichero con SHA-256 (también deja un `SHA256SUMS` en el USB);
+  3. guarda 3 copias y borra las más antiguas antes de copiar, para hacer sitio;
+  4. desmonta, cierra el cifrado y avisa con un correo a root, que la regla `default-matcher` manda también a Telegram.
+
+**Por qué**
+- Todas las copias estaban dentro del mismo servidor. Juanma tiene un USB de 64 GB para llevarse una copia fuera de casa.
+
+**Comprobación**
+- `bash -n` correcto en el PC y en el nodo.
+- Se probó en el nodo con una carpeta temporal en lugar del USB, solo con la copia de la máquina 100 y sin avisos, guardando 2 copias. La primera prueba guardaba una copia de más; se corrigió y, en la segunda, la tercera ejecución borró la más antigua y dejó 2. Los SHA-256 coinciden.
+- Después se borraron la carpeta y el registro de prueba.
+
+**Pendiente (con Juanma en casa, el USB conectado al nodo y su permiso)**
+1. `apt install cryptsetup-bin`: no está instalado en el nodo.
+2. Cifrar el USB, que borra todo lo que tenga:
+   - `cryptsetup luksFormat --label copia-usb /dev/sdX`; la contraseña de respaldo la escribe Juanma y la guarda en su gestor;
+   - crear la clave con `dd if=/dev/urandom of=/root/.copia-usb.key bs=64 count=1` y `chmod 400`, y añadirla con `cryptsetup luksAddKey`;
+   - `cryptsetup open`, `mkfs.ext4`, `close`.
+3. Instalar los tres ficheros con `sincronizar.sh` y hacer `systemctl daemon-reload` y `udevadm control --reload`.
+4. Primera copia con el USB conectado, comprobando que llega el aviso a Telegram.
+
+## 2026-11-24 · Guías con código común y comprobaciones automáticas de la web
+
+**Qué**
+- `web/portfolio/comun/` contiene `css/guia.css`, `css/fonts.css` (con las fuentes IBM Plex) y `js/guia.js`, compartidos por las dos guías.
+  - Antes, cada guía tenía su propia copia, que ya empezaba a ser distinta: la del servidor no cerraba la captura ampliada con Esc.
+  - Cada guía indica en el `body` su clave de progreso (`data-clave-progreso`) y su nombre (`data-nombre-guia`). Se mantienen las claves de antes (`guia-hecho` y `guia-dual-hecho`), así que nadie pierde su progreso.
+  - Lo propio de la guía del arranque dual queda en `guia-dual-w11-mint/css/propio.css`.
+- `scripts/comprobar-web.py` revisa cada página: título, descripción, canonical, `lang="es"` y un solo `h1`. Revisa también el JSON-LD, los enlaces internos, que las imágenes tengan `alt`, `width` y `height`, y el sitemap.
+  - Lo ejecuta `publicar-web.sh` antes de subir nada, y para si hay problemas.
+  - Lo ejecuta también GitHub Actions (`.github/workflows/comprobar-web.yml`) en cada push. Solo usa Python de serie.
+- La guía del servidor tiene un apartado nuevo, «Prueba a restaurar una copia», en el capítulo de copias.
+
+**Por qué**
+- Que las guías no se diferencien con el tiempo y que un error en la web se vea antes de publicarla.
+
+**Copia previa**
+- `/srv/data/portfolio-backup-web-20261124-2029`.
+
+**Comprobación**
+- `comprobar-web.py` da correctas las 8 páginas. Con una página rota de prueba detecta los 10 problemas que tenía.
+- La primera ejecución en GitHub Actions es correcta.
+- En local y en público, las dos guías cargan su CSS común, las fuentes, el menú, el título y los botones Copiar. La captura ampliada se cierra con Esc.
+
+**Pendiente**
+- `publicar-web.sh` no borra nada, así que en la VM 103 siguen los ficheros antiguos de las guías: `servidor/css/`, `servidor/js/`, `guia-dual-w11-mint/css/fonts*`, `guia-dual-w11-mint/css/style.css` y `guia-dual-w11-mint/js/`. Ya no los usa ninguna página. Para borrarlos hace falta el permiso de Juanma.
+
+## 2026-11-24 · Prueba de restauración de la VM 103
+
+**Qué**
+- Se restauró la copia vzdump de esa noche de la VM 103 (`vzdump-qemu-103-2026_11_24-03_12_28.vma.zst`, 2 GB) como VM 9103:
+  - con `--unique 1`, para que tenga otra MAC;
+  - con `onboot 0` y la red desconectada (`link_down=1`), para que no choque con la VM 103 real.
+- Se arrancó, se comprobó y se borró con `qm destroy 9103 --purge 1`.
+
+**Por qué**
+- Una copia que nunca se ha restaurado no se sabe si sirve.
+
+**Resultado**
+- La restauración tardó 80 segundos y el agente QEMU respondió a los 15 segundos de arrancar.
+- Dentro de la VM, `systemctl` estaba en `running`, `/srv/data` estaba montado con el portfolio, los contenedores `portfolio` y `portainer` estaban levantados, y `curl localhost:8081` daba 200 con la web de esa noche.
+- Después no quedó ningún volumen 9103, la VM 103 real siguió funcionando todo el tiempo y la web pública dio 200.
+
 ## 2026-11-24 · Nodo: actualizaciones de seguridad de Kerberos (pve)
 
 **Qué**

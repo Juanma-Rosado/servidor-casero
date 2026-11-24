@@ -3,6 +3,10 @@
 
 const REDUCIR_MOVIMIENTO = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 const EMAIL_DESTINO = "rosadotrujillojuanma@gmail.com";
+// Clave pública de Web3Forms (la pide Juanma en web3forms.com con su correo).
+// Mientras esté vacía, el formulario abre el programa de correo como antes.
+const CLAVE_WEB3FORMS = "";
+const URL_WEB3FORMS = "https://api.web3forms.com/submit";
 const RETARDO_SALIDA = 250;
 const DISTANCIA_LINEA = 120;
 const MAX_PUNTOS = 70;
@@ -271,7 +275,8 @@ function iniciarFormulario() {
   }
 
   const estado = formulario.querySelector(".form__status");
-  const campos = formulario.querySelectorAll("input, textarea");
+  // La casilla trampa para robots no se valida
+  const campos = formulario.querySelectorAll(".field input, .field textarea");
 
   campos.forEach((campo) => {
     campo.addEventListener("blur", () => validar(campo));
@@ -288,18 +293,67 @@ function iniciarFormulario() {
       return;
     }
 
-    // No hay servidor de correo, así que se abre el programa de correo con el mensaje
-    const nombre = formulario.nombre.value.trim();
-    const asunto = "Contacto desde el portfolio: " + nombre;
-    const cuerpo = formulario.mensaje.value.trim()
-        + "\n\nDe: " + nombre + " (" + formulario.email.value.trim() + ")";
-    window.location.href = "mailto:" + EMAIL_DESTINO
-        + "?subject=" + encodeURIComponent(asunto)
-        + "&body=" + encodeURIComponent(cuerpo);
+    const mensaje = {
+      nombre: formulario.nombre.value.trim(),
+      email: formulario.email.value.trim(),
+      texto: formulario.mensaje.value.trim(),
+    };
 
-    estado.textContent = "Abriendo tu aplicación de correo…";
-    formulario.reset();
+    if (CLAVE_WEB3FORMS) {
+      enviarConWeb3Forms(formulario, estado, mensaje);
+    } else {
+      abrirCorreo(estado, mensaje);
+      formulario.reset();
+    }
   });
+}
+
+// Envía el mensaje a Web3Forms, que lo reenvía al correo de Juanma
+async function enviarConWeb3Forms(formulario, estado, mensaje) {
+  const boton = formulario.querySelector("button[type=submit]");
+  boton.disabled = true;
+  estado.textContent = "Enviando…";
+
+  try {
+    const respuesta = await fetch(URL_WEB3FORMS, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "Accept": "application/json",
+      },
+      body: JSON.stringify({
+        access_key: CLAVE_WEB3FORMS,
+        subject: "Contacto desde el portfolio: " + mensaje.nombre,
+        from_name: "Portfolio juanmarosado.com",
+        name: mensaje.nombre,
+        email: mensaje.email,
+        message: mensaje.texto,
+        botcheck: formulario.botcheck.checked,
+      }),
+    });
+    const resultado = await respuesta.json();
+    if (!resultado.success) {
+      throw new Error(resultado.message);
+    }
+    estado.textContent = "¡Mensaje enviado! Te responderé lo antes posible.";
+    formulario.reset();
+  } catch (error) {
+    // Si el servicio falla, se ofrece el correo para no perder el mensaje
+    abrirCorreo(estado, mensaje);
+    estado.textContent = "No se pudo enviar. Abriendo tu aplicación de correo…";
+  } finally {
+    boton.disabled = false;
+  }
+}
+
+// Abre el programa de correo del visitante con el mensaje ya escrito
+function abrirCorreo(estado, mensaje) {
+  const asunto = "Contacto desde el portfolio: " + mensaje.nombre;
+  const cuerpo = mensaje.texto + "\n\nDe: " + mensaje.nombre + " (" + mensaje.email + ")";
+  window.location.href = "mailto:" + EMAIL_DESTINO
+      + "?subject=" + encodeURIComponent(asunto)
+      + "&body=" + encodeURIComponent(cuerpo);
+  estado.textContent = "Abriendo tu aplicación de correo…";
 }
 
 // Comprueba un campo y escribe el error debajo. Devuelve true si está bien.

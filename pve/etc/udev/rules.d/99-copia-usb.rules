@@ -1,0 +1,3 @@
+# Al conectar el USB de la copia (etiqueta LUKS «copia-usb»), lanza copia-usb.service.
+# udev no deja procesos largos, por eso la copia la hace systemd.
+ACTION=="add", SUBSYSTEM=="block", ENV{ID_FS_LABEL}=="copia-usb", TAG+="systemd", ENV{SYSTEMD_WANTS}+="copia-usb.service"
