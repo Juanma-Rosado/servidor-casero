@@ -1,7 +1,9 @@
-// app.js: guía del servidor.
+// guia.js: código común de las guías (servidor y arranque dual).
 // Menú de capítulos, progreso guardado en el navegador y botones de copiar.
 
-const CLAVE_PROGRESO = "guia-hecho";
+// Cada guía indica en el body su clave de progreso y su nombre
+const CLAVE_PROGRESO = document.body.dataset.claveProgreso;
+const NOMBRE_GUIA = document.body.dataset.nombreGuia;
 
 // Título de la página tal como viene en el HTML: es el que ven los buscadores en el inicio
 const TITULO_PAGINA = document.title;
@@ -152,7 +154,7 @@ function mostrarCapitulo() {
   if (actual === 0) {
     document.title = TITULO_PAGINA;
   } else {
-    document.title = titulo + " · Servidor casero con Proxmox";
+    document.title = titulo + " · " + NOMBRE_GUIA;
   }
   document.body.classList.remove("menu");
   window.scrollTo(0, 0);
@@ -220,9 +222,18 @@ function prepararCapturas() {
       grande.src = imagen.currentSrc || imagen.src;
       grande.alt = imagen.alt;
       visor.appendChild(grande);
-      visor.addEventListener("click", () => {
+      // Se cierra con un clic o con la tecla Esc
+      const cerrarConEscape = (evento) => {
+        if (evento.key === "Escape") {
+          cerrarVisor();
+        }
+      };
+      const cerrarVisor = () => {
         visor.remove();
-      });
+        document.removeEventListener("keydown", cerrarConEscape);
+      };
+      visor.addEventListener("click", cerrarVisor);
+      document.addEventListener("keydown", cerrarConEscape);
       document.body.appendChild(visor);
     });
   });

@@ -1,0 +1,39 @@
+/* propio.css: estilos que solo usa la guía del arranque dual.
+   El resto está en /comun/css/guia.css, compartido con la guía del servidor. */
+
+/* Solo en esta guía: diagrama del disco */
+svg .win {
+  fill: var(--accent-soft);
+  stroke: var(--accent);
+  stroke-width: 1.5;
+}
+
+svg .lin {
+  fill: var(--ok-soft);
+  stroke: var(--ok);
+  stroke-width: 1.5;
+}
+
+/* Marca de «Sí» en la tabla de comprobaciones */
+.si {
+  color: var(--ok);
+  font-weight: 600;
+}
+
+.si::before {
+  content: "✔ ";
+}
+
+/* Licencia del pie */
+.licencia {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.licencia img,
+.licencia svg {
+  flex: none;
+  width: 88px;
+  height: 31px;
+}

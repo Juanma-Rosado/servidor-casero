@@ -1,5 +1,5 @@
-/* style.css: estilos de la guía de instalación dual.
-   Es la hoja de la guía del servidor, con un apartado final para esta guía. */
+/* guia.css: estilos comunes de las guías (servidor y arranque dual).
+   Lo propio de cada guía va en su carpeta, en css/propio.css. */
 
 /* Colores y fuentes. El modo oscuro cambia solo los colores. */
 :root {
@@ -735,41 +735,4 @@ svg .arr2 {
     transition: none !important;
     scroll-behavior: auto !important;
   }
-}
-
-/* Solo en esta guía: diagrama del disco */
-svg .win {
-  fill: var(--accent-soft);
-  stroke: var(--accent);
-  stroke-width: 1.5;
-}
-
-svg .lin {
-  fill: var(--ok-soft);
-  stroke: var(--ok);
-  stroke-width: 1.5;
-}
-
-/* Marca de «Sí» en la tabla de comprobaciones */
-.si {
-  color: var(--ok);
-  font-weight: 600;
-}
-
-.si::before {
-  content: "✔ ";
-}
-
-/* Licencia del pie */
-.licencia {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-}
-
-.licencia img,
-.licencia svg {
-  flex: none;
-  width: 88px;
-  height: 31px;
 }

@@ -1,6 +1,7 @@
 #!/bin/bash
 # Publica web/portfolio (el portfolio y la guía) en la VM 103 y lo comprueba.
 #
+#  0. Comprueba la web con scripts/comprobar-web.py y para si hay problemas.
 #  1. Copia lo que hay publicado ahora en /srv/data/portfolio-backup-web-FECHA,
 #     fuera de la carpeta publicada.
 #  2. Sube los ficheros con dueño juanma y permisos de lectura. No borra nada
@@ -15,7 +16,7 @@
 set -euo pipefail
 raiz="$(cd "$(dirname "$0")/.." && pwd)"
 carpetaWeb="$raiz/web/portfolio"
-paginas="index.html sobre-mi.html habilidades.html proyectos.html contacto.html servidor/ guia-dual-w11-mint/ guia-dual-w11-mint/img/paso-32.webp sitemap.xml robots.txt favicon.ico"
+paginas="index.html sobre-mi.html habilidades.html proyectos.html contacto.html servidor/ guia-dual-w11-mint/ guia-dual-w11-mint/img/paso-32.webp sitemap.xml robots.txt favicon.ico comun/css/guia.css comun/js/guia.js"
 
 # Avisa si se va a publicar algo que todavía no está en un commit
 avisarCambiosSinCommit() {
@@ -54,6 +55,8 @@ comprobarEnPublico() {
 }
 
 avisarCambiosSinCommit
+echo "== Comprobaciones"
+python "$raiz/scripts/comprobar-web.py"
 echo "== Copia y subida a la VM 103"
 subirAlServidor
 echo "== Comprobación pública"

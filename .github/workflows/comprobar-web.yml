@@ -1,0 +1,25 @@
+# Comprueba la web en cada push y en cada pull request que toque web/ o el script.
+# Usa solo Python de serie: no instala nada.
+name: Comprobar la web
+
+on:
+  push:
+    paths:
+      - "web/**"
+      - "scripts/comprobar-web.py"
+      - ".github/workflows/comprobar-web.yml"
+  pull_request:
+    paths:
+      - "web/**"
+      - "scripts/comprobar-web.py"
+
+permissions:
+  contents: read
+
+jobs:
+  comprobar:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Comprobar páginas, enlaces, JSON-LD y sitemap
+        run: python3 scripts/comprobar-web.py
