@@ -1,5 +1,25 @@
 # Registro de cambios
 
+## 2026-11-24 · Avisos de Proxmox solo por Telegram (fuera el correo a Gmail)
+
+**Qué**
+- `default-matcher` envía los avisos solo a `telegram`. Se quita el destino `mail-to-root`. El destino `smtp: email` sigue desactivado.
+
+**Por qué**
+- Desde el 21 de noviembre, cada noche hacia las 03:14 (aviso de la copia vzdump), Gmail rechazaba el correo con `550 5.7.26`. El nodo lo enviaba directamente desde la IP de casa, sin SPF ni DKIM.
+- El rebote iba a root, y `proxmox-mail-forward` lo reenviaba a Telegram: Juanma recibía un «Undelivered Mail Returned to Sender» cada noche.
+- El correo no había llegado nunca y todos los avisos ya iban por Telegram. Juanma eligió dejar solo Telegram.
+
+**Copia previa**
+- `/root/notifications.cfg.antes-20261124-2125` en el nodo.
+
+**Comprobación**
+- Correo de prueba a root: `proxmox-mail-forward` lo pasa a la cola, `pve-notify-worker` lo entrega solo a `telegram` y postfix no intenta enviar a Gmail.
+- Guía: nuevo «Error real» en el capítulo de avisos.
+
+**Cómo deshacerlo**
+- `cp /root/notifications.cfg.antes-20261124-2125 /etc/pve/notifications.cfg`. Para volver a tener correo, mejor activar el destino SMTP con una contraseña de aplicación de Google.
+
 ## 2026-11-24 · Auditoría de seguridad: cortafuegos del nodo, rpcbind y reinicio de las VMs
 
 **Qué**
