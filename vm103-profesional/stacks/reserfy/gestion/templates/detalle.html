@@ -1,0 +1,194 @@
+{% extends "base.html" %}
+{% block title %}Reserva #{{ reserva.id }} — {{ restaurant }}{% endblock %}
+
+{% block extra_styles %}
+.page-header {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 2rem;
+  flex-wrap: wrap;
+}
+
+.page-title {
+  font-family: 'DM Serif Display', serif;
+  font-size: 1.8rem;
+  flex: 1;
+}
+
+.detail-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.5rem;
+}
+
+@media (max-width: 700px) {
+  .detail-grid { grid-template-columns: 1fr; }
+}
+
+.detail-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 1.5rem;
+}
+
+.detail-card-title {
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  margin-bottom: 1.2rem;
+  padding-bottom: 0.8rem;
+  border-bottom: 1px solid var(--border);
+}
+
+.detail-row {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  margin-bottom: 1rem;
+}
+
+.detail-row:last-child { margin-bottom: 0; }
+
+.detail-label {
+  font-size: 0.78rem;
+  color: var(--text-muted);
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.detail-value {
+  font-size: 0.97rem;
+  color: var(--text);
+}
+
+.detail-card.full-width {
+  grid-column: 1 / -1;
+}
+
+.comentarios-box {
+  background: var(--surface2);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 1rem;
+  font-size: 0.92rem;
+  color: var(--text);
+  min-height: 60px;
+  line-height: 1.6;
+}
+
+.actions-bar {
+  display: flex;
+  gap: 0.8rem;
+  flex-wrap: wrap;
+}
+
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 4px 12px;
+  border-radius: 20px;
+  font-size: 0.82rem;
+  font-weight: 500;
+}
+
+.badge-ok {
+  background: rgba(39,174,96,0.15);
+  color: #2ecc71;
+  border: 1px solid rgba(39,174,96,0.3);
+}
+
+.badge-cancelada {
+  background: rgba(192,57,43,0.15);
+  color: var(--accent-light);
+  border: 1px solid rgba(192,57,43,0.3);
+}
+
+.badge-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: currentColor;
+}
+
+.meta-info {
+  font-size: 0.82rem;
+  color: var(--text-dim);
+  margin-top: 0.3rem;
+}
+{% endblock %}
+
+{% block content %}
+<div class="page-header">
+  <a href="/reservas" class="btn btn-secondary">← Volver</a>
+  <h1 class="page-title">Reserva #{{ reserva.id }}</h1>
+  {% if reserva.estado == 'cancelada' %}
+  <span class="badge badge-cancelada"><span class="badge-dot"></span>Cancelada</span>
+  {% else %}
+  <span class="badge badge-ok"><span class="badge-dot"></span>Activa</span>
+  {% endif %}
+</div>
+
+<div class="detail-grid">
+
+  <div class="detail-card">
+    <div class="detail-card-title">👤 Datos del cliente</div>
+    <div class="detail-row">
+      <span class="detail-label">Nombre</span>
+      <span class="detail-value">{{ reserva.nombre }}</span>
+    </div>
+    <div class="detail-row">
+      <span class="detail-label">Teléfono</span>
+      <span class="detail-value">{{ reserva.telefono }}</span>
+    </div>
+    <div class="detail-row">
+      <span class="detail-label">Email</span>
+      <span class="detail-value">{{ reserva.email }}</span>
+    </div>
+  </div>
+
+  <div class="detail-card">
+    <div class="detail-card-title">📅 Detalles de la reserva</div>
+    <div class="detail-row">
+      <span class="detail-label">Fecha</span>
+      <span class="detail-value">{{ reserva.fecha }}</span>
+    </div>
+    <div class="detail-row">
+      <span class="detail-label">Hora</span>
+      <span class="detail-value">{{ reserva.hora }}</span>
+    </div>
+    <div class="detail-row">
+      <span class="detail-label">Comensales</span>
+      <span class="detail-value">{{ reserva.comensales }}</span>
+    </div>
+    <div class="detail-row">
+      <span class="detail-label">Ocasión</span>
+      <span class="detail-value">{{ reserva.ocasion if reserva.ocasion else '—' }}</span>
+    </div>
+  </div>
+
+  <div class="detail-card full-width">
+    <div class="detail-card-title">💬 Comentarios / Peticiones especiales</div>
+    <div class="comentarios-box">
+      {{ reserva.comentarios if reserva.comentarios else 'Sin comentarios.' }}
+    </div>
+    <div class="meta-info">Reserva recibida el {{ reserva.fecha_envio }}</div>
+  </div>
+
+</div>
+
+<div class="actions-bar" style="margin-top:1.5rem;">
+  <a href="/reserva/{{ reserva.id }}/editar" class="btn btn-primary">✏️ Editar reserva</a>
+  {% if reserva.estado != 'cancelada' %}
+  <form method="POST" action="/reserva/{{ reserva.id }}/cancelar" onsubmit="return confirm('¿Estás seguro de que quieres cancelar esta reserva?')">
+    <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
+    <button type="submit" class="btn btn-danger">🗑️ Cancelar reserva</button>
+  </form>
+  {% endif %}
+</div>
+{% endblock %}

@@ -1,5 +1,54 @@
 # Registro de cambios
 
+## 2026-11-24 · Reserfy restaurado en la VM 103 (aún sin publicar)
+
+**Qué**
+- Stack nuevo `/srv/data/stacks/reserfy` en la VM 103 con el proyecto final de 2.º SMR (Reserfy, IES Belén, curso 2025-2026, de Juanma y tres compañeros):
+  - `web-reserfy`: web corporativa (WordPress 7.1.3, tema Astra, Smart Slider 3, WPForms).
+  - `web-restaurante`: web del restaurante de ejemplo Échale Queso (WordPress 7.1.3, Contact Form 7 + Flamingo, Forminator para «Valóranos», WPCode).
+  - `gestion`: la app Flask que lee y edita las reservas guardadas por Flamingo.
+  - `mailpit`: atrapa todos los correos. Solo en `127.0.0.1:8025` de la VM.
+  - `entrada`: nginx que reparte por dominio. Es lo único que publica un puerto: el **8082**.
+  - Dos MariaDB 11.8.9 sin puertos publicados.
+- Origen: la copia del antiguo Ubuntu Server (`backup-config.tar.gz` y `dump_*.sql` del 29/10/2026). Webs desde la carpeta `media/docker/instituto`, bases desde los volcados (solo `reserfy_db` y `restaurante_db`, sin la base `mysql` ni tablas de prácticas).
+- Cambios respecto al original:
+  - versiones fijas en todas las imágenes (antes todo era `latest`); fuera DuckDNS, NPM propio y phpMyAdmin;
+  - contraseñas y claves de WordPress nuevas en `.env`; la app ya no tiene contraseñas en el código y no arranca si falta alguna;
+  - la app entra con un usuario `gestion` que solo puede leer, cambiar y borrar en `wp_posts` y `wp_postmeta` (antes, root);
+  - protección CSRF en los formularios POST de la app, login con comparación segura, gunicorn y usuario sin privilegios en el contenedor;
+  - WP Mail SMTP forzado a Mailpit con constantes en `WORDPRESS_CONFIG_EXTRA`: la demo nunca envía correo real.
+- Limpieza de datos:
+  - dominios `*.juanmarosado-server.duckdns.org` cambiados con `wp search-replace` por `reserfy.juanmarosado.com`, `echalequeso.juanmarosado.com` y `reserfy.casa.juanmarosado.com` (provisionales; la columna `guid` no se toca);
+  - desinstalados Jetpack, UpdraftPlus, All-in-One WP Migration, Better Search Replace, Akismet y LiteSpeed Cache, con sus opciones y carpetas (registros de UpdraftPlus incluidos);
+  - borrados los usuarios de los tres compañeros (su contenido pasa a JuanmaRosado), los contactos de Flamingo, la reserva real, las 8 entradas de prueba de Forminator, los registros de WPForms y WP Mail SMTP y la contraseña de Gmail que guardaba WP Mail SMTP;
+  - contraseña nueva del administrador de cada web, guardada en el `.env` del servidor (`WP_ADMIN_CONTRASENA_*`);
+  - tres reservas de demostración hechas por el formulario («(demo)», correos `@example.com`).
+- Repositorio: `vm103-profesional/stacks/reserfy/` (compose, nginx, PHP, script del usuario `gestion`, `.env.ejemplo` y el código de la app). `scripts/sincronizar.sh` vigila los ficheros de configuración; `app.py` no, porque la limpieza de secretos lo estropearía (`APP_PASSWORD = leer…` pasaría a `${APP_PASSWORD}`).
+
+**Por qué**
+- Es el proyecto final del grado medio y sirve para el portfolio. El servidor antiguo ya no existe y la copia solo estaba en el PC.
+- El original guardaba contraseñas de prueba en el código, usaba `latest`, entraba en la base como root y tenía datos personales de compañeros.
+
+**Error real**
+- Detrás de Cloudflare Tunnel y NPM, WordPress se queda en un bucle de redirecciones a https: NPM recibe http de cloudflared y pone `X-Forwarded-Proto: http`. Comprobado con curl: sin arreglo, `301` a la misma URL en https. Solución en `nginx/default.conf.template`: leer el esquema real de la cabecera `CF-Visitor` que añade Cloudflare.
+
+**Copia previa**
+- Instantánea `antes-reserfy-20261124` de la VM 103 (`qm snapshot`).
+- Copia original en el USB: `D:\z_copia\reserfy-servidor-ubuntu-20261029\` (hashes SHA-256 comprobados).
+
+**Comprobación**
+- Bases importadas y sanas (`healthy`); `02-usuario-gestion.sh` ejecutado.
+- Con curl desde la VM: las dos webs dan `200` como si vinieran de Cloudflare; dominio desconocido, sin respuesta (`444`); panel: login con token `302`, sin token `400`; cancelar y reactivar funcionan y sin token dan `400`.
+- Reserva completa: formulario CF7 → Flamingo → 2 correos en Mailpit (restaurante y cliente) → aparece en el panel.
+
+**Pendiente**
+- Publicar (con permiso): regla del 8082 en `103.fw` solo desde NPM, proxy hosts en NPM, nombres en el túnel de Cloudflare y monitores en Uptime Kuma. Después: capítulo en la guía y tarjeta en el portfolio.
+- Borrar la instantánea cuando todo esté comprobado: `qm delsnapshot 103 antes-reserfy-20261124`.
+
+**Cómo deshacerlo**
+- `cd /srv/data/stacks/reserfy && docker compose down` y borrar la carpeta.
+- Todo de golpe: `qm rollback 103 antes-reserfy-20261124` (deshace también cualquier otro cambio de la VM posterior).
+
 ## 2026-11-24 · Avisos de Proxmox solo por Telegram (fuera el correo a Gmail)
 
 **Qué**

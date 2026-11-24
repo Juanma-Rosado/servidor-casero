@@ -64,6 +64,12 @@ vm102-personal/crontab-juanma.txt|personal|crontab|no
 vm103-profesional/stacks/portfolio/docker-compose.yml|profesional|/srv/data/stacks/portfolio/docker-compose.yml|si
 vm103-profesional/stacks/portfolio/default.conf|profesional|/srv/data/stacks/portfolio/default.conf|si
 vm103-profesional/stacks/portainer/docker-compose.yml|profesional|/srv/data/stacks/portainer/docker-compose.yml|si
+vm103-profesional/stacks/reserfy/docker-compose.yml|profesional|/srv/data/stacks/reserfy/docker-compose.yml|si
+vm103-profesional/stacks/reserfy/nginx/default.conf.template|profesional|/srv/data/stacks/reserfy/nginx/default.conf.template|si
+vm103-profesional/stacks/reserfy/php/subidas.ini|profesional|/srv/data/stacks/reserfy/php/subidas.ini|si
+vm103-profesional/stacks/reserfy/bases/02-usuario-gestion.sh|profesional|/srv/data/stacks/reserfy/bases/02-usuario-gestion.sh|no
+vm103-profesional/stacks/reserfy/gestion/Dockerfile|profesional|/srv/data/stacks/reserfy/gestion/Dockerfile|si
+vm103-profesional/stacks/reserfy/gestion/requirements.txt|profesional|/srv/data/stacks/reserfy/gestion/requirements.txt|si
 vm103-profesional/etc-docker-daemon.json|profesional|/etc/docker/daemon.json|no
 LISTA
 }

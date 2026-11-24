@@ -1,0 +1,273 @@
+{% extends "base.html" %}
+{% block title %}Reservas — {{ restaurant }}{% endblock %}
+
+{% block extra_styles %}
+.page-header {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  margin-bottom: 2rem;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+.page-title {
+  font-family: 'DM Serif Display', serif;
+  font-size: 2rem;
+  color: var(--text);
+}
+.page-subtitle {
+  font-size: 0.88rem;
+  color: var(--text-muted);
+  margin-top: 2px;
+}
+.stats-row {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 2rem;
+  flex-wrap: wrap;
+}
+.stat-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 1.2rem 1.5rem;
+  flex: 1;
+  min-width: 140px;
+}
+.stat-value {
+  font-family: 'DM Serif Display', serif;
+  font-size: 2rem;
+  color: var(--text);
+  line-height: 1;
+}
+.stat-label {
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  margin-top: 4px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+.stat-card.accent .stat-value { color: var(--accent); }
+.stat-card.success .stat-value { color: #2ecc71; }
+.filters {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 1.2rem 1.5rem;
+  margin-bottom: 1.5rem;
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+  align-items: flex-end;
+}
+.filter-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  flex: 1;
+  min-width: 160px;
+}
+.filter-group label {
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+.filter-group input,
+.filter-group select {
+  padding: 0.55rem 0.9rem;
+  background: var(--surface2);
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius-sm);
+  color: var(--text);
+  font-size: 0.9rem;
+  font-family: 'DM Sans', sans-serif;
+  transition: border-color 0.2s;
+}
+.filter-group input:focus,
+.filter-group select:focus {
+  outline: none;
+  border-color: var(--accent);
+}
+.filter-group select option { background: var(--surface2); }
+.table-wrap {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  overflow: hidden;
+}
+table { width: 100%; border-collapse: collapse; }
+thead {
+  background: var(--surface2);
+  border-bottom: 1px solid var(--border);
+}
+thead th {
+  padding: 0.9rem 1.2rem;
+  text-align: left;
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+}
+tbody tr {
+  border-bottom: 1px solid var(--border);
+  transition: background 0.15s;
+}
+tbody tr:last-child { border-bottom: none; }
+tbody tr:hover { background: rgba(255,255,255,0.02); }
+tbody td {
+  padding: 1rem 1.2rem;
+  font-size: 0.92rem;
+  color: var(--text);
+  vertical-align: middle;
+}
+.td-nombre { font-weight: 500; }
+.td-muted { color: var(--text-muted); font-size: 0.85rem; }
+.actions {
+  display: flex;
+  gap: 0.4rem;
+  align-items: center;
+  flex-wrap: wrap;
+}
+.btn-success {
+  background: transparent;
+  color: #2ecc71;
+  border: 1px solid #2ecc71;
+}
+.btn-success:hover {
+  background: #2ecc71;
+  color: #000;
+}
+.btn-delete {
+  background: transparent;
+  color: var(--text-dim);
+  border: 1px solid var(--border);
+}
+.btn-delete:hover {
+  background: #c0392b;
+  color: #fff;
+  border-color: #c0392b;
+}
+.empty-state { padding: 4rem 2rem; text-align: center; }
+.empty-icon { font-size: 3rem; margin-bottom: 1rem; }
+.empty-title { font-family: 'DM Serif Display', serif; font-size: 1.4rem; margin-bottom: 0.5rem; }
+.empty-text { color: var(--text-muted); font-size: 0.9rem; }
+{% endblock %}
+
+{% block content %}
+<div class="page-header">
+  <div>
+    <h1 class="page-title">Reservas</h1>
+    <p class="page-subtitle">{{ restaurant }} &middot; Panel de gestion</p>
+  </div>
+</div>
+
+{% set total = reservas|length %}
+{% set activas = reservas|selectattr('estado', 'equalto', 'mail_sent')|list|length %}
+{% set canceladas = reservas|selectattr('estado', 'equalto', 'cancelada')|list|length %}
+
+<div class="stats-row">
+  <div class="stat-card">
+    <div class="stat-value">{{ total }}</div>
+    <div class="stat-label">Total reservas</div>
+  </div>
+  <div class="stat-card success">
+    <div class="stat-value">{{ activas }}</div>
+    <div class="stat-label">Activas</div>
+  </div>
+  <div class="stat-card accent">
+    <div class="stat-value">{{ canceladas }}</div>
+    <div class="stat-label">Canceladas</div>
+  </div>
+</div>
+
+<form method="GET" class="filters">
+  <div class="filter-group">
+    <label>Buscar</label>
+    <input type="text" name="busqueda" placeholder="Nombre, email o telefono..." value="{{ busqueda }}">
+  </div>
+  <div class="filter-group">
+    <label>Estado</label>
+    <select name="estado">
+      <option value="todas" {% if filtro_estado == 'todas' %}selected{% endif %}>Todas</option>
+      <option value="mail_sent" {% if filtro_estado == 'mail_sent' %}selected{% endif %}>Activas</option>
+      <option value="cancelada" {% if filtro_estado == 'cancelada' %}selected{% endif %}>Canceladas</option>
+    </select>
+  </div>
+  <div class="filter-group">
+    <label>Fecha reserva</label>
+    <input type="date" name="fecha" value="{{ filtro_fecha }}">
+  </div>
+  <button type="submit" class="btn btn-primary">Filtrar</button>
+  <a href="/reservas" class="btn btn-secondary">Limpiar</a>
+</form>
+
+<div class="table-wrap">
+  {% if reservas %}
+  <table>
+    <thead>
+      <tr>
+        <th>Cliente</th>
+        <th>Fecha reserva</th>
+        <th>Hora</th>
+        <th>Comensales</th>
+        <th>Ocasion</th>
+        <th>Estado</th>
+        <th>Acciones</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for r in reservas %}
+      <tr>
+        <td>
+          <div class="td-nombre">{{ r.nombre }}</div>
+          <div class="td-muted">{{ r.email }}</div>
+          <div class="td-muted">{{ r.telefono }}</div>
+        </td>
+        <td>{{ r.fecha_formateada }}</td>
+        <td>{{ r.hora }}</td>
+        <td>{{ r.comensales }}</td>
+        <td>{{ r.ocasion if r.ocasion else '-' }}</td>
+        <td>
+          {% if r.estado == 'cancelada' %}
+          <span class="badge badge-cancelada"><span class="badge-dot"></span>Cancelada</span>
+          {% else %}
+          <span class="badge badge-ok"><span class="badge-dot"></span>Activa</span>
+          {% endif %}
+        </td>
+        <td>
+          <div class="actions">
+            <a href="/reserva/{{ r.id }}" class="btn btn-secondary">Ver</a>
+            <a href="/reserva/{{ r.id }}/editar" class="btn btn-primary">Editar</a>
+            {% if r.estado != 'cancelada' %}
+            <form method="POST" action="/reserva/{{ r.id }}/cancelar" onsubmit="return confirm('Cancelar esta reserva?')">
+              <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
+              <button type="submit" class="btn btn-danger">Cancelar</button>
+            </form>
+            {% else %}
+            <form method="POST" action="/reserva/{{ r.id }}/reactivar" onsubmit="return confirm('Reactivar esta reserva?')">
+              <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
+              <button type="submit" class="btn btn-success">Reactivar</button>
+            </form>
+            {% endif %}
+            <form method="POST" action="/reserva/{{ r.id }}/borrar" onsubmit="return confirm('Borrar esta reserva? No se puede deshacer.')">
+              <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
+              <button type="submit" class="btn btn-delete">Borrar</button>
+            </form>
+          </div>
+        </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+  {% else %}
+  <div class="empty-state">
+    <div class="empty-icon">📭</div>
+    <div class="empty-title">Sin reservas</div>
+    <div class="empty-text">No hay reservas que coincidan con los filtros aplicados.</div>
+  </div>
+  {% endif %}
+</div>
+{% endblock %}

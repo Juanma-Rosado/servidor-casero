@@ -1,0 +1,65 @@
+# Entrada del stack Reserfy: reparte por dominio entre las dos webs y la app de gestión.
+# La imagen de nginx cambia ${DOMINIO_*} por su valor del .env al arrancar.
+# Las variables de nginx ($host, $http_...) no se tocan porque no existen en el entorno.
+
+# Las peticiones públicas llegan así: Cloudflare -> cloudflared -> NPM (http) -> aquí.
+# NPM pone X-Forwarded-Proto: http aunque el visitante use https, y entonces WordPress
+# redirige a https sin parar. Cloudflare manda la cabecera CF-Visitor con el esquema real.
+map $http_cf_visitor $esquema_cloudflare {
+  "~\"scheme\":\"https\"" https;
+  default "";
+}
+
+# Si no viene de Cloudflare (LAN o VPN por NPM con https), vale lo que diga NPM
+map $esquema_cloudflare $esquema_visitante {
+  https https;
+  default $http_x_forwarded_proto;
+}
+
+# Cualquier dominio desconocido se corta sin respuesta
+server {
+  listen 80 default_server;
+  server_name _;
+  return 444;
+}
+
+server {
+  listen 80;
+  server_name ${DOMINIO_RESERFY};
+  client_max_body_size 64m;
+
+  location / {
+    proxy_pass http://web-reserfy;
+    proxy_set_header Host $host;
+    proxy_set_header X-Real-IP $http_x_real_ip;
+    proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+    proxy_set_header X-Forwarded-Proto $esquema_visitante;
+  }
+}
+
+server {
+  listen 80;
+  server_name ${DOMINIO_RESTAURANTE};
+  client_max_body_size 64m;
+
+  location / {
+    proxy_pass http://web-restaurante;
+    proxy_set_header Host $host;
+    proxy_set_header X-Real-IP $http_x_real_ip;
+    proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+    proxy_set_header X-Forwarded-Proto $esquema_visitante;
+  }
+}
+
+server {
+  listen 80;
+  server_name ${DOMINIO_GESTION};
+
+  location / {
+    proxy_pass http://gestion:5000;
+    proxy_set_header Host $host;
+    proxy_set_header X-Real-IP $http_x_real_ip;
+    proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+    proxy_set_header X-Forwarded-Proto $esquema_visitante;
+  }
+}

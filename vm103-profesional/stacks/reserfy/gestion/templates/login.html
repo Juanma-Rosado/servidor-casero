@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Reserfy — Acceso</title>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --bg: #0f0f0f;
+      --surface: #1a1a1a;
+      --surface2: #222;
+      --border: #2e2e2e;
+      --accent: #c0392b;
+      --accent-light: #e74c3c;
+      --text: #f0ede8;
+      --text-muted: #888;
+      --radius: 16px;
+    }
+
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background-image: radial-gradient(ellipse at 20% 50%, rgba(192,57,43,0.07) 0%, transparent 60%),
+                        radial-gradient(ellipse at 80% 20%, rgba(192,57,43,0.05) 0%, transparent 50%);
+    }
+
+    .login-wrapper {
+      width: 100%;
+      max-width: 420px;
+      padding: 1rem;
+    }
+
+    .login-header {
+      text-align: center;
+      margin-bottom: 2.5rem;
+    }
+
+    .login-logo {
+      width: 56px;
+      height: 56px;
+      background: var(--accent);
+      border-radius: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 26px;
+      margin: 0 auto 1.2rem;
+      box-shadow: 0 8px 32px rgba(192,57,43,0.35);
+    }
+
+    .login-title {
+      font-family: 'DM Serif Display', serif;
+      font-size: 2rem;
+      color: var(--text);
+      margin-bottom: 0.3rem;
+    }
+
+    .login-title span { color: var(--accent); }
+
+    .login-subtitle {
+      font-size: 0.88rem;
+      color: var(--text-muted);
+    }
+
+    .login-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 2rem;
+    }
+
+    .form-group {
+      margin-bottom: 1.2rem;
+    }
+
+    label {
+      display: block;
+      font-size: 0.82rem;
+      font-weight: 600;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      margin-bottom: 0.5rem;
+    }
+
+    input {
+      width: 100%;
+      padding: 0.75rem 1rem;
+      background: var(--surface2);
+      border: 1.5px solid var(--border);
+      border-radius: 10px;
+      color: var(--text);
+      font-size: 0.97rem;
+      font-family: 'DM Sans', sans-serif;
+      transition: border-color 0.2s, box-shadow 0.2s;
+    }
+
+    input:focus {
+      outline: none;
+      border-color: var(--accent);
+      box-shadow: 0 0 0 3px rgba(192,57,43,0.12);
+    }
+
+    .btn-login {
+      width: 100%;
+      padding: 0.85rem;
+      background: var(--accent);
+      color: #fff;
+      border: none;
+      border-radius: 10px;
+      font-size: 1rem;
+      font-weight: 600;
+      font-family: 'DM Sans', sans-serif;
+      cursor: pointer;
+      margin-top: 0.5rem;
+      transition: background 0.2s, transform 0.15s, box-shadow 0.2s;
+      box-shadow: 0 4px 20px rgba(192,57,43,0.3);
+    }
+
+    .btn-login:hover {
+      background: var(--accent-light);
+      transform: translateY(-1px);
+      box-shadow: 0 6px 24px rgba(192,57,43,0.4);
+    }
+
+    .error-msg {
+      background: rgba(192,57,43,0.12);
+      border: 1px solid rgba(192,57,43,0.35);
+      color: #e74c3c;
+      padding: 0.75rem 1rem;
+      border-radius: 10px;
+      font-size: 0.88rem;
+      margin-bottom: 1.2rem;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .login-footer {
+      text-align: center;
+      margin-top: 1.5rem;
+      font-size: 0.8rem;
+      color: var(--text-muted);
+    }
+  </style>
+</head>
+<body>
+  <div class="login-wrapper">
+    <div class="login-header">
+      <div class="login-logo">🍽️</div>
+      <h1 class="login-title">Reser<span>fy</span></h1>
+      <p class="login-subtitle">Sistema de gestión de reservas</p>
+    </div>
+
+    <div class="login-card">
+      {% if error %}
+      <div class="error-msg">⚠️ {{ error }}</div>
+      {% endif %}
+
+      <form method="POST">
+        <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
+        <div class="form-group">
+          <label for="usuario">Usuario</label>
+          <input type="text" id="usuario" name="usuario" placeholder="Introduce tu usuario" required autofocus>
+        </div>
+        <div class="form-group">
+          <label for="password">Contraseña</label>
+          <input type="password" id="password" name="password" placeholder="••••••••" required>
+        </div>
+        <button type="submit" class="btn-login">Acceder al panel →</button>
+      </form>
+    </div>
+
+    <div class="login-footer">
+      Panel de gestión para <strong>{{ restaurant }}</strong><br>
+      Powered by Reserfy
+    </div>
+  </div>
+</body>
+</html>
