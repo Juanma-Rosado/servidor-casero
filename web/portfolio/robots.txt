@@ -1,0 +1,5 @@
+# Todo el sitio se puede rastrear. Cloudflare añade delante sus propias señales de contenido.
+User-agent: *
+Allow: /
+
+Sitemap: https://juanmarosado.com/sitemap.xml

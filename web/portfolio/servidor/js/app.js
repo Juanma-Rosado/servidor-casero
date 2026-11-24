@@ -3,6 +3,9 @@
 
 const CLAVE_PROGRESO = "guia-hecho";
 
+// Título de la página tal como viene en el HTML: es el que ven los buscadores en el inicio
+const TITULO_PAGINA = document.title;
+
 const capitulos = [...document.querySelectorAll(".chapter")];
 const menuLateral = document.getElementById("nav");
 const hechos = leerProgreso();
@@ -145,7 +148,12 @@ function mostrarCapitulo() {
 
   const titulo = capitulos[actual].dataset.title;
   document.getElementById("topbar-title").textContent = titulo;
-  document.title = titulo + " · Servidor casero con Proxmox";
+  // En el inicio se deja el título del HTML; en los capítulos, el del capítulo
+  if (actual === 0) {
+    document.title = TITULO_PAGINA;
+  } else {
+    document.title = titulo + " · Servidor casero con Proxmox";
+  }
   document.body.classList.remove("menu");
   window.scrollTo(0, 0);
 }

@@ -3,12 +3,15 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Servidor casero con Proxmox</title>
+<title>Servidor casero con Proxmox VE: guía paso a paso | Juanma Rosado</title>
 <meta name="description" content="Guía paso a paso para montar un servidor casero con Proxmox VE, ZFS, Docker, Cloudflare Tunnel y copias automáticas.">
 <link rel="canonical" href="https://juanmarosado.com/servidor/">
-<meta property="og:type" content="website">
+<link rel="icon" href="/img/logo.svg" type="image/svg+xml">
+<link rel="icon" href="/img/favicon-48.png" sizes="48x48" type="image/png">
+<link rel="apple-touch-icon" href="/img/apple-touch-icon.png">
+<meta property="og:type" content="article">
 <meta property="og:locale" content="es_ES">
-<meta property="og:title" content="Servidor casero con Proxmox">
+<meta property="og:title" content="Servidor casero con Proxmox VE: guía paso a paso">
 <meta property="og:description" content="Guía paso a paso para montar un servidor casero con Proxmox VE, ZFS, Docker, Cloudflare Tunnel y copias automáticas.">
 <meta property="og:url" content="https://juanmarosado.com/servidor/">
 <meta property="og:image" content="https://juanmarosado.com/servidor/img/og.png">
@@ -16,8 +19,32 @@
 <meta property="og:image:height" content="630">
 <meta property="og:image:alt" content="Guía: un servidor casero con Proxmox, desde cero">
 <meta name="twitter:card" content="summary_large_image">
+<!-- Datos estructurados: la guía como artículo técnico -->
+<script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "TechArticle",
+    "headline": "Servidor casero con Proxmox VE: guía paso a paso",
+    "description": "Guía paso a paso para montar un servidor casero con Proxmox VE, ZFS, Docker, Cloudflare Tunnel y copias automáticas.",
+    "image": "https://juanmarosado.com/servidor/img/og.png",
+    "url": "https://juanmarosado.com/servidor/",
+    "mainEntityOfPage": "https://juanmarosado.com/servidor/",
+    "inLanguage": "es",
+    "datePublished": "2026-11-22",
+    "dateModified": "2026-11-24",
+    "author": {
+      "@type": "Person",
+      "@id": "https://juanmarosado.com/#persona",
+      "name": "Juanma Rosado Trujillo",
+      "url": "https://juanmarosado.com/sobre-mi.html"
+    },
+    "publisher": {
+      "@id": "https://juanmarosado.com/#persona"
+    }
+  }
+</script>
 <link rel="stylesheet" href="css/fonts.css">
-<link rel="stylesheet" href="css/style.css">
+<link rel="stylesheet" href="css/style.css?v=20261124">
 </head>
 <body>
 <div class="topbar"><button id="menu-btn" type="button">☰ Capítulos</button><span id="topbar-title"></span></div>
@@ -41,7 +68,7 @@
     <li><b>Nivel:</b> 1.º de DAW, sin experiencia previa en servidores</li>
     <li><b>Tiempo:</b> un fin de semana largo</li>
     <li><b>Coste:</b> un dominio (unos 10 € al año)</li>
-    <li><b>Última revisión:</b> 22 de noviembre de 2026</li>
+    <li><b>Última revisión:</b> 24 de noviembre de 2026</li>
   </ul>
 
   <h2>Resultado final</h2>
@@ -112,7 +139,7 @@
 <!-- Capítulo 01: Proxmox -->
 <article class="chapter" id="proxmox" data-title="Instalar Proxmox VE">
   <p class="eyebrow">Capítulo 1</p>
-  <h1>Instalar Proxmox VE</h1>
+  <h2 class="t1">Instalar Proxmox VE</h2>
   <p class="lead">Proxmox es el sistema que se instala directamente en el equipo y permite crear máquinas virtuales y contenedores desde una web.</p>
   <ul class="meta"><li><b>Tiempo:</b> 30 minutos</li><li><b>Necesitas:</b> pendrive de 8 GB, monitor y teclado</li></ul>
 
@@ -152,7 +179,7 @@ smartctl -H /dev/sdc</code></pre>
 <!-- Capítulo 02: ZFS -->
 <article class="chapter" id="zfs" data-title="Discos de datos con ZFS">
   <p class="eyebrow">Capítulo 2</p>
-  <h1>Discos de datos con ZFS en espejo</h1>
+  <h2 class="t1">Discos de datos con ZFS en espejo</h2>
   <p class="lead">ZFS es un sistema de ficheros con redundancia incorporada. En modo espejo, cada dato se escribe en los dos discos a la vez: si uno se rompe, el servidor sigue funcionando.</p>
 
   <figure>
@@ -206,12 +233,12 @@ reboot</code></pre>
 <!-- Capítulo 03: Copias -->
 <article class="chapter" id="copias" data-title="Copias, snapshots y alertas">
   <p class="eyebrow">Capítulo 3</p>
-  <h1>Copias de seguridad y snapshots</h1>
+  <h2 class="t1">Copias de seguridad y snapshots</h2>
   <p class="lead">El espejo protege de que se rompa un disco, pero no de borrar un archivo por error. Para eso hacemos snapshots frecuentes y copias nocturnas de las máquinas.</p>
 
   <div class="callout tip"><strong>Espejo no es copia</strong><p>Si borras un fichero, se borra en los dos discos a la vez. Las copias y los snapshots te dejan volver atrás.</p></div>
 
-  <h2>Almacenamiento para las copias</h2>
+  <h3 class="t2">Almacenamiento para las copias</h3>
   <ol class="steps">
     <li><strong>Crea un dataset con cuota</strong>
       <p>La cuota evita que las copias se coman todo el pool.</p>
@@ -226,7 +253,7 @@ pvesm add dir backups --path /datos/backups --content backup</code></pre>
     </li>
   </ol>
 
-  <h2>Snapshots automáticos con sanoid</h2>
+  <h3 class="t2">Snapshots automáticos con sanoid</h3>
 <pre data-lang="bash"><code>apt install -y sanoid
 mkdir -p /etc/sanoid
 cat &gt; /etc/sanoid/sanoid.conf &lt;&lt;'EOF'
@@ -245,7 +272,7 @@ systemctl enable --now sanoid.timer</code></pre>
 
 <figure class="shot"><div class="shot-grid"><img src="img/018.webp" width="514" height="418" alt="Configuración de sanoid" loading="lazy"><img src="img/019.webp" width="958" height="56" alt="Temporizador de sanoid" loading="lazy"></div><figcaption>La configuración de sanoid y el temporizador <code>sanoid.timer</code> activo, que lanza los snapshots solo.</figcaption></figure>
 
-  <h2>Avisos de fallos</h2>
+  <h3 class="t2">Avisos de fallos</h3>
   <p>Proxmox envía alertas cuando falla una copia o un disco. Al principio van por correo; más adelante las pasaremos a Telegram en el capítulo de avisos.</p>
   <div class="callout check"><strong>Comprueba que funciona</strong>
 <pre data-lang="bash"><code>zfs list -t snapshot | head
@@ -256,7 +283,7 @@ vzdump 100 --storage backups --mode snapshot</code></pre>
 <!-- Capítulo 04: AdGuard -->
 <article class="chapter" id="adguard" data-title="DNS y VPN (LXC 100)">
   <p class="eyebrow">Capítulo 4</p>
-  <h1>DNS y acceso remoto: LXC 100</h1>
+  <h2 class="t1">DNS y acceso remoto: LXC 100</h2>
   <p class="lead">Un contenedor LXC es un mini sistema Linux que gasta muy poca memoria. Aquí instalamos AdGuard Home (bloqueo de anuncios para toda la casa) y Tailscale (VPN para entrar desde fuera sin abrir puertos).</p>
   <div class="callout tip"><strong>Por qué aparte de Docker</strong><p>Si Docker se detiene, la red de casa sigue teniendo DNS y la VPN sigue funcionando.</p></div>
 
@@ -310,7 +337,7 @@ tailscale up --advertise-routes=192.168.0.0/24</code></pre>
 <!-- Capítulo 05: Nginx Proxy Manager -->
 <article class="chapter" id="npm" data-title="Proxy inverso (LXC 101)">
   <p class="eyebrow">Capítulo 5</p>
-  <h1>La puerta de entrada web: LXC 101</h1>
+  <h2 class="t1">La puerta de entrada web: LXC 101</h2>
   <p class="lead">Un proxy inverso recibe todas las peticiones web y las reparte según el nombre: <code>kuma.tudominio.com</code> va a una máquina y <code>tudominio.com</code> a otra, con HTTPS en todas.</p>
 
   <ol class="steps">
@@ -349,7 +376,7 @@ curl -fsSL https://get.docker.com | sh</code></pre>
 <!-- Capítulo 06: VMs -->
 <article class="chapter" id="vms" data-title="Máquinas virtuales con Docker">
   <p class="eyebrow">Capítulo 6</p>
-  <h1>Dos máquinas virtuales: personal y profesional</h1>
+  <h2 class="t1">Dos máquinas virtuales: personal y profesional</h2>
   <p class="lead">Las aplicaciones van en máquinas virtuales Debian con Docker. Usamos dos para aislar lo personal (tu nube) de lo profesional (tu web pública y pruebas): si algo se compromete en una, la otra no se ve afectada.</p>
 
   <div class="tablewrap"><table>
@@ -417,10 +444,10 @@ df -h /srv/data</code></pre>
 <!-- Capítulo 07: Servicios -->
 <article class="chapter" id="servicios" data-title="Aplicaciones con Docker Compose">
   <p class="eyebrow">Capítulo 7</p>
-  <h1>Desplegar las aplicaciones</h1>
+  <h2 class="t1">Desplegar las aplicaciones</h2>
   <p class="lead">Cada aplicación se describe en un archivo <code>docker-compose.yml</code>. Todo queda en <code>/srv/data</code>, que está en el pool ZFS, así que se copia y se protege con el resto.</p>
 
-  <h2>VM 102: utilidades</h2>
+  <h3 class="t2">VM 102: utilidades</h3>
   <p>Crea <code>/srv/data/stacks/utilidades/docker-compose.yml</code>:</p>
 <pre data-lang="yaml"><code>services:
   uptime-kuma:
@@ -442,7 +469,7 @@ df -h /srv/data</code></pre>
   <figure class="shot"><div class="shot-grid"><img src="img/116.webp" width="469" height="453" alt="Compose utilidades" loading="lazy"><img src="img/117.webp" width="1000" height="631" alt="Asistente de Kuma" loading="lazy"></div><figcaption>El compose de utilidades y el asistente inicial de Uptime Kuma (elige SQLite, la opción sencilla).</figcaption></figure>
   <div class="callout error"><strong>Error típico</strong><p>Si Homepage responde <code>Host validation failed</code>, falta el nombre con el que accedes en <code>HOMEPAGE_ALLOWED_HOSTS</code>. Añádelo y recrea el contenedor.</p></div>
 
-  <h2>VM 102: Nextcloud</h2>
+  <h3 class="t2">VM 102: Nextcloud</h3>
   <p>Tu nube privada, con base de datos MariaDB y caché Redis. Las contraseñas no van en el compose, sino en un fichero <code>.env</code> en la misma carpeta, que Docker Compose lee solo.</p>
 <pre data-lang="bash"><code>cd /srv/data/stacks/nextcloud
 # El .env solo lo podrá leer tu usuario
@@ -483,13 +510,13 @@ printf "MARIADB_ROOT_PASSWORD='%s'\nMARIADB_PASSWORD='%s'\nMYSQL_PASSWORD='%s'\n
   <figure class="shot"><img src="img/115.webp" width="683" height="594" alt="Compose de Nextcloud" loading="lazy"><figcaption>El compose de Nextcloud en la VM, con las contraseñas generadas en el <code>.env</code>.</figcaption></figure>
   <div class="callout error"><strong>Error típico: un <code>$</code> dentro de la contraseña</strong><p>Docker Compose trata <code>$</code> como el inicio de una variable, tanto en el compose como en un <code>.env</code> sin comillas, y la contraseña que recibe el contenedor ya no es la que escribiste. Pon los valores del <code>.env</code> entre comillas simples, como arriba. Para ver lo que reciben de verdad los contenedores: <code>docker compose config</code>.</p></div>
   <div class="callout warn"><strong>El archivo .env no se sube a ningún repositorio</strong><p>Contiene contraseñas. Si algún día publicas tus compose en GitHub, sube solo un <code>.env.example</code> con valores falsos. Este proyecto lo hace así: <code>.env</code> está en el <code>.gitignore</code>.</p></div>
-  <h3>Tareas de fondo de Nextcloud</h3>
+  <h4 class="t3">Tareas de fondo de Nextcloud</h4>
   <p>Nextcloud tiene tareas periódicas: vaciar la papelera, limpiar versiones y ficheros temporales o enviar avisos. Por defecto solo se lanzan cuando alguien abre la web (modo «AJAX»), así que con poco uso pasan semanas sin ejecutarse. Pásalo a cron:</p>
 <pre data-lang="bash"><code>docker exec -u www-data nextcloud php occ background:cron
 ( crontab -l 2&gt;/dev/null; echo '*/5 * * * * docker exec -u www-data nextcloud php -f /var/www/html/cron.php &gt;/dev/null 2&gt;&amp;1' ) | crontab -</code></pre>
   <p>Tu usuario está en el grupo <code>docker</code>, así que no hace falta root. En Nextcloud → Ajustes de administración → Ajustes básicos debe aparecer «Cron» marcado, con la última ejecución hace menos de 5 minutos.</p>
 
-  <h2>VM 102 y 103: Portainer</h2>
+  <h3 class="t2">VM 102 y 103: Portainer</h3>
   <p>Portainer da una interfaz web para ver y gestionar los contenedores de cada VM. Como el resto, va en su propio compose, <code>/srv/data/stacks/portainer/docker-compose.yml</code>, para que su versión quede fija y escrita:</p>
 <pre data-lang="yaml"><code>services:
   portainer:
@@ -508,7 +535,7 @@ cd /srv/data/stacks/portainer &amp;&amp; docker compose up -d</code></pre>
   <p>Entra en <code>https://IP-DE-LA-VM:9443</code> y crea el usuario administrador en los primeros minutos, porque pasado un rato Portainer bloquea el registro por seguridad.</p>
   <figure class="shot"><div class="shot-grid"><img src="img/134.webp" width="1000" height="70" alt="Comando Portainer" loading="lazy"><img src="img/122.webp" width="1000" height="699" alt="Administrador" loading="lazy"></div><figcaption>Arranque de Portainer en la VM 103 y primera pantalla para crear el administrador.</figcaption></figure>
 
-  <h2>VM 103: portfolio</h2>
+  <h3 class="t2">VM 103: portfolio</h3>
   <p>Una web estática servida con nginx. Los archivos de tu web están en <code>/srv/data/portfolio</code>.</p>
 <pre data-lang="yaml"><code>services:
   portfolio:
@@ -547,6 +574,9 @@ server {
     index index.html index.htm;
   }
 
+  # Página propia para las direcciones que no existen (con estado 404)
+  error_page 404 /404.html;
+
   error_page 500 502 503 504 /50x.html;
   location = /50x.html {
     root /usr/share/nginx/html;
@@ -574,7 +604,7 @@ docker compose up -d</code></pre>
 <!-- Capítulo 08: Túnel -->
 <article class="chapter" id="tunel" data-title="Publicar la web con Cloudflare Tunnel">
   <p class="eyebrow">Capítulo 8</p>
-  <h1>Publicar tu web sin abrir puertos</h1>
+  <h2 class="t1">Publicar tu web sin abrir puertos</h2>
   <p class="lead">Normalmente para publicar una web abres los puertos 80 y 443 del router y expones tu IP de casa. Con Cloudflare Tunnel es tu servidor el que se conecta hacia fuera, así que no hay puertos abiertos ni IP pública expuesta. Funciona incluso si tu operadora usa CGNAT.</p>
 
   <figure>
@@ -629,7 +659,7 @@ docker compose up -d</code></pre>
 <!-- Capítulo 09: HTTPS interno -->
 <article class="chapter" id="https" data-title="Nombres y HTTPS internos">
   <p class="eyebrow">Capítulo 9</p>
-  <h1>Nombres con HTTPS para tus servicios internos</h1>
+  <h2 class="t1">Nombres con HTTPS para tus servicios internos</h2>
   <p class="lead">En lugar de recordar <code>192.168.0.250:3001</code>, accederás a <code>https://kuma.casa.tudominio.com</code> con certificado válido, pero solo desde tu red o por VPN.</p>
 
   <ol class="steps">
@@ -677,10 +707,10 @@ $O overwrite.cli.url --value=https://nextcloud.casa.tudominio.com</code></pre>
 <!-- Capítulo 10: Seguridad -->
 <article class="chapter" id="seguridad" data-title="Seguridad y firewall">
   <p class="eyebrow">Capítulo 10</p>
-  <h1>Seguridad: firewall y accesos</h1>
+  <h2 class="t1">Seguridad: firewall y accesos</h2>
   <p class="lead">Ya funciona todo. Ahora lo protegemos para que, si algo se compromete, el daño quede contenido.</p>
 
-  <h2>Principios aplicados</h2>
+  <h3 class="t2">Principios aplicados</h3>
   <div class="tablewrap"><table>
     <tr><th>Medida</th><th>Qué evita</th></tr>
     <tr><td>Sin puertos abiertos en el router</td><td>Escaneos y ataques directos desde Internet</td></tr>
@@ -740,10 +770,10 @@ curl -I https://tudominio.com</code></pre></div>
 <!-- Capítulo 11: Avisos -->
 <article class="chapter" id="avisos" data-title="Monitorización y avisos por Telegram">
   <p class="eyebrow">Capítulo 11</p>
-  <h1>Monitorización y avisos por Telegram</h1>
+  <h2 class="t1">Monitorización y avisos por Telegram</h2>
   <p class="lead">Un servidor que se cae sin que te enteres no sirve. Uptime Kuma vigila tus servicios y Proxmox avisa de fallos de copias y discos, todo al mismo chat de Telegram.</p>
 
-  <h2>1. Crea el bot</h2>
+  <h3 class="t2">1. Crea el bot</h3>
   <ol class="steps">
     <li><strong>Habla con @BotFather en Telegram</strong>
       <p>Envía <code>/newbot</code>, elige un nombre y recibirás un <b>token</b>. Escribe un mensaje cualquiera a tu bot, y consulta tu <b>chat ID</b> con un bot como @userinfobot.</p>
@@ -751,7 +781,7 @@ curl -I https://tudominio.com</code></pre></div>
     </li>
   </ol>
 
-  <h2>2. Uptime Kuma</h2>
+  <h3 class="t2">2. Uptime Kuma</h3>
   <ol class="steps">
     <li><strong>Añade la notificación de Telegram</strong>
       <p>Ajustes → Notificaciones → Configurar → tipo <b>Telegram</b>, pega el token y el chat ID y activa <b>Predeterminada</b> para que se aplique a todos los monitores nuevos.</p>
@@ -771,7 +801,7 @@ curl -I https://tudominio.com</code></pre></div>
     </li>
   </ol>
 
-  <h2>3. Avisos de Proxmox</h2>
+  <h3 class="t2">3. Avisos de Proxmox</h3>
   <p>Proxmox no trae Telegram, pero permite un destino <b>Webhook</b>.</p>
   <ol class="steps">
     <li><strong>Crea el destino</strong>
@@ -796,10 +826,10 @@ Secreto:   nombre = token   valor = (tu token)</code></pre>
 <!-- Capítulo 12: Mantenimiento -->
 <article class="chapter" id="mantenimiento" data-title="Copias de configuración y actualizaciones">
   <p class="eyebrow">Capítulo 12</p>
-  <h1>Copias de configuración y actualizaciones</h1>
+  <h2 class="t1">Copias de configuración y actualizaciones</h2>
   <p class="lead">Las copias de las máquinas ya cubren los discos, pero la configuración del propio Proxmox y los volcados de bases de datos conviene guardarlos aparte y en un formato que se pueda leer.</p>
 
-  <h2>Script de copia en la VM 102</h2>
+  <h3 class="t2">Script de copia en la VM 102</h3>
   <p>Guarda un volcado de la base de datos de Nextcloud y los ficheros de configuración. Créalo en <code>/usr/local/bin/dbdump.sh</code>:</p>
 <pre data-lang="bash"><code>#!/bin/bash
 # Volcado de la base de datos de Nextcloud y copia de los compose (VM 102).
@@ -822,7 +852,7 @@ tar czf "$DESTINO/stacks-$hoy.tar.gz" /srv/data/stacks /srv/data/utilidades/home
 # Borra los volcados de más de una semana
 find "$DESTINO" -mtime +$DIAS_GUARDADOS -type f -delete</code></pre>
 
-  <h2>Script de copia en el nodo Proxmox</h2>
+  <h3 class="t2">Script de copia en el nodo Proxmox</h3>
   <p>Guarda <code>/etc/pve</code> (configuración de todas las máquinas), la red y sanoid, y llama al script anterior. Créalo en <code>/usr/local/bin/backup-config.sh</code>:</p>
 <pre data-lang="bash"><code>#!/bin/bash
 # Copia diaria de la configuración de Proxmox y volcado de la BD de Nextcloud.
@@ -889,7 +919,7 @@ cat /var/log/backup-config.log</code></pre>
   <div class="callout error"><strong>Error real: el volcado no se hizo nunca</strong><p>La primera versión de este script terminaba con <code>&gt;/dev/null 2&gt;&amp;1</code> y el cron no definía <code>PATH</code>. Al probarlo a mano funcionaba, porque tu terminal sí encuentra <code>qm</code>. Desde cron fallaba cada noche sin dejar rastro: durante semanas no hubo ni un volcado. Moraleja: no tires los errores a <code>/dev/null</code>; guárdalos en un registro y pruébalo como lo ejecutará cron.</p></div>
   <div class="callout warn"><strong>Misma ubicación, mismo riesgo</strong><p>Estas copias están en el mismo pool. Si fallan los dos discos a la vez, se pierden también. Sube de vez en cuando un archivo comprimido con lo crítico a un servicio externo.</p></div>
 
-  <h2>Fijar versiones de las imágenes Docker</h2>
+  <h3 class="t2">Fijar versiones de las imágenes Docker</h3>
   <p>Con <code>latest</code>, una actualización automática puede romper un servicio sin que lo notes. Fija la versión exacta en el compose:</p>
 <pre data-lang="bash"><code># Ver la versión que corre ahora
 docker inspect NOMBRE --format '{{index .Config.Labels "org.opencontainers.image.version"}}'
@@ -897,10 +927,10 @@ docker inspect NOMBRE --format '{{index .Config.Labels "org.opencontainers.image
 #   image: jc21/nginx-proxy-manager:latest  →  jc21/nginx-proxy-manager:2.16.0</code></pre>
   <p>Si quieres asegurarte de que siempre es la misma imagen, aunque la etiqueta se vuelva a publicar, añade su huella: <code>image: nginx:1.31.8-alpine3.24@sha256:…</code>. La sacas con <code>docker image inspect IMAGEN --format '{{json .RepoDigests}}'</code>.</p>
   <div class="callout error"><strong>Error real: el compose dice una versión y corre otra</strong><p>Cambiar la etiqueta en el compose no cambia el contenedor que ya está en marcha: hay que recrearlo. Aquí varios servicios siguieron semanas con <code>latest</code> después de fijar la versión. Compruébalo con <code>docker ps --format '{{.Names}} {{.Image}}'</code>. Si la imagen ya está descargada, recrea sin descargar nada con <code>docker compose up -d --pull never</code>.</p></div>
-  <h3>Limpieza</h3>
+  <h4 class="t3">Limpieza</h4>
   <p>Las imágenes antiguas se quedan en el disco después de actualizar. <code>docker image prune -a</code> borra las que no usa ningún contenedor. En este servidor liberó 2,6 GB.</p>
 
-  <h2>Cómo actualizar con seguridad</h2>
+  <h3 class="t2">Cómo actualizar con seguridad</h3>
   <ol class="steps">
     <li><strong>Haz una copia antes</strong><p>Ejecuta <code>vzdump</code> de la máquina o <code>backup-config.sh</code>.</p></li>
     <li><strong>Cambia el número de versión en el compose</strong><p>Mira primero las notas de la versión por si hay cambios importantes.</p></li>
@@ -913,7 +943,7 @@ docker inspect NOMBRE --format '{{index .Config.Labels "org.opencontainers.image
 <!-- Capítulo 13: Errores -->
 <article class="chapter" id="errores" data-title="Errores frecuentes y lecciones">
   <p class="eyebrow">Capítulo 13</p>
-  <h1>Errores frecuentes y lecciones aprendidas</h1>
+  <h2 class="t1">Errores frecuentes y lecciones aprendidas</h2>
   <p class="lead">Estos son los problemas reales que aparecieron al montar este servidor. Casi todos tienen causa sencilla, y reconocerlos ahorra horas.</p>
 
   <div class="tablewrap"><table>
@@ -937,7 +967,7 @@ docker inspect NOMBRE --format '{{index .Config.Labels "org.opencontainers.image
     <tr><td>Cambias el CSS de la web y no se ve</td><td>Cloudflare guarda el fichero en caché (hasta 4 h)</td><td>Enlazarlo como <code>style.css?v=FECHA</code> y cambiar la fecha en cada cambio</td></tr>
   </table></div>
 
-  <h2>Lecciones</h2>
+  <h3 class="t2">Lecciones</h3>
   <ul>
     <li><b>Documenta mientras lo haces.</b> Guarda cada comando y cada error. Reconstruirlo después es mucho más difícil.</li>
     <li><b>Un espejo no es una copia.</b> Necesitas snapshots, copias y, si puedes, una copia fuera de casa.</li>
@@ -949,7 +979,7 @@ docker inspect NOMBRE --format '{{index .Config.Labels "org.opencontainers.image
     <li><b>No silencies los errores.</b> Un <code>&gt;/dev/null 2&gt;&amp;1</code> en una tarea programada esconde el fallo justo donde no miras.</li>
   </ul>
 
-  <h2>Próximos pasos</h2>
+  <h3 class="t2">Próximos pasos</h3>
   <ul>
     <li>Subir una copia cifrada de lo crítico a un almacenamiento externo.</li>
     <li>Revisar la configuración si cambias de operadora (puede aparecer CGNAT; el túnel y la VPN siguen funcionando).</li>
@@ -957,7 +987,10 @@ docker inspect NOMBRE --format '{{index .Config.Labels "org.opencontainers.image
   </ul>
 </article>
 
-  <p class="footer">Proyecto personal de Juanma Rosado · 1.º DAW, IES Belén (Málaga). HTML, CSS y JavaScript sin librerías.</p>
+  <div class="footer">
+    <p>Proyecto personal de <a href="/sobre-mi.html">Juanma Rosado</a> · 1.º DAW, IES Belén (Málaga). HTML, CSS y JavaScript sin librerías.</p>
+    <p>Otra guía: <a href="/guia-dual-w11-mint/">arranque dual de Windows 11 y Linux Mint en VirtualBox</a> · <a href="/proyectos.html">Todos mis proyectos</a></p>
+  </div>
   </div></main>
 </div>
 <script src="js/app.js"></script>

@@ -1,5 +1,58 @@
 # Registro de cambios
 
+## 2026-11-24 · SEO: sitemap, datos estructurados, página 404 y un h1 por guía (VM 103)
+
+**Qué**
+- **Sitemap y robots.**
+  - `web/portfolio/sitemap.xml` lista las 7 páginas, cada una con su `lastmod`.
+  - `web/portfolio/robots.txt` deja rastrear todo y declara el sitemap. Cloudflare añade delante sus señales de contenido y mantiene nuestras líneas.
+- **Datos estructurados (JSON-LD).**
+  - Inicio: `WebSite` y `Person`, con nombre, IES Belén, Málaga, GitHub y LinkedIn. No incluye el correo.
+  - Sobre mí: `ProfilePage`.
+  - Guías: `TechArticle`, con autor, fechas de publicación y modificación, e imagen.
+- **Títulos y descripciones** pensados para lo que busca la gente:
+  - Inicio: «Juanma Rosado · Estudiante de DAW en Málaga | Portfolio».
+  - Guía del servidor: «Servidor casero con Proxmox VE: guía paso a paso | Juanma Rosado».
+  - Guía del arranque dual: «Arranque dual Windows 11 y Linux Mint en VirtualBox | Guía paso a paso».
+  - La descripción de Proyectos ya no dice «El primero: …».
+  - Las guías pasan a `og:type` `article`.
+  - En el `app.js` de las guías, el capítulo de inicio deja el título del HTML. Antes lo cambiaba por el del capítulo, que es lo que veía Google al ejecutar el JavaScript.
+- **Iconos.**
+  - Nuevos `/favicon.ico`, `img/favicon-48.png` y `img/apple-touch-icon.png`, sacados de `logo.svg` con el navegador; el ICO se montó con Python.
+  - Todas las páginas los enlazan, también las guías, que antes no tenían icono.
+- **Un solo `h1` por guía.**
+  - Desde el segundo capítulo, cada título baja un nivel: `h1` → `h2.t1`, `h2` → `h3.t2`, `h3` → `h4.t3`.
+  - El CSS da a `.t1`, `.t2` y `.t3` el mismo aspecto que `h1`, `h2` y `h3`, así que no cambia cómo se ven (comprobado con los estilos calculados).
+  - La hoja de las guías sube a `?v=20261124`.
+- **Enlaces internos.** El pie de cada guía enlaza al autor (Sobre mí), a la otra guía y a Proyectos. Las dos guías tienen «Última revisión: 24 de noviembre de 2026».
+- **Página 404 propia.**
+  - `web/portfolio/404.html` tiene el estilo del portfolio, rutas absolutas, `noindex` y enlaces a las guías.
+  - En `default.conf` (VM 103) se añade `error_page 404 /404.html;`, y la guía del servidor muestra el `default.conf` nuevo.
+- `publicar-web.sh` comprueba también `sitemap.xml`, `robots.txt` y `favicon.ico`.
+
+**Por qué**
+- Juanma pidió mejorar el posicionamiento. Antes no había sitemap (404), ni datos estructurados, ni favicon en las guías, y las guías tenían 14 y 7 `h1`. Además, las direcciones inexistentes mostraban la página 404 de serie de nginx.
+
+**Copia previa**
+- Web: `/srv/data/portfolio-backup-web-20261124-1537`.
+- nginx: `/srv/data/stacks/portfolio/default.conf.bak-20261124-1537`, hecha por `sincronizar.sh llevar`.
+
+**Comprobación**
+- Los 4 bloques JSON-LD son JSON válido (comprobado con Python).
+- En local, las guías tienen un solo `h1` y los títulos se ven con el mismo tamaño y borde que antes.
+- `nginx -t` correcto dentro del contenedor y recarga con `nginx -s reload`, sin reiniciarlo.
+- En público:
+  - todas las páginas, `sitemap.xml`, `robots.txt`, `favicon.ico` y `apple-touch-icon.png` dan 200;
+  - `/no-existe` y `/servidor/no-existe` dan 404 con la página propia;
+  - inicio, sobre mí y las dos guías llevan su JSON-LD.
+
+**Pendiente (lo hace Juanma)**
+- Dar de alta `https://juanmarosado.com/` en Google Search Console y en Bing Webmaster Tools, y enviar `https://juanmarosado.com/sitemap.xml`. Con la propiedad «Prefijo de URL» se puede verificar con un fichero HTML, sin tocar Cloudflare.
+
+**Cómo deshacerlo**
+- Web: `git revert` y publicar con `scripts/publicar-web.sh`, o restaurar la copia.
+- nginx: `cp /srv/data/stacks/portfolio/default.conf.bak-20261124-1537 /srv/data/stacks/portfolio/default.conf` y `docker exec portfolio nginx -s reload`. Hay que copiarlo con `cp` sobre el mismo fichero, porque el montaje es de un solo fichero.
+
 ## 2026-11-23 · Proyectos por categorías y con fecha; capturas en WebP
 
 **Qué**

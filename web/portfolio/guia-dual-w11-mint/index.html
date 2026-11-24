@@ -3,12 +3,15 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Instalación dual W11 y Linux Mint</title>
+<title>Arranque dual Windows 11 y Linux Mint en VirtualBox | Guía paso a paso</title>
 <meta name="description" content="Guía paso a paso para instalar Windows 11 Pro y Linux Mint XFCE con arranque dual en una misma máquina virtual de VirtualBox.">
 <link rel="canonical" href="https://juanmarosado.com/guia-dual-w11-mint/">
-<meta property="og:type" content="website">
+<link rel="icon" href="/img/logo.svg" type="image/svg+xml">
+<link rel="icon" href="/img/favicon-48.png" sizes="48x48" type="image/png">
+<link rel="apple-touch-icon" href="/img/apple-touch-icon.png">
+<meta property="og:type" content="article">
 <meta property="og:locale" content="es_ES">
-<meta property="og:title" content="Instalación dual W11 y Linux Mint">
+<meta property="og:title" content="Arranque dual de Windows 11 y Linux Mint en VirtualBox">
 <meta property="og:description" content="Arranque dual de Windows 11 Pro y Linux Mint XFCE en una misma máquina virtual de VirtualBox, paso a paso.">
 <meta property="og:url" content="https://juanmarosado.com/guia-dual-w11-mint/">
 <meta property="og:image" content="https://juanmarosado.com/guia-dual-w11-mint/img/paso-22.png">
@@ -16,8 +19,32 @@
 <meta property="og:image:height" content="600">
 <meta property="og:image:alt" content="Menú GRUB con Linux Mint y Windows Boot Manager">
 <meta name="twitter:card" content="summary_large_image">
+<!-- Datos estructurados: la guía como artículo técnico -->
+<script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "TechArticle",
+    "headline": "Arranque dual de Windows 11 y Linux Mint en VirtualBox",
+    "description": "Guía paso a paso para instalar Windows 11 Pro y Linux Mint XFCE con arranque dual en una misma máquina virtual de VirtualBox.",
+    "image": "https://juanmarosado.com/guia-dual-w11-mint/img/paso-22.png",
+    "url": "https://juanmarosado.com/guia-dual-w11-mint/",
+    "mainEntityOfPage": "https://juanmarosado.com/guia-dual-w11-mint/",
+    "inLanguage": "es",
+    "datePublished": "2026-11-23",
+    "dateModified": "2026-11-24",
+    "author": {
+      "@type": "Person",
+      "@id": "https://juanmarosado.com/#persona",
+      "name": "Juanma Rosado Trujillo",
+      "url": "https://juanmarosado.com/sobre-mi.html"
+    },
+    "publisher": {
+      "@id": "https://juanmarosado.com/#persona"
+    }
+  }
+</script>
 <link rel="stylesheet" href="css/fonts.css">
-<link rel="stylesheet" href="css/style.css?v=20261123">
+<link rel="stylesheet" href="css/style.css?v=20261124">
 </head>
 <body>
 <div class="topbar"><button id="menu-btn" type="button">☰ Capítulos</button><span id="topbar-title"></span></div>
@@ -41,7 +68,7 @@
     <li><b>Autor:</b> Juanma Rosado Trujillo</li>
     <li><b>Hipervisor:</b> VirtualBox (tipo 2)</li>
     <li><b>Sistemas:</b> Windows 11 Pro 24H2 y Linux Mint 22.3 XFCE</li>
-    <li><b>Última revisión:</b> 23 de noviembre de 2026</li>
+    <li><b>Última revisión:</b> 24 de noviembre de 2026</li>
   </ul>
 
   <h2>Objetivo</h2>
@@ -116,10 +143,10 @@
 <!-- Capítulo 01: Windows 11 Pro -->
 <article class="chapter" id="windows" data-title="Instalar Windows 11 Pro">
   <p class="eyebrow">Capítulo 1 · Windows</p>
-  <h1>Instalar Windows 11 Pro</h1>
+  <h2 class="t1">Instalar Windows 11 Pro</h2>
   <p class="lead">Se crea la máquina virtual con el firmware que exige Windows 11 y se instala dejando libre el espacio para Linux desde el propio instalador.</p>
 
-  <h2>Crear la máquina virtual</h2>
+  <h3 class="t2">Crear la máquina virtual</h3>
   <ol class="steps">
     <li><strong>Crea la máquina W11-Mint</strong>
       <p>En VirtualBox, pulsa <b>Nueva</b>, llama a la máquina <code>W11-Mint</code>, elige la ISO de Windows 11 24H2 y desmarca la instalación desatendida para poder controlar el particionado.</p>
@@ -131,7 +158,7 @@
     </li>
   </ol>
 
-  <h2>Instalar el sistema</h2>
+  <h3 class="t2">Instalar el sistema</h3>
   <ol class="steps" style="counter-reset: s 2">
     <li><strong>Elige idioma y edición</strong>
       <p>Elige idioma y teclado español, pulsa <b>No tengo clave de producto</b> y selecciona <b>Windows 11 Pro</b>.</p>
@@ -150,7 +177,7 @@
     </li>
   </ol>
 
-  <h2>Primer arranque y cuenta local</h2>
+  <h3 class="t2">Primer arranque y cuenta local</h3>
   <ol class="steps" style="counter-reset: s 5">
     <li><strong>Desconecta la red</strong>
       <p>Elige región y teclado y, en «Vamos a conectarte a una red», desconecta el adaptador de red de VirtualBox.</p>
@@ -171,7 +198,7 @@ bypassnro</code></pre>
     </li>
   </ol>
 
-  <h2>Post-instalación</h2>
+  <h3 class="t2">Post-instalación</h3>
   <ol class="steps" style="counter-reset: s 8">
     <li><strong>Instala las Guest Additions</strong>
       <p>Vuelve a conectar la red, inserta el CD de las Guest Additions, ejecuta <code>VBoxWindowsAdditions.exe</code> y reinicia.</p>
@@ -183,10 +210,10 @@ bypassnro</code></pre>
 <!-- Capítulo 02: Preparar Windows -->
 <article class="chapter" id="preparar" data-title="Preparar Windows">
   <p class="eyebrow">Capítulo 2 · Windows</p>
-  <h1>Preparar Windows para el arranque dual</h1>
+  <h2 class="t1">Preparar Windows para el arranque dual</h2>
   <p class="lead">Antes de instalar Linux hay que dejar la partición de Windows desbloqueada y sin cifrar, comprobar el espacio libre y guardar una instantánea.</p>
 
-  <h2>Inicio rápido y BitLocker</h2>
+  <h3 class="t2">Inicio rápido y BitLocker</h3>
   <ol class="steps" style="counter-reset: s 9">
     <li><strong>Desactiva la hibernación y el Inicio rápido</strong>
       <p>En un Terminal de administrador. El Inicio rápido deja la partición NTFS bloqueada.</p>
@@ -204,7 +231,7 @@ manage-bde -off C:</code></pre>
     </li>
   </ol>
 
-  <h2>Espacio libre e instantánea</h2>
+  <h3 class="t2">Espacio libre e instantánea</h3>
   <ol class="steps" style="counter-reset: s 11">
     <li><strong>Comprueba el espacio libre</strong>
       <p>En el Administrador de discos se ven los 59,89 GB <b>No asignados</b> al final del disco. Como se dejaron libres al instalar, no hizo falta <b>Reducir volumen</b>.</p>
@@ -224,10 +251,10 @@ manage-bde -off C:</code></pre>
 <!-- Capítulo 03: Linux Mint -->
 <article class="chapter" id="mint" data-title="Instalar Linux Mint XFCE">
   <p class="eyebrow">Capítulo 3 · Linux Mint</p>
-  <h1>Instalar Linux Mint XFCE</h1>
+  <h2 class="t1">Instalar Linux Mint XFCE</h2>
   <p class="lead">Linux Mint se instala en el espacio libre, reutiliza la partición EFI de Windows sin formatearla y añade GRUB.</p>
 
-  <h2>Arranque en modo Live</h2>
+  <h3 class="t2">Arranque en modo Live</h3>
   <ol class="steps" style="counter-reset: s 13">
     <li><strong>Arranca la ISO de Linux Mint</strong>
       <p>Carga la ISO de Linux Mint 22.3 XFCE y elige <b>Start Linux Mint</b>. Arranca con Secure Boot activo porque el cargador está firmado.</p>
@@ -240,7 +267,7 @@ manage-bde -off C:</code></pre>
     </li>
   </ol>
 
-  <h2>Asistente de instalación</h2>
+  <h3 class="t2">Asistente de instalación</h3>
   <ol class="steps" style="counter-reset: s 15">
     <li><strong>Elige idioma y teclado</strong>
       <p>Abre <b>Install Linux Mint</b> y elige Español y teclado <b>Spanish</b>, sin pulsar <code>Intro</code> en la lista.</p>
@@ -255,7 +282,7 @@ manage-bde -off C:</code></pre>
     </li>
   </ol>
 
-  <h2>Particionado manual</h2>
+  <h3 class="t2">Particionado manual</h3>
   <ol class="steps" style="counter-reset: s 17">
     <li><strong>Crea la partición raíz</strong>
       <p>Deja <code>sda1</code> (efi) sin formatear y, en el espacio libre, crea con <b>+</b> una partición ext4 con punto de montaje <code>/</code>. No hace falta swap: Mint crea un swapfile.</p>
@@ -270,7 +297,7 @@ manage-bde -off C:</code></pre>
     </li>
   </ol>
 
-  <h2>Usuario y finalización</h2>
+  <h3 class="t2">Usuario y finalización</h3>
   <ol class="steps" style="counter-reset: s 19">
     <li><strong>Crea el usuario</strong>
       <p>Elige la zona horaria Madrid y crea el usuario <code>usuario</code> en el equipo <code>mint-dual</code>.</p>
@@ -286,10 +313,10 @@ manage-bde -off C:</code></pre>
 <!-- Capítulo 04: Arranque dual -->
 <article class="chapter" id="arranque" data-title="Arranque dual y Guest Additions">
   <p class="eyebrow">Capítulo 4 · Linux Mint</p>
-  <h1>Arranque dual y post-instalación</h1>
+  <h2 class="t1">Arranque dual y post-instalación</h2>
   <p class="lead">Se comprueba que GRUB arranca los dos sistemas, se instalan las Guest Additions en Linux con Secure Boot y se verifica cómo ha quedado el disco.</p>
 
-  <h2>Menú GRUB</h2>
+  <h3 class="t2">Menú GRUB</h3>
   <ol class="steps" style="counter-reset: s 21">
     <li><strong>Comprueba el menú de GRUB</strong>
       <p>Al arrancar aparece GRUB con Linux Mint y Windows Boot Manager: el arranque dual funciona.</p>
@@ -305,7 +332,7 @@ manage-bde -off C:</code></pre>
     </li>
   </ol>
 
-  <h2>Guest Additions en Linux Mint y clave MOK</h2>
+  <h3 class="t2">Guest Additions en Linux Mint y clave MOK</h3>
   <ol class="steps" style="counter-reset: s 24">
     <li><strong>Instala las dependencias y las Guest Additions</strong>
       <p>Instala <code>build-essential</code>, <code>dkms</code> y <code>linux-headers</code>, inserta el CD de las Guest Additions y ejecuta el instalador.</p>
@@ -332,7 +359,7 @@ lsmod | grep vbox</code></pre>
     </li>
   </ol>
 
-  <h2>Verificación</h2>
+  <h3 class="t2">Verificación</h3>
   <ol class="steps" style="counter-reset: s 28">
     <li><strong>Revisa las particiones</strong>
       <p>Se ve la partición EFI compartida en <code>/boot/efi</code>, las particiones de Windows y <code>sda5</code> (ext4) en <code>/</code>.</p>
@@ -364,10 +391,10 @@ sudo ls /boot/efi/EFI</code></pre>
 <!-- Capítulo 05: Comprobaciones y resumen -->
 <article class="chapter" id="comprobaciones" data-title="Comprobaciones y resumen">
   <p class="eyebrow">Capítulo 5</p>
-  <h1>Comprobaciones finales y resumen</h1>
+  <h2 class="t1">Comprobaciones finales y resumen</h2>
   <p class="lead">Los dos sistemas arrancan desde GRUB, tienen las Guest Additions y salen a Internet.</p>
 
-  <h2>Comprobaciones finales</h2>
+  <h3 class="t2">Comprobaciones finales</h3>
   <div class="tablewrap"><table>
     <tr><th>Comprobación</th><th>Windows 11 Pro</th><th>Linux Mint</th></tr>
     <tr><td>Arranca desde GRUB</td><td><span class="si">Sí</span></td><td><span class="si">Sí</span></td></tr>
@@ -377,7 +404,7 @@ sudo ls /boot/efi/EFI</code></pre>
     <tr><td>Snapshot creada</td><td><code>W11-antes-de-Mint</code></td><td><code>Dual-boot-OK</code></td></tr>
   </table></div>
 
-  <h2>Resumen</h2>
+  <h3 class="t2">Resumen</h3>
   <div class="tablewrap"><table>
     <tr><th>Dato</th><th>Windows 11 Pro</th><th>Linux Mint XFCE</th></tr>
     <tr><td>Nombre de la MV</td><td>W11-Mint</td><td>W11-Mint (la misma MV)</td></tr>
@@ -390,10 +417,10 @@ sudo ls /boot/efi/EFI</code></pre>
 <!-- Capítulo 06: Problemas, conclusiones y fuentes -->
 <article class="chapter" id="problemas" data-title="Problemas y conclusiones">
   <p class="eyebrow">Capítulo 6</p>
-  <h1>Problemas, conclusiones y fuentes</h1>
+  <h2 class="t1">Problemas, conclusiones y fuentes</h2>
   <p class="lead">Lo que falló durante la práctica, cómo se resolvió y qué se aprende.</p>
 
-  <h2>Problemas encontrados y soluciones</h2>
+  <h3 class="t2">Problemas encontrados y soluciones</h3>
   <div class="tablewrap"><table>
     <tr><th>Problema</th><th>Causa</th><th>Solución</th></tr>
     <tr><td>Windows pide Internet y cuenta de Microsoft</td><td>El asistente de configuración inicial de Windows 11 lo exige por defecto</td><td>Desconectar la red, pulsar <code>Shift</code> + <code>F10</code> y ejecutar <code>cd oobe</code> y después <code>bypassnro</code></td></tr>
@@ -404,10 +431,10 @@ sudo ls /boot/efi/EFI</code></pre>
     <tr><td>efibootmgr no muestra una entrada de Windows</td><td>VirtualBox solo guarda en la NVRAM la entrada de GRUB</td><td>Normal: GRUB arranca Windows desde <code>bootmgfw.efi</code></td></tr>
   </table></div>
 
-  <h2>Conclusiones</h2>
+  <h3 class="t2">Conclusiones</h3>
   <p>La práctica muestra cómo conviven dos sistemas operativos en un mismo disco: Windows 11 Pro, que exige TPM 2.0 y Secure Boot y que hay que preparar antes (Inicio rápido, BitLocker y espacio libre), y Linux Mint, que se adapta al disco existente, reutiliza la partición EFI de Windows e instala GRUB para elegir el sistema al arrancar.</p>
 
-  <h2>Lecciones</h2>
+  <h3 class="t2">Lecciones</h3>
   <ul>
     <li><b>Instala primero Windows.</b> Linux detecta a Windows y lo añade a GRUB; al revés, Windows pisa el arranque.</li>
     <li><b>Deja el espacio para Linux desde el instalador de Windows.</b> Así no hace falta reducir el volumen después.</li>
@@ -416,7 +443,7 @@ sudo ls /boot/efi/EFI</code></pre>
     <li><b>Con Secure Boot hay un paso más.</b> Registrar la clave MOK para que los módulos de las Guest Additions carguen en Linux.</li>
   </ul>
 
-  <h2>Fuentes</h2>
+  <h3 class="t2">Fuentes</h3>
   <ul>
     <li>Material de clase: Unidad 2 – Sistemas Operativos (DAW/DAM), IES Belén.</li>
     <li>Consejos: <i>Virtualización de Windows 11 (24H2) en VirtualBox</i>, <i>Arranque Dual (Windows 11 + Linux Mint XFCE)</i> y <i>Estructura de Particiones y Tabla GPT en Sistemas Modernos</i>, IES Belén.</li>
@@ -438,7 +465,8 @@ sudo ls /boot/efi/EFI</code></pre>
       </a>
       <span><i>Guía de instalación dual de Windows 11 Pro y Linux Mint XFCE en VirtualBox</i> © 2026 por Juanma Rosado Trujillo está bajo una licencia <a href="https://creativecommons.org/licenses/by/4.0/" target="_blank" rel="license noopener">Creative Commons Atribución 4.0 Internacional (CC BY 4.0)</a>.</span>
     </p>
-    <p>Práctica de Juanma Rosado · 1.º DAW, IES Belén (Málaga). HTML, CSS y JavaScript sin librerías. <a href="/proyectos.html">Volver a los proyectos</a></p>
+    <p>Práctica de <a href="/sobre-mi.html">Juanma Rosado</a> · 1.º DAW, IES Belén (Málaga). HTML, CSS y JavaScript sin librerías.</p>
+    <p>Otra guía: <a href="/servidor/">servidor casero con Proxmox VE</a> · <a href="/proyectos.html">Todos mis proyectos</a></p>
   </div>
   </div></main>
 </div>

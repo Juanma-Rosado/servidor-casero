@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Mapa del sitio para los buscadores. Al cambiar una página, actualiza su lastmod. -->
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <url>
+    <loc>https://juanmarosado.com/</loc>
+    <lastmod>2026-11-24</lastmod>
+  </url>
+  <url>
+    <loc>https://juanmarosado.com/proyectos.html</loc>
+    <lastmod>2026-11-24</lastmod>
+  </url>
+  <url>
+    <loc>https://juanmarosado.com/servidor/</loc>
+    <lastmod>2026-11-24</lastmod>
+  </url>
+  <url>
+    <loc>https://juanmarosado.com/guia-dual-w11-mint/</loc>
+    <lastmod>2026-11-24</lastmod>
+  </url>
+  <url>
+    <loc>https://juanmarosado.com/sobre-mi.html</loc>
+    <lastmod>2026-11-24</lastmod>
+  </url>
+  <url>
+    <loc>https://juanmarosado.com/habilidades.html</loc>
+    <lastmod>2026-11-24</lastmod>
+  </url>
+  <url>
+    <loc>https://juanmarosado.com/contacto.html</loc>
+    <lastmod>2026-11-24</lastmod>
+  </url>
+</urlset>
