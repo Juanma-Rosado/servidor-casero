@@ -1,5 +1,26 @@
 # Registro de cambios
 
+## 2026-11-25 · Échale Queso: mapa real y horario en Contacto
+
+**Qué**
+- La captura de Google Maps se cambia por un mapa de OpenStreetMap incrustado, con marcador en el Centro Comercial Vialia María Zambrano, enlace «Ver el mapa más grande» y la atribución obligatoria. La captura sigue en la biblioteca de medios, pero ya no la usa ninguna página.
+- Contacto tiene horario: de martes a domingo, de 13:00 a 16:00 y de 20:00 a 23:30, con los lunes cerrado. Cuadra con las horas del formulario (de 13:00 a 15:30 y de 20:00 a 22:30) y con la validación, que no deja reservar en lunes.
+- La política de privacidad avisa de que el mapa se carga desde OpenStreetMap.
+
+**Por qué**
+- Juanma pidió un mapa de verdad en lugar de una captura. Se usa OpenStreetMap porque no necesita clave de API ni pone cookies de seguimiento, al contrario que Google Maps. Así sigue siendo cierto lo que dice la privacidad.
+- La página original no daba horario.
+
+**Copia previa**
+- `/srv/data/stacks/reserfy/copias/restaurante-antes-mapa-20261125-2210.sql.gz` (permisos 600).
+
+**Comprobación**
+- `/donde-nos-encontramos/` carga el mapa (380 px de alto), con el marcador sobre la estación María Zambrano, y muestra el horario.
+- El sitio no envía cabeceras `Content-Security-Policy` ni `X-Frame-Options` que bloqueen el `iframe`.
+
+**Cómo deshacerlo**
+- Importar `restaurante-antes-mapa-20261125-2210.sql.gz` en `db-restaurante`, o volver a la revisión anterior de las páginas 22 y 178 desde el panel de WordPress.
+
 ## 2026-11-25 · Échale Queso: vuelven el chef, las fotos y la dirección originales
 
 **Qué**
