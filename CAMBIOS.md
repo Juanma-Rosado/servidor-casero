@@ -31,8 +31,10 @@
 - WordPress se actualizó solo de 7.1.3 a 7.1.5 en las dos webs (actualizaciones menores de seguridad, activadas por defecto), y Forminator a 1.58.6 (tenía la actualización automática activada). Durante unos segundos las webs mostraron la página de mantenimiento (`503`). Después, `wp core verify-checksums` correcto y todas las páginas en `200`. La imagen sigue en `7.1.3`: solo sirve para copiar WordPress a una carpeta vacía, así que la versión real es la de `datos/web-*`.
 - Borradas las tareas programadas que dejó UpdraftPlus (`updraft_backup`, `updraft_backup_database`, `updraftplus_clean_temporary_files`) en las dos webs.
 
+**Decisión**
+- Juanma decide dejar las actualizaciones automáticas de WordPress como están (menores del núcleo y los plugins que ya las tenían). Es una excepción a la regla de versiones fijas, parecida a `unattended-upgrades`: parches de seguridad en una web pública. Kuma avisa si una actualización rompe algo.
+
 **Pendiente**
-- Decidir si se dejan las actualizaciones automáticas de WordPress (menores del núcleo y Forminator) o se desactivan para que todo vaya con versión fija.
 - Borrar la instantánea `antes-reserfy-20261124` de la VM 103 cuando esté todo comprobado.
 - Decidir si se nombra a los compañeros del equipo en la web y en el repositorio.
 
