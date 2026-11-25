@@ -68,7 +68,7 @@
     <li><b>Nivel:</b> 1.º de DAW, sin experiencia previa en servidores</li>
     <li><b>Tiempo:</b> un fin de semana largo</li>
     <li><b>Coste:</b> un dominio (unos 10 € al año)</li>
-    <li><b>Última revisión:</b> 24 de noviembre de 2026</li>
+    <li><b>Última revisión:</b> 25 de noviembre de 2026</li>
   </ul>
 
   <h2>Resultado final</h2>
@@ -609,6 +609,33 @@ docker compose up -d</code></pre>
   <figure class="shot"><img src="img/141.webp" width="688" height="269" alt="Compose del portfolio" loading="lazy"><figcaption>El compose del portfolio en la VM 103.</figcaption></figure>
   <div class="callout error"><strong>Error típico</strong><p>Si la web carga pero las imágenes dan 404, es un problema de permisos de lectura: <code>chmod -R a+rX /srv/data/portfolio</code>.</p></div>
 
+  <h3 class="t2">VM 103: un proyecto con varias webs (Reserfy)</h3>
+  <p>Reserfy fue mi proyecto final de 2.º SMR: dos webs WordPress (la de la empresa y la de un restaurante de ejemplo), una app en Flask para gestionar las reservas y sus bases de datos. Lo recuperé de una copia del servidor antiguo. Si tienes un proyecto parecido, estas son las ideas que sirven para cualquiera:</p>
+  <ul>
+    <li><b>Una sola puerta por proyecto.</b> Un nginx del propio stack reparte por dominio entre las webs y es el único contenedor que publica un puerto (aquí el <code>8082</code>). Las bases de datos no publican ninguno.</li>
+    <li><b>Restaura desde el volcado, no desde los ficheros de MariaDB.</b> Con el volcado montado en <code>/docker-entrypoint-initdb.d</code>, la imagen lo importa sola la primera vez. Si el volcado lleva todas las bases, quédate solo con la tuya: la base <code>mysql</code> del servidor antiguo no se importa.</li>
+    <li><b>Nada de contraseñas en el código.</b> Todas van en el <code>.env</code>, y la app no arranca si falta alguna. La app entra en la base con un usuario que solo puede tocar las tablas que necesita, no como root.</li>
+    <li><b>Que la demo no mande correos.</b> Un contenedor Mailpit los recibe todos y no los envía a ningún sitio.</li>
+  </ul>
+<pre data-lang="bash"><code># Cambia el dominio antiguo por el nuevo en toda la base (respeta los datos serializados)
+docker compose run --rm cli-reserfy wp search-replace antiguo.duckdns.org reserfy.tudominio.com \
+  --all-tables-with-prefix --skip-columns=guid
+# Quita los plugins que una demo no necesita (copias, Jetpack, cachés...)
+docker compose run --rm cli-reserfy wp plugin uninstall jetpack updraftplus --deactivate</code></pre>
+  <p>Para publicarlo: una regla en el firewall de la VM que deje llegar al <code>8082</code> solo desde NPM, un proxy host por dominio en NPM hacia <code>192.168.0.251:8082</code> y una ruta por dominio en el túnel hacia NPM, como en el capítulo 8. El panel de gestión no va al túnel: tiene su nombre en <code>*.casa</code> y la lista de acceso de la red de casa.</p>
+<pre data-lang="nginx"><code># nginx de entrada del stack: el esquema real del visitante
+map $http_cf_visitor $esquema_cloudflare {
+  "~\"scheme\":\"https\"" https;
+  default "";
+}
+map $esquema_cloudflare $esquema_visitante {
+  https https;
+  default $http_x_forwarded_proto;
+}
+# ...y en cada location:
+proxy_set_header X-Forwarded-Proto $esquema_visitante;</code></pre>
+  <div class="callout error"><strong>Error real</strong><p>WordPress detrás de Cloudflare Tunnel y NPM se queda en un bucle de redirecciones a https. El túnel entrega a NPM por <code>http</code>, NPM pone <code>X-Forwarded-Proto: http</code> y WordPress, configurado en https, vuelve a redirigir. Se comprueba con <code>curl -H "Host: …"</code>: da <code>301</code> a la misma dirección. La solución es leer el esquema de la cabecera <code>CF-Visitor</code>, que Cloudflare añade y NPM no toca.</p></div>
+
   <div class="callout check"><strong>Comprueba que funciona</strong><p>Cada servicio responde en su puerto desde tu ordenador: Kuma en <code>:3001</code>, Homepage en <code>:3000</code>, Nextcloud en <code>:8080</code> y Portainer en <code>:9443</code>. El portfolio, en <code>:8081</code>, solo debe verse desde el proxy: el firewall del capítulo de seguridad lo bloqueará para el resto.</p></div>
 </article>
 
@@ -998,6 +1025,7 @@ docker inspect NOMBRE --format '{{index .Config.Labels "org.opencontainers.image
     <tr><td>Una VM no actualiza: <code>apt</code> se queda colgado</td><td>El firewall bloquea su DNS (DROP antes que ACCEPT)</td><td>Subir la regla del DNS por encima del DROP</td></tr>
     <tr><td>Un LXC se queda sin SSH al recargar</td><td><code>ssh.socket</code> y <code>ssh.service</code> activos a la vez</td><td>Dejar solo <code>ssh.service</code>, desde <code>pct exec</code></td></tr>
     <tr><td>Proxmox no avisa de nada</td><td><code>default-matcher</code> sin el destino de Telegram</td><td>Añadir <code>telegram</code> en Matchers</td></tr>
+    <tr><td>WordPress: «demasiadas redirecciones» al publicarlo</td><td>NPM recibe http del túnel y se lo dice a WordPress con <code>X-Forwarded-Proto</code></td><td>Leer el esquema real de la cabecera <code>CF-Visitor</code> en un nginx delante de WordPress</td></tr>
     <tr><td>Cambias el CSS de la web y no se ve</td><td>Cloudflare guarda el fichero en caché (hasta 4 h)</td><td>Enlazarlo como <code>style.css?v=FECHA</code> y cambiar la fecha en cada cambio</td></tr>
   </table></div>
 

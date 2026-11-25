@@ -1,5 +1,38 @@
 # Registro de cambios
 
+## 2026-11-25 · Reserfy publicado: reserfy.juanmarosado.com y echalequeso.juanmarosado.com
+
+**Qué**
+- Cortafuegos de la VM 103 (`103.fw`): nueva regla `IN ACCEPT -source 192.168.0.252 -p tcp -dport 8082`, al lado de la del 8081. Solo NPM llega al stack de Reserfy.
+- NPM, tres proxy hosts hacia `http://192.168.0.251:8082`:
+  - `reserfy.juanmarosado.com` y `echalequeso.juanmarosado.com`: públicos, solo http (el HTTPS lo pone Cloudflare), con bloqueo de exploits, igual que `juanmarosado.com`;
+  - `reserfy.casa.juanmarosado.com` (panel de gestión): lista de acceso `solo-lan`, certificado comodín `*.casa`, https forzado y HTTP/2. AdGuard ya lo resolvía con la reescritura `*.casa`.
+- Cloudflare, túnel `casa`: dos aplicaciones publicadas, `reserfy` y `echalequeso`, con servicio `http://192.168.0.252:80` (NPM), como las de la web. Cloudflare creó los dos CNAME. El panel no está en el túnel ni tiene DNS público.
+- Web: tarjeta de Reserfy en `proyectos.html` (categoría nueva «Aplicaciones web», captura `img/proyecto-reserfy.webp`), Reserfy en la tarjeta de proyectos de `index.html`, Flask, WordPress y MariaDB en `habilidades.html`, y `sitemap.xml` con fechas nuevas.
+- Guía: apartado «VM 103: un proyecto con varias webs (Reserfy)» en el capítulo 7, con el «Error real» del bucle de redirecciones; fila nueva en la tabla de errores; última revisión, 25 de noviembre.
+
+**Por qué**
+- Era la fase 4 del plan: publicar la demo con los dominios propuestos. Juanma dio permiso explícito para el cortafuegos, NPM y Cloudflare.
+- El panel se queda en `*.casa` porque edita y borra reservas: no hace falta que lo vea cualquiera.
+
+**Copia previa**
+- `/root/103.fw.antes-20261125` en el nodo.
+- La configuración de NPM y del túnel estaba antes sin estas entradas: basta con borrarlas.
+
+**Comprobación**
+- Desde NPM el 8082 da `200`; desde el PC, bloqueado (timeout).
+- Desde el PC, resolviendo con 1.1.1.1 y entrando por Cloudflare: las dos webs dan `200`, `http` redirige a `https` (`301`), `/wp-admin/` lleva a `wp-login.php` sin bucle y la portada no enlaza a `duckdns`.
+- Panel en la LAN: `https://reserfy.casa.juanmarosado.com/login` da `200`; `http` redirige a `https`. Sin DNS público.
+- `scripts/comprobar-web.py`: web correcta.
+
+**Pendiente**
+- Monitores de Uptime Kuma para las dos webs y el panel.
+- Borrar la instantánea `antes-reserfy-20261124` de la VM 103 cuando esté todo comprobado.
+- Decidir si se nombra a los compañeros del equipo en la web y en el repositorio.
+
+**Cómo deshacerlo**
+- Quitar las dos rutas del túnel en Cloudflare (y sus CNAME), los tres proxy hosts en NPM y la regla del 8082 (`cp /root/103.fw.antes-20261125 /etc/pve/firewall/103.fw`).
+
 ## 2026-11-24 · Reserfy restaurado en la VM 103 (aún sin publicar)
 
 **Qué**
