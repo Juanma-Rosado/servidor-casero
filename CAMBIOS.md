@@ -25,8 +25,14 @@
 - Panel en la LAN: `https://reserfy.casa.juanmarosado.com/login` da `200`; `http` redirige a `https`. Sin DNS público.
 - `scripts/comprobar-web.py`: web correcta.
 
+**Después de publicar**
+- Uptime Kuma: monitores `Reserfy`, `Échale Queso` y `Reserfy gestión` (`/login`), cada 60 s y con el aviso de Telegram por defecto. Los 14 monitores, en verde.
+- **Error real:** desde casa las webs no cargaban, aunque por Cloudflare daban `200`. AdGuard había preguntado por los nombres unos minutos antes de que Cloudflare creara los CNAME y guardó la respuesta «no existe» (caché negativa: hasta 30 minutos, el TTL mínimo del SOA de la zona). Quad9, uno de sus servidores de arriba, también la tenía guardada para `reserfy`. Kuma marcó los dos monitores como caídos (`ENOTFOUND`) y avisó por Telegram. Arreglo: DNS → «Borrar caché» en AdGuard (hecho por Juanma: el botón pide una confirmación que el navegador integrado cancela) e `ipconfig /flushdns`. Lección: crear el DNS antes de probar el nombre, o esperar a que caduque.
+- WordPress se actualizó solo de 7.1.3 a 7.1.5 en las dos webs (actualizaciones menores de seguridad, activadas por defecto), y Forminator a 1.58.6 (tenía la actualización automática activada). Durante unos segundos las webs mostraron la página de mantenimiento (`503`). Después, `wp core verify-checksums` correcto y todas las páginas en `200`. La imagen sigue en `7.1.3`: solo sirve para copiar WordPress a una carpeta vacía, así que la versión real es la de `datos/web-*`.
+- Borradas las tareas programadas que dejó UpdraftPlus (`updraft_backup`, `updraft_backup_database`, `updraftplus_clean_temporary_files`) en las dos webs.
+
 **Pendiente**
-- Monitores de Uptime Kuma para las dos webs y el panel.
+- Decidir si se dejan las actualizaciones automáticas de WordPress (menores del núcleo y Forminator) o se desactivan para que todo vaya con versión fija.
 - Borrar la instantánea `antes-reserfy-20261124` de la VM 103 cuando esté todo comprobado.
 - Decidir si se nombra a los compañeros del equipo en la web y en el repositorio.
 

@@ -1026,6 +1026,7 @@ docker inspect NOMBRE --format '{{index .Config.Labels "org.opencontainers.image
     <tr><td>Un LXC se queda sin SSH al recargar</td><td><code>ssh.socket</code> y <code>ssh.service</code> activos a la vez</td><td>Dejar solo <code>ssh.service</code>, desde <code>pct exec</code></td></tr>
     <tr><td>Proxmox no avisa de nada</td><td><code>default-matcher</code> sin el destino de Telegram</td><td>Añadir <code>telegram</code> en Matchers</td></tr>
     <tr><td>WordPress: «demasiadas redirecciones» al publicarlo</td><td>NPM recibe http del túnel y se lo dice a WordPress con <code>X-Forwarded-Proto</code></td><td>Leer el esquema real de la cabecera <code>CF-Visitor</code> en un nginx delante de WordPress</td></tr>
+    <tr><td>Un subdominio nuevo funciona desde fuera pero en casa «no existe»</td><td>AdGuard preguntó antes de que existiera y guardó la respuesta negativa (hasta 30 min)</td><td>AdGuard → DNS → «Borrar caché» e <code>ipconfig /flushdns</code>; o crear el DNS antes de probar el nombre</td></tr>
     <tr><td>Cambias el CSS de la web y no se ve</td><td>Cloudflare guarda el fichero en caché (hasta 4 h)</td><td>Enlazarlo como <code>style.css?v=FECHA</code> y cambiar la fecha en cada cambio</td></tr>
   </table></div>
 
