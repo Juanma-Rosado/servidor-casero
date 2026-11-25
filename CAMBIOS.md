@@ -1,5 +1,29 @@
 # Registro de cambios
 
+## 2026-11-25 · Échale Queso: vuelven el chef, las fotos y la dirección originales
+
+**Qué**
+- La página «Nuestro chef» vuelve a ser la original, con Alberto Chicote y sus dos fotos: la subida a la web y la enlazada desde YouTube.
+- Contacto vuelve a tener la dirección del Centro Comercial Vialia María Zambrano de Málaga, la captura de Google Maps y el enlace «Cómo llegar».
+- Las dos fotos (adjuntos 53 y 104) se vuelven a subir desde la copia original del proyecto en el PC. Sus filas en `wp_posts` y `wp_postmeta` se recuperan del volcado de antes de las mejoras, y las miniaturas se regeneran con `wp media regenerate`.
+- Se mantienen las mejoras que no tocan estos datos: los enlaces sin `/index.php/`, ahora también en estas dos páginas, y los textos alternativos, nuevos en las fotos originales. Siguen también la franja «Restaurante ficticio», la privacidad, la validación y los comentarios cerrados.
+- Borradas las ilustraciones ficticias (`uploads/demo/`), que ya no usa ninguna página.
+- La página de Contacto original no daba horario. Los lunes, cerrado, siguen en la página de reservas y en la validación.
+
+**Por qué**
+- Juanma lo pidió: el chef famoso y el sitio real eran la gracia de la web. El aviso de que el restaurante es ficticio ya está en todas las páginas.
+
+**Copia previa**
+- `/srv/data/stacks/reserfy/copias/restaurante-antes-datos-originales-20261125-2141.sql.gz` (permisos 600).
+- El contenido original se sacó de `restaurante-antes-mejoras-20261125-1908.sql.gz`, cargado en una base temporal que después se borró.
+
+**Comprobación**
+- `/nuestro-chef/` y `/donde-nos-encontramos/` cargan con las fotos originales. Las imágenes y todas sus miniaturas dan `200` por Internet.
+- Ninguna página de las dos webs menciona ya a «Bruno Formaggi» ni la «Calle del Queso».
+
+**Cómo deshacerlo**
+- Importar `restaurante-antes-datos-originales-20261125-2141.sql.gz` en `db-restaurante`. Las ilustraciones SVG están en `Documents/Proyectos/reserfy-restauracion/mejoras/` del PC.
+
 ## 2026-11-25 · Reserfy: las dos webs, honestas y funcionales
 
 **Qué**
