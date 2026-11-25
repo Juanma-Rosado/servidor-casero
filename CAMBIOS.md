@@ -1,5 +1,25 @@
 # Registro de cambios
 
+## 2026-11-25 · Échale Queso: el correo de confirmación se ve en pantalla
+
+**Qué**
+- Plugin propio nuevo `wordpress/mu-plugins/correo-demo.php`. Al reservar, la respuesta de Contact Form 7 lleva el correo de confirmación al cliente (el «Correo 2»), ya montado con los datos de la reserva. Un JavaScript lo enseña debajo del formulario: «Este es el correo que recibirías», con De, Para, Asunto y el correo tal cual se ve.
+- El correo se pinta dentro de un `iframe` con `sandbox`, así que no puede ejecutar scripts. Contact Form 7 escapa los datos del cliente al montar el HTML.
+- `scripts/sincronizar.sh` vigila el plugin nuevo.
+
+**Por qué**
+- Juanma preguntó qué hacer con los correos. Enviarlos de verdad convertiría el formulario en una forma de mandar correos a cualquier dirección desde su servidor, y abrir Mailpit al público enseñaría las reservas de otros. Así se ve que esa parte funciona sin enviar nada.
+
+**Copia previa**
+- No hacía falta: es un fichero nuevo y no cambia la base de datos. Para quitarlo basta con borrarlo.
+
+**Comprobación**
+- Reserva de prueba desde el navegador: aparece el correo completo, a 902 px de alto y sin barra de desplazamiento. Un nombre con `<b>` se muestra como texto, sin interpretarse.
+- La reserva de prueba se borró de Flamingo, y sus dos correos de Mailpit.
+
+**Cómo deshacerlo**
+- Borrar `/srv/data/stacks/reserfy/wordpress/mu-plugins/correo-demo.php` en la VM 103. WordPress deja de cargarlo en la siguiente visita.
+
 ## 2026-11-25 · Échale Queso: mapa real y horario en Contacto
 
 **Qué**

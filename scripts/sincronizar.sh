@@ -72,6 +72,7 @@ vm103-profesional/stacks/reserfy/gestion/Dockerfile|profesional|/srv/data/stacks
 vm103-profesional/stacks/reserfy/gestion/requirements.txt|profesional|/srv/data/stacks/reserfy/gestion/requirements.txt|si
 vm103-profesional/stacks/reserfy/wordpress/mu-plugins/aviso-demo.php|profesional|/srv/data/stacks/reserfy/wordpress/mu-plugins/aviso-demo.php|si
 vm103-profesional/stacks/reserfy/wordpress/mu-plugins/validacion-reservas.php|profesional|/srv/data/stacks/reserfy/wordpress/mu-plugins/validacion-reservas.php|si
+vm103-profesional/stacks/reserfy/wordpress/mu-plugins/correo-demo.php|profesional|/srv/data/stacks/reserfy/wordpress/mu-plugins/correo-demo.php|si
 vm103-profesional/etc-docker-daemon.json|profesional|/etc/docker/daemon.json|no
 LISTA
 }
