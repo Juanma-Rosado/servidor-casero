@@ -1,5 +1,51 @@
 # Registro de cambios
 
+## 2026-11-25 · Reserfy: las dos webs, honestas y funcionales
+
+**Qué**
+- Dos plugins propios «must-use» en `wordpress/mu-plugins/`, montados en solo lectura en las dos webs (y en los contenedores de WP-CLI). WordPress los carga siempre y no se pueden desactivar desde el panel:
+  - `aviso-demo.php`: franja arriba de cada página. En Échale Queso: «Restaurante ficticio… las reservas son de prueba y no se envía ningún correo». En Reserfy: «Empresa ficticia: proyecto final de 2.º SMR». Las dos con enlace al portfolio. También cierra comentarios y pingbacks.
+  - `validacion-reservas.php`: comprueba en el servidor el formulario de reservas (Contact Form 7). Admite el teléfono con espacios, guiones o `+34` y lo guarda en 9 cifras. Solo deja fechas entre hoy y dentro de 60 días, sin lunes. Para hoy pide 30 minutos de margen. Rechaza otra reserva del mismo día con el mismo correo o teléfono, salvo si la anterior está cancelada.
+- Échale Queso:
+  - el chef era una persona real y famosa, con dos fotos suyas, una de ellas enlazada desde YouTube. Ahora es un personaje ficticio, «Bruno Formaggi», con una ilustración SVG propia y la foto de la pizza;
+  - la dirección era la de un centro comercial real de Málaga, con su captura de Google Maps. Ahora es una dirección y un plano ficticios (SVG propio), con el horario del calendario del proyecto: de martes a domingo, lunes cerrado;
+  - página nueva «Política de privacidad», enlazada desde la casilla del formulario y desde el pie. El formulario obligaba a aceptarla y no existía;
+  - formulario: sin el `minlength`/`maxlength` de 9, que rechazaba «612 345 678»; fecha sin el mínimo fijo de abril; aviso de demo junto al botón; mensaje final «Reserva de prueba registrada…»;
+  - quitados el enlace vacío «#» de la portada, el enlace a una receta de otra web en la carta, el formulario de Forminator sin usar y el título duplicado de la página de reservas (ahora tiene título y un solo `h1`);
+  - enlaces internos con `/index.php/` cambiados por las URL limpias, y textos alternativos en las imágenes.
+- Reserfy:
+  - enlaces permanentes `/%postname%/` (antes `/index.php/%year%/%monthnum%/%day%/%postname%/`). Las direcciones antiguas redirigen con `301`;
+  - el menú del móvil era otro menú, con enlaces a anclas que no existen (`#services`, `#about`…). Ahora el menú principal sirve para las dos, y lleva «Demo»;
+  - página de la demo terminada. Ahora se llama `/demo/` y tiene botones a Échale Queso. Las notas de plantilla del final («Footer (igual que en todas las páginas)», «Botón CTA: …») pasan a ser texto de verdad. Las tres páginas sueltas que repetían sus secciones van a la papelera;
+  - textos ajustados a lo que hay: la aplicación de gestión es web (Flask), no «de escritorio», y no controla mesas ni capacidad. El horario es el de Échale Queso. El cartel de horarios de otro restaurante se sustituye por el calendario del proyecto, y la imagen del formulario por una captura real;
+  - errata «Reservy» corregida en 6 páginas;
+  - Contacto y Privacidad sin datos inventados ni ajenos. Antes ponían una dirección real de Málaga, un teléfono falso y un correo de `reserfy.com`, un dominio que no es del proyecto. Ahora explican que la empresa es ficticia y enlazan a la página de contacto de Juanma;
+  - botón «Ver la demo» en la portada. La cabecera ya no lleva los iconos de redes sociales, que apuntaban a `#`;
+  - «¡Hola, mundo!» a la papelera; página de privacidad bien asignada (`wp_page_for_privacy_policy` era la 3, que no existe); textos alternativos, también en las diapositivas de tarifas de Smart Slider.
+- Comentarios cerrados en las dos webs, también en los ajustes y en todas las entradas.
+- Repositorio: `docker-compose.yml` monta `./wordpress/mu-plugins`, y `scripts/sincronizar.sh` vigila los dos plugins.
+
+**Por qué**
+- Juanma pidió que las dos webs fueran funcionales. Lo urgente era que son públicas: no pueden presentar a una persona real como chef del restaurante, ni dar como suya una dirección real, ni prometer correos que no llegan.
+- La validación tiene que ir en el servidor: la fecha mínima la ponía un JavaScript, y por la API de Contact Form 7 se aceptaban fechas pasadas, reservas a tres años vista y duplicadas.
+- Los plugins van en el repositorio y montados en solo lectura: así quedan documentados y no se pierden si se reinstala WordPress.
+
+**Copia previa**
+- Volcados de las dos bases antes de empezar: `/srv/data/stacks/reserfy/copias/{reserfy,restaurante}-antes-mejoras-20261125-1908.sql.gz` (permisos 600).
+- `docker-compose.yml.bak-20261125-1912` en la VM.
+- Las fotos borradas (el chef y el mapa) siguen en la copia original de la carpeta del proyecto en el PC.
+- Lo que va a la papelera de WordPress se borra solo a los 30 días, pero sigue en los volcados.
+
+**Comprobación**
+- Formulario, por la API de Contact Form 7: «612 345 678» y «+34 699-111-222», aceptadas y guardadas como `612345678` y `699111222`. Rechazadas, con su mensaje: la misma reserva con el mismo teléfono o correo, una fecha de ayer, otra a 90 días, un lunes, «12345» y «512345678». Las reservas de prueba, borradas de Flamingo y de Mailpit.
+- Revisor de enlaces en las dos webs: todas las páginas dan `200`, sin enlaces rotos ni imágenes sin texto alternativo. La única excepción es un elemento interno de Forminator en «Valóranos».
+- `/index.php/contacto/` y `/index.php/la-carta/` dan `301` a la URL limpia.
+- Móvil (375 px): el menú de Reserfy se abre con todas las páginas, y la franja de aviso se lee sin tapar nada.
+
+**Cómo deshacerlo**
+- Contenido: restaurar los volcados (`zcat copias/…sql.gz | docker compose run --rm -T cli-… wp db import -`).
+- Plugins: quitar las líneas de `wordpress/mu-plugins` del compose y recrear con `docker compose up -d --pull never web-reserfy web-restaurante`.
+
 ## 2026-11-25 · Reserfy publicado: reserfy.juanmarosado.com y echalequeso.juanmarosado.com
 
 **Qué**

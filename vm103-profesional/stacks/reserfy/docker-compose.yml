@@ -119,6 +119,8 @@ services:
     volumes:
       - ./datos/web-reserfy:/var/www/html
       - ./php/subidas.ini:/usr/local/etc/php/conf.d/subidas.ini:ro
+      # Plugins propios que no se pueden desactivar: aviso de demo y validación de reservas
+      - ./wordpress/mu-plugins:/var/www/html/wp-content/mu-plugins:ro
     networks:
       - reserfy
 
@@ -148,6 +150,8 @@ services:
     volumes:
       - ./datos/web-restaurante:/var/www/html
       - ./php/subidas.ini:/usr/local/etc/php/conf.d/subidas.ini:ro
+      # Plugins propios que no se pueden desactivar: aviso de demo y validación de reservas
+      - ./wordpress/mu-plugins:/var/www/html/wp-content/mu-plugins:ro
     networks:
       - reserfy
 
@@ -199,6 +203,7 @@ services:
       WORDPRESS_DB_PASSWORD: ${DB_RESERFY_PASSWORD}
     volumes:
       - ./datos/web-reserfy:/var/www/html
+      - ./wordpress/mu-plugins:/var/www/html/wp-content/mu-plugins:ro
     depends_on:
       - db-reserfy
     networks:
@@ -216,6 +221,7 @@ services:
       WORDPRESS_DB_PASSWORD: ${DB_RESTAURANTE_PASSWORD}
     volumes:
       - ./datos/web-restaurante:/var/www/html
+      - ./wordpress/mu-plugins:/var/www/html/wp-content/mu-plugins:ro
     depends_on:
       - db-restaurante
     networks:
