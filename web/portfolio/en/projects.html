@@ -22,7 +22,7 @@
   <meta property="og:image:height" content="630">
   <meta name="twitter:card" content="summary_large_image">
   <link rel="stylesheet" href="/comun/css/fonts.css">
-  <link rel="stylesheet" href="/css/styles.css?v=20261126b">
+  <link rel="stylesheet" href="/css/styles.css?v=20261126c">
   <script src="/js/tema.js?v=20261126"></script>
 </head>
 <body>
@@ -61,6 +61,12 @@
         <li>Before installing Linux, I turned off Fast Startup and BitLocker in Windows.</li>
         <li>Guest Additions in both systems, signed with a MOK key.</li>
       </ul>
+      <h3>What I learned</h3>
+      <ul class="lista-guiones">
+        <li>Before touching the partitions, check what Windows has done on its own: version 24H2 had encrypted the disk with BitLocker without asking.</li>
+        <li>With Secure Boot, only signed code runs. That's why the Guest Additions compiled fine but didn't load until I enrolled the MOK key.</li>
+        <li>Read every installer screen: I pressed Enter instead of Continue and the keyboard stayed in English.</li>
+      </ul>
       <p class="tecnologias">Windows 11 · Linux Mint · VirtualBox · GRUB · UEFI · Secure Boot</p>
       <p><a href="/guia-dual-w11-mint/" hreflang="es">Read the guide (Spanish), with 32 screenshots</a></p>
     </article>
@@ -80,6 +86,13 @@
         <li>Two virtual machines with Docker. One runs Nextcloud, Uptime Kuma and Homepage. The other one runs this site, kept apart from the home network by the firewall.</li>
         <li>The site reaches the Internet through Cloudflare Tunnel. Internal services use HTTPS with a wildcard certificate.</li>
         <li>If something goes down, I get a message on Telegram.</li>
+      </ul>
+      <h3>What I learned</h3>
+      <ul class="lista-guiones">
+        <li>Working when I run it by hand doesn't mean it works on its own. A backup script failed every night for weeks from cron, and I didn't notice because it threw the errors away.</li>
+        <li>An alert has to be tested until it arrives. I had Telegram set up, but Proxmox alerts were still going to an email nobody read.</li>
+        <li>The order of firewall rules matters: one rule in the wrong place left a machine without DNS or updates.</li>
+        <li>Changing a file doesn't change what's already running. Now I check what's really running, not what the configuration says.</li>
       </ul>
       <p class="tecnologias">Proxmox VE · ZFS · LXC · Docker · Nginx · Cloudflare Tunnel · AdGuard Home · Tailscale · Nextcloud · Linux</p>
       <p><a href="/servidor/" hreflang="es">Read the guide (Spanish)</a> · <a href="https://github.com/Juanma-Rosado/servidor-casero">See the configuration on GitHub</a></p>
@@ -102,6 +115,11 @@
         <li>A Python app with Flask to view, edit, cancel and delete bookings.</li>
         <li>When I restored it: fixed versions, passwords out of the code, a database user with only the permissions it needs, CSRF protection and no personal data.</li>
       </ul>
+      <h3>What I learned</h3>
+      <ul class="lista-guiones">
+        <li>Coming back to a project months later is the best way to see what we did wrong: passwords in the code, unpinned versions and a database user with every permission.</li>
+        <li>Behind a proxy, the app has to know whether the visit came over HTTPS. WordPress got stuck in a redirect loop until I made the front nginx pass on what Cloudflare's header says.</li>
+      </ul>
       <p class="tecnologias">WordPress · PHP · Python · Flask · MariaDB · Docker · Nginx</p>
       <p><a href="https://reserfy.juanmarosado.com/" hreflang="es">See Reserfy</a> · <a href="https://echalequeso.juanmarosado.com/" hreflang="es">See Échale Queso</a></p>
     </article>
@@ -113,6 +131,6 @@
     <p>© <span id="anio">2026</span> Juanma Rosado · HTML, CSS and JavaScript, no libraries</p>
     <p><a href="https://github.com/Juanma-Rosado">GitHub</a> · <a href="https://www.linkedin.com/in/juanma-rosado-trujillo">LinkedIn</a></p>
   </footer>
-  <script src="/js/main.js?v=20261126c" defer></script>
+  <script src="/js/main.js?v=20261126d" defer></script>
 </body>
 </html>

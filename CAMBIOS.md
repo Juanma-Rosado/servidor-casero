@@ -2,6 +2,10 @@
 
 Un resumen de lo que voy cambiando en el servidor y en la web. Cómo está montado cada paso lo explico en la guía: https://juanmarosado.com/servidor/
 
+## 2026-11-26 · Lo que aprendí en cada proyecto y formulario que envía
+- Cada proyecto cuenta ahora lo que aprendí haciéndolo, en español y en inglés.
+- El formulario de contacto envía los mensajes de verdad. Si falla, abre el programa de correo.
+
 ## 2026-11-26 · Sobre mí: mis prácticas de primero
 - APP Parque del Oeste fueron mis prácticas de 1.º de SMR, no un trabajo. Lo he corregido en español y en inglés.
 

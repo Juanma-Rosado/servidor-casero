@@ -22,7 +22,7 @@
   <meta property="og:image:height" content="630">
   <meta name="twitter:card" content="summary_large_image">
   <link rel="stylesheet" href="/comun/css/fonts.css">
-  <link rel="stylesheet" href="/css/styles.css?v=20261126b">
+  <link rel="stylesheet" href="/css/styles.css?v=20261126c">
   <script src="/js/tema.js?v=20261126"></script>
 </head>
 <body>
@@ -61,6 +61,12 @@
         <li>Antes de instalar Linux, quité el inicio rápido y BitLocker en Windows.</li>
         <li>Guest Additions en los dos sistemas, firmadas con una clave MOK.</li>
       </ul>
+      <h3>Lo que aprendí</h3>
+      <ul class="lista-guiones">
+        <li>Antes de tocar las particiones hay que mirar qué ha hecho Windows por su cuenta: la 24H2 había cifrado el disco con BitLocker sin avisar.</li>
+        <li>Con Secure Boot solo arranca lo que está firmado. Por eso las Guest Additions compilaban bien pero no cargaban hasta registrar la clave MOK.</li>
+        <li>Hay que leer cada pantalla del instalador: por pulsar Intro en vez de Continuar, el teclado se quedó en inglés.</li>
+      </ul>
       <p class="tecnologias">Windows 11 · Linux Mint · VirtualBox · GRUB · UEFI · Secure Boot</p>
       <p><a href="/guia-dual-w11-mint/">Leer la guía con las 32 capturas</a></p>
     </article>
@@ -80,6 +86,13 @@
         <li>Dos máquinas virtuales con Docker. En una, Nextcloud, Uptime Kuma y Homepage. En la otra, esta web, separada de la red de casa con el cortafuegos.</li>
         <li>La web sale a Internet por Cloudflare Tunnel. Los servicios internos usan HTTPS con un certificado comodín.</li>
         <li>Si algo se cae, me avisa por Telegram.</li>
+      </ul>
+      <h3>Lo que aprendí</h3>
+      <ul class="lista-guiones">
+        <li>Que algo funcione al probarlo a mano no quiere decir que funcione solo. Un script de copias falló cada noche durante semanas desde cron, y no me enteré porque tiraba los errores.</li>
+        <li>Un aviso hay que probarlo hasta que llega. Tenía Telegram configurado, pero los avisos de Proxmox seguían yendo a un correo que nadie leía.</li>
+        <li>En el cortafuegos importa el orden de las reglas: una regla en mal sitio dejó una máquina sin DNS y sin actualizaciones.</li>
+        <li>Cambiar un fichero no cambia lo que ya está en marcha. Ahora compruebo lo que corre de verdad, no lo que dice la configuración.</li>
       </ul>
       <p class="tecnologias">Proxmox VE · ZFS · LXC · Docker · Nginx · Cloudflare Tunnel · AdGuard Home · Tailscale · Nextcloud · Linux</p>
       <p><a href="/servidor/">Leer la guía</a> · <a href="https://github.com/Juanma-Rosado/servidor-casero">Ver la configuración en GitHub</a></p>
@@ -102,6 +115,11 @@
         <li>Una aplicación en Python con Flask para ver, editar, cancelar y borrar reservas.</li>
         <li>Al restaurarlo: versiones fijas, contraseñas fuera del código, un usuario de base de datos con los permisos justos, protección CSRF y sin datos personales.</li>
       </ul>
+      <h3>Lo que aprendí</h3>
+      <ul class="lista-guiones">
+        <li>Volver a un proyecto meses después es la mejor forma de ver lo que hicimos mal: contraseñas en el código, versiones sin fijar y un usuario de base de datos con todos los permisos.</li>
+        <li>Detrás de un proxy, la aplicación tiene que saber si la visita llegó por HTTPS. WordPress se quedaba en un bucle de redirecciones hasta que hice que el nginx de entrada le pasara lo que dice la cabecera de Cloudflare.</li>
+      </ul>
       <p class="tecnologias">WordPress · PHP · Python · Flask · MariaDB · Docker · Nginx</p>
       <p><a href="https://reserfy.juanmarosado.com/">Ver Reserfy</a> · <a href="https://echalequeso.juanmarosado.com/">Ver Échale Queso</a> · <a href="/servidor/#servicios">Cómo lo restauré</a></p>
     </article>
@@ -113,6 +131,6 @@
     <p>© <span id="anio">2026</span> Juanma Rosado · HTML, CSS y JavaScript sin librerías</p>
     <p><a href="https://github.com/Juanma-Rosado">GitHub</a> · <a href="https://www.linkedin.com/in/juanma-rosado-trujillo">LinkedIn</a></p>
   </footer>
-  <script src="/js/main.js?v=20261126c" defer></script>
+  <script src="/js/main.js?v=20261126d" defer></script>
 </body>
 </html>

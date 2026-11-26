@@ -303,6 +303,11 @@ main {
   color: var(--suave);
 }
 
+/* «Lo que aprendí»: separado un poco de la lista de lo que hice */
+.proyecto h3 {
+  margin-top: 1.75rem;
+}
+
 /* Tecnologías de cada proyecto, separadas por puntos */
 .tecnologias {
   font-family: var(--mono);

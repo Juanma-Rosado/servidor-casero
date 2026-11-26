@@ -4,8 +4,8 @@
 const EMAIL_DESTINO = "rosadotrujillojuanma@gmail.com";
 
 // Clave pública de Web3Forms (se pide en web3forms.com con mi correo).
-// Mientras esté vacía, el formulario abre el programa de correo.
-const CLAVE_WEB3FORMS = "";
+// Si el envío falla, el formulario abre el programa de correo.
+const CLAVE_WEB3FORMS = "83db4c5a-e69f-4e5c-8b49-cccac787a5d7";
 const URL_WEB3FORMS = "https://api.web3forms.com/submit";
 
 // Idioma de la página, para los textos que escribe este fichero
