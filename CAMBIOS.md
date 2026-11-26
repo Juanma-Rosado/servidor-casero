@@ -1,5 +1,34 @@
 # Registro de cambios
 
+## 2026-11-26 · Portfolio nuevo: más sencillo, modo claro y oscuro, y versión en inglés
+
+**Qué**
+- Diseño nuevo en `web/portfolio`: una sola columna, fondo color papel, IBM Plex Sans y Plex Mono (las mismas fuentes que las guías) y un único color, rojo teja. Las fechas van en monoespaciada y los proyectos son listas, no tarjetas.
+- Fuera los efectos: la red de partículas, las manchas de color, el texto que se escribía solo, las tarjetas que se inclinaban, la luz que seguía al ratón, la barra de progreso, las apariciones al bajar y el desvanecido entre páginas. `main.js` pasa de 376 a 272 líneas, y `styles.css` de 890 a 412.
+- Botón de modo claro y oscuro. Sin elegir nada, sigue lo que diga el sistema. La elección se guarda en `localStorage`, y `js/tema.js` la aplica en el `<head>` para que la página no parpadee.
+- Versión en inglés en `en/` (`index.html`, `projects.html`, `about.html` y `contact.html`), enlazadas con `hreflang`. Las guías siguen solo en español y se avisa. Los mensajes del formulario salen en el idioma de la página.
+- La portada enseña el «Cuaderno del servidor»: las 5 últimas entradas de este CAMBIOS.md, leídas desde GitHub con `fetch`. Si GitHub no responde, queda un enlace al registro.
+- Textos reescritos con los datos del CV: formación, experiencia en Vivatech y APP Parque del Oeste, e inglés de nivel medio. Ni teléfono ni fecha de nacimiento.
+- Habilidades pasa a ser «Lo que uso» dentro de Sobre mí. `habilidades.html` se queda con `noindex` y redirige a `sobre-mi.html#habilidades`, para no romper enlaces antiguos.
+- La imagen del proyecto Proxmox, que era un rótulo con degradado, se cambia por una captura real del pool ZFS (`servidor/img/004.webp`). Icono nuevo (`img/logo.svg`): una J sobre el rojo teja, sin degradado.
+- Borrados del repositorio: `css/fonts.css`, las fuentes Bricolage Grotesque y Source Sans 3, y `img/proyecto-proxmox.webp`. `publicar-web.sh` no borra nada en el servidor, así que allí siguen, sin usarse.
+- `scripts/comprobar-web.py` acepta `lang="en"` en las páginas de `en/`. `sitemap.xml` añade las páginas en inglés y quita `habilidades.html`. `publicar-web.sh` también comprueba las páginas nuevas.
+
+**Por qué**
+- Juanma quería que el portfolio pareciera menos hecho con IA. Los efectos de antes son los típicos de las plantillas generadas. Se miraron portfolios de otros programadores (Tania Rascia, Julia Evans, Brittany Chiang, Maggie Appleton, Jim Nielsen, Lynn Fisher, Paco Coursey y Josh Comeau): los que parecen hechos a mano tienen pocas cosas, todas reales, y nada se mueve solo.
+- El modo oscuro y el inglés los pidió Juanma.
+
+**Copia previa**
+- La versión anterior está en git (commit `49c5ba4`). Al publicar, `publicar-web.sh` copia lo que haya en el servidor en `/srv/data/portfolio-backup-web-FECHA`.
+
+**Comprobación**
+- `python scripts/comprobar-web.py`: «Web correcta: 12 páginas comprobadas».
+- En local (`python -m http.server`): el cuaderno carga las 5 entradas desde GitHub. El modo elegido se mantiene al recargar. Los errores del formulario en inglés salen en inglés. En móvil (375 px) no hay desbordes. `habilidades.html` lleva a `sobre-mi.html#habilidades`. Sin errores en la consola.
+- Pendiente: los iconos en PNG (`favicon-48.png`, `apple-touch-icon.png`, `favicon.ico`) y `og.png` siguen con el degradado antiguo.
+
+**Cómo deshacerlo**
+- `git checkout 49c5ba4 -- web/portfolio scripts/comprobar-web.py scripts/publicar-web.sh`, borrar `web/portfolio/en` y `web/portfolio/js/tema.js`, y volver a publicar. En el servidor también vale la copia `/srv/data/portfolio-backup-web-FECHA`.
+
 ## 2026-11-26 · Reserfy: protección del formulario, limpieza de datos y seguridad de WordPress
 
 **Qué**

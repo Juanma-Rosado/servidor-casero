@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Contact | Juanma Rosado</title>
+  <meta name="description" content="Contact Juanma Rosado, a web development student in Málaga looking for an internship: form, email, LinkedIn and GitHub.">
+  <link rel="icon" href="/img/logo.svg" type="image/svg+xml">
+  <link rel="icon" href="/img/favicon-48.png" sizes="48x48" type="image/png">
+  <link rel="apple-touch-icon" href="/img/apple-touch-icon.png">
+  <link rel="canonical" href="https://juanmarosado.com/en/contact.html">
+  <link rel="alternate" hreflang="es" href="https://juanmarosado.com/contacto.html">
+  <link rel="alternate" hreflang="en" href="https://juanmarosado.com/en/contact.html">
+  <meta property="og:type" content="website">
+  <meta property="og:locale" content="en_GB">
+  <meta property="og:site_name" content="Juanma Rosado">
+  <meta property="og:title" content="Contact | Juanma Rosado">
+  <meta property="og:description" content="Web development student in Málaga looking for an internship. Form, email, LinkedIn and GitHub.">
+  <meta property="og:url" content="https://juanmarosado.com/en/contact.html">
+  <meta property="og:image" content="https://juanmarosado.com/img/og.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
+  <link rel="stylesheet" href="/comun/css/fonts.css">
+  <link rel="stylesheet" href="/css/styles.css?v=20261126">
+  <script src="/js/tema.js?v=20261126"></script>
+</head>
+<body>
+  <header class="cabecera columna">
+    <a href="/en/" class="cabecera__nombre">Juanma Rosado</a>
+    <nav aria-label="Main">
+      <a href="/en/">home</a>
+      <a href="/en/projects.html">projects</a>
+      <a href="/en/about.html">about</a>
+      <a href="/en/contact.html" aria-current="page">contact</a>
+    </nav>
+    <div class="opciones">
+      <a href="/contacto.html" hreflang="es" lang="es">español</a>
+      <button type="button" class="boton-tema"></button>
+    </div>
+  </header>
+
+  <main class="columna">
+    <h1>Contact</h1>
+    <p class="dato">looking for a first-year DAW internship in Málaga</p>
+    <p>If your company takes interns, or you just want to tell me something about the site or the guides, write to me and I'll reply as soon as I can.</p>
+
+    <!-- Los mensajes de error salen en inglés porque main.js mira el lang de la página -->
+    <form id="formulario" class="formulario" novalidate>
+      <div class="campo">
+        <label for="nombre">Name</label>
+        <input type="text" id="nombre" name="nombre" autocomplete="name" required>
+        <small class="error" aria-live="polite"></small>
+      </div>
+      <div class="campo">
+        <label for="email">Email</label>
+        <input type="email" id="email" name="email" autocomplete="email" required>
+        <small class="error" aria-live="polite"></small>
+      </div>
+      <div class="campo">
+        <label for="mensaje">Message</label>
+        <textarea id="mensaje" name="mensaje" rows="6" required></textarea>
+        <small class="error" aria-live="polite"></small>
+      </div>
+      <input type="checkbox" name="botcheck" class="trampa" tabindex="-1" autocomplete="off" aria-hidden="true">
+      <button type="submit" class="boton">Send</button>
+      <p class="estado" role="status"></p>
+    </form>
+
+    <h2>Or directly</h2>
+    <ul class="lista-guiones">
+      <li>Email: <a href="mailto:rosadotrujillojuanma@gmail.com">rosadotrujillojuanma@gmail.com</a></li>
+      <li>LinkedIn: <a href="https://www.linkedin.com/in/juanma-rosado-trujillo">juanma-rosado-trujillo</a></li>
+      <li>GitHub: <a href="https://github.com/Juanma-Rosado">Juanma-Rosado</a></li>
+    </ul>
+  </main>
+
+  <footer class="pie columna">
+    <p>© <span id="anio">2026</span> Juanma Rosado · HTML, CSS and JavaScript, no libraries</p>
+    <p><a href="https://github.com/Juanma-Rosado">GitHub</a> · <a href="https://www.linkedin.com/in/juanma-rosado-trujillo">LinkedIn</a></p>
+  </footer>
+  <script src="/js/main.js?v=20261126" defer></script>
+</body>
+</html>

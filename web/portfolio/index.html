@@ -3,23 +3,26 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Juanma Rosado · Estudiante de DAW en Málaga | Portfolio</title>
-  <meta name="description" content="Portfolio de Juanma Rosado, estudiante de DAW en Málaga: servidor casero con Proxmox y arranque dual de Windows 11 y Linux Mint, con guías paso a paso.">
+  <title>Juanma Rosado · Estudiante de DAW en Málaga</title>
+  <meta name="description" content="Soy Juanma Rosado, estudiante de DAW en Málaga. Tengo un servidor casero con Proxmox que sirve esta web y documento mis proyectos con guías paso a paso.">
   <link rel="icon" href="/img/logo.svg" type="image/svg+xml">
   <link rel="icon" href="/img/favicon-48.png" sizes="48x48" type="image/png">
   <link rel="apple-touch-icon" href="/img/apple-touch-icon.png">
   <link rel="canonical" href="https://juanmarosado.com/">
+  <!-- La misma página en inglés -->
+  <link rel="alternate" hreflang="es" href="https://juanmarosado.com/">
+  <link rel="alternate" hreflang="en" href="https://juanmarosado.com/en/">
   <meta property="og:type" content="website">
   <meta property="og:locale" content="es_ES">
   <meta property="og:site_name" content="Juanma Rosado">
-  <meta property="og:title" content="Juanma Rosado · Estudiante de DAW en Málaga | Portfolio">
-  <meta property="og:description" content="Portfolio de Juanma Rosado, estudiante de DAW en Málaga: servidor casero con Proxmox y arranque dual de Windows 11 y Linux Mint, con guías paso a paso.">
+  <meta property="og:title" content="Juanma Rosado · Estudiante de DAW en Málaga">
+  <meta property="og:description" content="Soy Juanma Rosado, estudiante de DAW en Málaga. Tengo un servidor casero con Proxmox que sirve esta web y documento mis proyectos con guías paso a paso.">
   <meta property="og:url" content="https://juanmarosado.com/">
   <meta property="og:image" content="https://juanmarosado.com/img/og.png">
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
   <meta name="twitter:card" content="summary_large_image">
-  <!-- Datos estructurados: quién soy y qué es este sitio -->
+  <!-- Datos para los buscadores: quién soy y qué es esta web -->
   <script type="application/ld+json">
     {
       "@context": "https://schema.org",
@@ -56,12 +59,15 @@
             "addressCountry": "ES"
           },
           "knowsAbout": [
+            "HTML",
+            "CSS",
+            "JavaScript",
+            "Java",
+            "Python",
             "Proxmox VE",
             "Linux",
-            "Windows",
-            "Redes",
             "Docker",
-            "Desarrollo web"
+            "Redes"
           ],
           "sameAs": [
             "https://github.com/Juanma-Rosado",
@@ -71,90 +77,77 @@
       ]
     }
   </script>
-  <link rel="stylesheet" href="css/fonts.css">
-  <link rel="stylesheet" href="css/styles.css?v=20261124">
+  <link rel="stylesheet" href="/comun/css/fonts.css">
+  <link rel="stylesheet" href="/css/styles.css?v=20261126">
+  <script src="/js/tema.js?v=20261126"></script>
 </head>
 <body>
-  <!-- Cabecera, igual en todas las páginas. main.js marca el enlace activo -->
-  <header class="header">
-    <nav class="nav container" aria-label="Principal">
-      <a href="index.html" class="logo"><img src="img/logo.svg" alt="" width="34" height="34"><span>juanma</span></a>
-      <button class="nav__toggle" aria-label="Abrir menú" aria-expanded="false" aria-controls="menu"><span></span><span></span><span></span></button>
-      <ul class="nav__menu" id="menu">
-        <li><a href="index.html">Inicio</a></li>
-        <li><a href="sobre-mi.html">Sobre mí</a></li>
-        <li><a href="habilidades.html">Habilidades</a></li>
-        <li><a href="proyectos.html">Proyectos</a></li>
-        <li><a href="contacto.html">Contacto</a></li>
-      </ul>
+  <!-- Cabecera: igual en todas las páginas, solo cambia el aria-current -->
+  <header class="cabecera columna">
+    <a href="/" class="cabecera__nombre">Juanma Rosado</a>
+    <nav aria-label="Principal">
+      <a href="/" aria-current="page">inicio</a>
+      <a href="/proyectos.html">proyectos</a>
+      <a href="/sobre-mi.html">sobre mí</a>
+      <a href="/contacto.html">contacto</a>
     </nav>
-    <!-- Barra de progreso del scroll -->
-    <div class="progress"></div>
+    <div class="opciones">
+      <a href="/en/" hreflang="en" lang="en">english</a>
+      <!-- main.js le pone el texto; sin JavaScript no sirve, así que empieza vacío -->
+      <button type="button" class="boton-tema"></button>
+    </div>
   </header>
 
-  <main>
-    <!-- Portada con la red de partículas y las manchas de color de fondo -->
-    <section class="hero">
-      <canvas id="net" aria-hidden="true"></canvas>
-      <span class="blob b1"></span><span class="blob b2"></span>
+  <main class="columna">
+    <h1>Juanma Rosado</h1>
+    <p class="dato">Málaga · 1.º de DAW en el IES Belén · busco prácticas</p>
 
-      <div class="hero__inner container">
-        <div class="hero__text">
-          <p class="hero__hello">Hola, soy</p>
-          <h1>Juanma<span class="dot">.</span></h1>
-          <p class="hero__type">Me interesa <span id="typed" data-words="el desarrollo web|los servidores con Docker|las redes y los sistemas|aprender cada día"></span></p>
-          <p class="hero__lead">Estudiante de 1º de DAW en Málaga. Vengo de Sistemas y Redes, así que me gusta entender cómo funciona una aplicación por dentro y por fuera.</p>
-          <div class="hero__actions">
-            <a href="proyectos.html" class="btn btn--primary">Ver proyectos</a>
-            <a href="contacto.html" class="btn btn--ghost">Contactar</a>
-          </div>
-        </div>
+    <p class="entradilla">Estoy aprendiendo a programar en el ciclo de Desarrollo de Aplicaciones Web. Antes hice el grado medio de Sistemas y Redes, así que vengo de montar ordenadores, instalar sistemas y pelearme con redes.</p>
+    <p>Esta web no está en un hosting: la sirve un servidor que tengo montado en casa con Proxmox. Lo que voy haciendo lo documento en guías, con los errores que me encontré por el camino.</p>
 
-        <div class="code float" aria-hidden="true">
-          <div class="code__bar"><i></i><i></i><i></i><span>perfil.js</span></div>
-          <pre><code><b>const</b> juanma = {
-  estudio: <em>"DAW, 1º curso"</em>,
-  base: <em>"Sistemas y Redes"</em>,
-  aprendiendo: [<em>"HTML"</em>, <em>"CSS"</em>, <em>"JS"</em>,
-                <em>"Java"</em>, <em>"Python"</em>],
-  buscando: <em>"prácticas"</em>
-};</code></pre>
-        </div>
-      </div>
-    </section>
-
-    <!-- Proyecto destacado -->
-    <section class="section container">
-      <h2 class="reveal">Proyecto destacado</h2>
-      <a href="proyectos.html" class="card tilt reveal feature">
-        <img src="img/proyecto-proxmox.webp" width="1200" height="675" alt="" loading="lazy">
+    <h2>Proyectos</h2>
+    <ul class="lista-fechas">
+      <li>
+        <time datetime="2026-11">nov 2026</time>
         <div>
-          <h3>Instalación y configuración de Proxmox</h3>
-          <p>Un servidor en casa con Proxmox VE, ZFS, contenedores LXC y Docker que aloja esta web, sin abrir puertos del router.</p>
-          <span class="feature__more">Ver proyecto →</span>
+          <a href="/guia-dual-w11-mint/">Windows 11 y Linux Mint en la misma máquina</a>
+          <p>Práctica de clase: arranque dual con GRUB y Secure Boot, explicada con 32 capturas.</p>
         </div>
-      </a>
-    </section>
+      </li>
+      <li>
+        <time datetime="2026-10">oct 2026</time>
+        <div>
+          <a href="/servidor/">Mi servidor casero con Proxmox</a>
+          <p>ZFS en espejo, contenedores, Docker y Cloudflare Tunnel. Aloja esta web sin abrir puertos del router.</p>
+        </div>
+      </li>
+      <li>
+        <time datetime="2026-05">may 2026</time>
+        <div>
+          <a href="/proyectos.html#reserfy">Reserfy, reservas para restaurantes</a>
+          <p>Proyecto final de SMR en equipo, con WordPress y Flask. Lo recuperé y lo volví a publicar.</p>
+        </div>
+      </li>
+    </ul>
+    <p><a href="/proyectos.html">Más detalles de cada proyecto</a></p>
 
-    <!-- Enlaces a las demás páginas -->
-    <section class="section container">
-      <h2 class="reveal">Explora</h2>
-      <div class="grid grid--4">
-        <a href="sobre-mi.html" class="card tilt reveal"><h3>Sobre mí</h3><p>Mi formación y mi experiencia.</p></a>
-        <a href="habilidades.html" class="card tilt reveal"><h3>Habilidades</h3><p>Lo que sé y lo que estoy aprendiendo.</p></a>
-        <a href="proyectos.html" class="card tilt reveal"><h3>Proyectos</h3><p>Mi servidor casero con Proxmox, Reserfy y el arranque dual de Windows 11 y Linux Mint.</p></a>
-        <a href="contacto.html" class="card tilt reveal"><h3>Contacto</h3><p>Hablemos de prácticas y colaboraciones.</p></a>
-      </div>
-    </section>
+    <h2>Cuaderno del servidor</h2>
+    <p class="suave">Cada cambio que hago en el servidor lo apunto en un registro. Estos son los últimos:</p>
+    <!-- main.js rellena esta lista con CAMBIOS.md de GitHub.
+         Si no puede, se queda este enlace. -->
+    <ul class="lista-fechas" id="cuaderno">
+      <li>
+        <span class="fecha">—</span>
+        <span>El registro completo está en <a href="https://github.com/Juanma-Rosado/servidor-casero/blob/main/CAMBIOS.md">CAMBIOS.md, en GitHub</a>.</span>
+      </li>
+    </ul>
+    <p><a href="https://github.com/Juanma-Rosado/servidor-casero/blob/main/CAMBIOS.md">Ver el registro completo</a></p>
   </main>
 
-  <footer class="footer">
-    <p>© <span id="year"></span> Juanma Rosado</p>
-    <p class="footer__links">
-      <a href="https://github.com/Juanma-Rosado" target="_blank" rel="noopener">GitHub</a>
-      <a href="https://www.linkedin.com/in/juanma-rosado-trujillo" target="_blank" rel="noopener">LinkedIn</a>
-    </p>
+  <footer class="pie columna">
+    <p>© <span id="anio">2026</span> Juanma Rosado · HTML, CSS y JavaScript sin librerías</p>
+    <p><a href="https://github.com/Juanma-Rosado">GitHub</a> · <a href="https://www.linkedin.com/in/juanma-rosado-trujillo">LinkedIn</a></p>
   </footer>
-  <script src="js/main.js?v=20261124" defer></script>
+  <script src="/js/main.js?v=20261126" defer></script>
 </body>
 </html>

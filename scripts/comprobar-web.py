@@ -1,6 +1,6 @@
 # Comprueba la web antes de publicarla (también lo ejecuta GitHub en cada push).
 #
-#  - Cada página tiene título, descripción, canonical, lang="es" y un solo h1.
+#  - Cada página tiene título, descripción, canonical, lang ("es", o "en" en en/) y un solo h1.
 #  - Los bloques JSON-LD son JSON válido.
 #  - Los enlaces y recursos internos (href, src) apuntan a ficheros que existen.
 #  - Las imágenes tienen alt, width y height.
@@ -101,8 +101,10 @@ def comprobarPagina(pagina, problemas):
   def anotar(texto):
     problemas.append(nombre + ": " + texto)
 
-  if lector.lang != "es":
-    anotar('falta lang="es"')
+  # Las páginas de en/ están en inglés; el resto, en español
+  idiomaEsperado = "en" if nombre.startswith("en/") else "es"
+  if lector.lang != idiomaEsperado:
+    anotar('falta lang="%s"' % idiomaEsperado)
   if not lector.titulo.strip():
     anotar("falta el título")
   if lector.numeroH1 != 1:

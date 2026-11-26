@@ -4,84 +4,82 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Contacto | Juanma Rosado</title>
+  <meta name="description" content="Contacta con Juanma Rosado, estudiante de DAW en Málaga que busca prácticas: formulario, correo, LinkedIn y GitHub.">
   <link rel="icon" href="/img/logo.svg" type="image/svg+xml">
   <link rel="icon" href="/img/favicon-48.png" sizes="48x48" type="image/png">
   <link rel="apple-touch-icon" href="/img/apple-touch-icon.png">
-  <meta name="description" content="Contacta con Juanma Rosado para prácticas y colaboraciones.">
   <link rel="canonical" href="https://juanmarosado.com/contacto.html">
+  <link rel="alternate" hreflang="es" href="https://juanmarosado.com/contacto.html">
+  <link rel="alternate" hreflang="en" href="https://juanmarosado.com/en/contact.html">
   <meta property="og:type" content="website">
   <meta property="og:locale" content="es_ES">
   <meta property="og:site_name" content="Juanma Rosado">
   <meta property="og:title" content="Contacto | Juanma Rosado">
-  <meta property="og:description" content="Contacta con Juanma Rosado para prácticas y colaboraciones.">
+  <meta property="og:description" content="Estudiante de DAW en Málaga que busca prácticas. Formulario, correo, LinkedIn y GitHub.">
   <meta property="og:url" content="https://juanmarosado.com/contacto.html">
   <meta property="og:image" content="https://juanmarosado.com/img/og.png">
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
   <meta name="twitter:card" content="summary_large_image">
-  <link rel="stylesheet" href="css/fonts.css">
-  <link rel="stylesheet" href="css/styles.css?v=20261124">
+  <link rel="stylesheet" href="/comun/css/fonts.css">
+  <link rel="stylesheet" href="/css/styles.css?v=20261126">
+  <script src="/js/tema.js?v=20261126"></script>
 </head>
 <body>
-  <header class="header">
-    <nav class="nav container" aria-label="Principal">
-      <a href="index.html" class="logo"><img src="img/logo.svg" alt="" width="34" height="34"><span>juanma</span></a>
-      <button class="nav__toggle" aria-label="Abrir menú" aria-expanded="false" aria-controls="menu"><span></span><span></span><span></span></button>
-      <ul class="nav__menu" id="menu">
-        <li><a href="index.html">Inicio</a></li>
-        <li><a href="sobre-mi.html">Sobre mí</a></li>
-        <li><a href="habilidades.html">Habilidades</a></li>
-        <li><a href="proyectos.html">Proyectos</a></li>
-        <li><a href="contacto.html">Contacto</a></li>
-      </ul>
+  <header class="cabecera columna">
+    <a href="/" class="cabecera__nombre">Juanma Rosado</a>
+    <nav aria-label="Principal">
+      <a href="/">inicio</a>
+      <a href="/proyectos.html">proyectos</a>
+      <a href="/sobre-mi.html">sobre mí</a>
+      <a href="/contacto.html" aria-current="page">contacto</a>
     </nav>
-    <div class="progress"></div>
+    <div class="opciones">
+      <a href="/en/contact.html" hreflang="en" lang="en">english</a>
+      <button type="button" class="boton-tema"></button>
+    </div>
   </header>
 
-  <main class="page container">
-    <h1 class="page__title">Contacto</h1>
-    <p class="page__lead reveal">Busco prácticas donde seguir aprendiendo. Escríbeme y te respondo lo antes posible.</p>
+  <main class="columna">
+    <h1>Contacto</h1>
+    <p class="dato">busco prácticas de 1.º de DAW en Málaga</p>
+    <p>Si tienes una empresa que acoge alumnos en prácticas, o simplemente quieres comentarme algo de la web o de las guías, escríbeme y te contesto lo antes posible.</p>
 
-    <div class="contact">
-      <!-- novalidate porque la validación la hago en main.js con mis propios mensajes -->
-      <form id="form" class="form reveal" novalidate>
-        <div class="field">
-          <label for="nombre">Nombre</label>
-          <input type="text" id="nombre" name="nombre" autocomplete="name" required>
-          <small class="error" aria-live="polite"></small>
-        </div>
-        <div class="field">
-          <label for="email">Correo electrónico</label>
-          <input type="email" id="email" name="email" autocomplete="email" required>
-          <small class="error" aria-live="polite"></small>
-        </div>
-        <div class="field">
-          <label for="mensaje">Mensaje</label>
-          <textarea id="mensaje" name="mensaje" rows="5" required></textarea>
-          <small class="error" aria-live="polite"></small>
-        </div>
-        <!-- Trampa para robots: una persona no la ve ni la marca -->
-        <input type="checkbox" name="botcheck" class="trampa" tabindex="-1" autocomplete="off" aria-hidden="true">
-        <button type="submit" class="btn btn--primary">Enviar mensaje</button>
-        <p class="form__status" role="status"></p>
-      </form>
+    <!-- novalidate porque la validación la hago yo en main.js con mis mensajes -->
+    <form id="formulario" class="formulario" novalidate>
+      <div class="campo">
+        <label for="nombre">Nombre</label>
+        <input type="text" id="nombre" name="nombre" autocomplete="name" required>
+        <small class="error" aria-live="polite"></small>
+      </div>
+      <div class="campo">
+        <label for="email">Correo electrónico</label>
+        <input type="email" id="email" name="email" autocomplete="email" required>
+        <small class="error" aria-live="polite"></small>
+      </div>
+      <div class="campo">
+        <label for="mensaje">Mensaje</label>
+        <textarea id="mensaje" name="mensaje" rows="6" required></textarea>
+        <small class="error" aria-live="polite"></small>
+      </div>
+      <!-- Trampa para robots: una persona no la ve, así que no la marca -->
+      <input type="checkbox" name="botcheck" class="trampa" tabindex="-1" autocomplete="off" aria-hidden="true">
+      <button type="submit" class="boton">Enviar</button>
+      <p class="estado" role="status"></p>
+    </form>
 
-      <!-- Enlaces directos -->
-      <aside class="links">
-        <a class="card tilt reveal" href="https://www.linkedin.com/in/juanma-rosado-trujillo" target="_blank" rel="noopener"><h3>LinkedIn</h3><p>juanma-rosado-trujillo</p></a>
-        <a class="card tilt reveal" href="https://github.com/Juanma-Rosado" target="_blank" rel="noopener"><h3>GitHub</h3><p>Juanma-Rosado</p></a>
-        <a class="card tilt reveal" href="mailto:rosadotrujillojuanma@gmail.com"><h3>Correo</h3><p>rosadotrujillojuanma@gmail.com</p></a>
-      </aside>
-    </div>
+    <h2>O directamente</h2>
+    <ul class="lista-guiones">
+      <li>Correo: <a href="mailto:rosadotrujillojuanma@gmail.com">rosadotrujillojuanma@gmail.com</a></li>
+      <li>LinkedIn: <a href="https://www.linkedin.com/in/juanma-rosado-trujillo">juanma-rosado-trujillo</a></li>
+      <li>GitHub: <a href="https://github.com/Juanma-Rosado">Juanma-Rosado</a></li>
+    </ul>
   </main>
 
-  <footer class="footer">
-    <p>© <span id="year"></span> Juanma Rosado</p>
-    <p class="footer__links">
-      <a href="https://github.com/Juanma-Rosado" target="_blank" rel="noopener">GitHub</a>
-      <a href="https://www.linkedin.com/in/juanma-rosado-trujillo" target="_blank" rel="noopener">LinkedIn</a>
-    </p>
+  <footer class="pie columna">
+    <p>© <span id="anio">2026</span> Juanma Rosado · HTML, CSS y JavaScript sin librerías</p>
+    <p><a href="https://github.com/Juanma-Rosado">GitHub</a> · <a href="https://www.linkedin.com/in/juanma-rosado-trujillo">LinkedIn</a></p>
   </footer>
-  <script src="js/main.js?v=20261124" defer></script>
+  <script src="/js/main.js?v=20261126" defer></script>
 </body>
 </html>

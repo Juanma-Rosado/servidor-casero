@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Juanma Rosado · Web development student in Málaga</title>
+  <meta name="description" content="I'm Juanma Rosado, a web development student in Málaga, Spain. I run a home server with Proxmox that hosts this site, and I write step-by-step guides about my projects.">
+  <link rel="icon" href="/img/logo.svg" type="image/svg+xml">
+  <link rel="icon" href="/img/favicon-48.png" sizes="48x48" type="image/png">
+  <link rel="apple-touch-icon" href="/img/apple-touch-icon.png">
+  <link rel="canonical" href="https://juanmarosado.com/en/">
+  <link rel="alternate" hreflang="es" href="https://juanmarosado.com/">
+  <link rel="alternate" hreflang="en" href="https://juanmarosado.com/en/">
+  <meta property="og:type" content="website">
+  <meta property="og:locale" content="en_GB">
+  <meta property="og:site_name" content="Juanma Rosado">
+  <meta property="og:title" content="Juanma Rosado · Web development student in Málaga">
+  <meta property="og:description" content="Web development student in Málaga, Spain. I run a home server with Proxmox that hosts this site.">
+  <meta property="og:url" content="https://juanmarosado.com/en/">
+  <meta property="og:image" content="https://juanmarosado.com/img/og.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
+  <link rel="stylesheet" href="/comun/css/fonts.css">
+  <link rel="stylesheet" href="/css/styles.css?v=20261126">
+  <script src="/js/tema.js?v=20261126"></script>
+</head>
+<body>
+  <!-- Versión en inglés: misma estructura que las páginas en español -->
+  <header class="cabecera columna">
+    <a href="/en/" class="cabecera__nombre">Juanma Rosado</a>
+    <nav aria-label="Main">
+      <a href="/en/" aria-current="page">home</a>
+      <a href="/en/projects.html">projects</a>
+      <a href="/en/about.html">about</a>
+      <a href="/en/contact.html">contact</a>
+    </nav>
+    <div class="opciones">
+      <a href="/" hreflang="es" lang="es">español</a>
+      <button type="button" class="boton-tema"></button>
+    </div>
+  </header>
+
+  <main class="columna">
+    <h1>Juanma Rosado</h1>
+    <p class="dato">Málaga, Spain · 1st year of web development · looking for an internship</p>
+
+    <p class="entradilla">I'm learning to code in a two-year web development course (DAW) at IES Belén. Before that I studied IT systems and networks, so I come from building computers, installing operating systems and setting up networks.</p>
+    <p>This site isn't on a hosting service: it runs on a server I built at home with Proxmox. I write guides about what I do, including the mistakes I made along the way. The guides are in Spanish.</p>
+
+    <h2>Projects</h2>
+    <ul class="lista-fechas">
+      <li>
+        <time datetime="2026-11">Nov 2026</time>
+        <div>
+          <a href="/guia-dual-w11-mint/" hreflang="es">Windows 11 and Linux Mint on the same machine</a>
+          <p>Class assignment: dual boot with GRUB and Secure Boot, explained with 32 screenshots.</p>
+        </div>
+      </li>
+      <li>
+        <time datetime="2026-10">Oct 2026</time>
+        <div>
+          <a href="/servidor/" hreflang="es">My home server with Proxmox</a>
+          <p>Mirrored ZFS, containers, Docker and Cloudflare Tunnel. It hosts this site without opening any router ports.</p>
+        </div>
+      </li>
+      <li>
+        <time datetime="2026-05">May 2026</time>
+        <div>
+          <a href="/en/projects.html#reserfy">Reserfy, table bookings for restaurants</a>
+          <p>Final team project of my IT systems course, built with WordPress and Flask. I restored it and put it back online.</p>
+        </div>
+      </li>
+    </ul>
+    <p><a href="/en/projects.html">More about each project</a></p>
+
+    <h2>Server logbook</h2>
+    <p class="suave">I write down every change I make to the server. These are the latest ones (in Spanish):</p>
+    <!-- main.js rellena esta lista con CAMBIOS.md de GitHub -->
+    <ul class="lista-fechas" id="cuaderno" lang="es">
+      <li>
+        <span class="fecha">—</span>
+        <span lang="en">The full log is in <a href="https://github.com/Juanma-Rosado/servidor-casero/blob/main/CAMBIOS.md">CAMBIOS.md, on GitHub</a>.</span>
+      </li>
+    </ul>
+    <p><a href="https://github.com/Juanma-Rosado/servidor-casero/blob/main/CAMBIOS.md">See the full log</a></p>
+  </main>
+
+  <footer class="pie columna">
+    <p>© <span id="anio">2026</span> Juanma Rosado · HTML, CSS and JavaScript, no libraries</p>
+    <p><a href="https://github.com/Juanma-Rosado">GitHub</a> · <a href="https://www.linkedin.com/in/juanma-rosado-trujillo">LinkedIn</a></p>
+  </footer>
+  <script src="/js/main.js?v=20261126" defer></script>
+</body>
+</html>

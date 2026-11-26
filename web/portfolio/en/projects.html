@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Projects | Juanma Rosado</title>
+  <meta name="description" content="Projects by Juanma Rosado: a home server with Proxmox VE, ZFS, Docker and Cloudflare Tunnel, Reserfy (online table bookings with WordPress and Flask) and a Windows 11 and Linux Mint dual boot.">
+  <link rel="icon" href="/img/logo.svg" type="image/svg+xml">
+  <link rel="icon" href="/img/favicon-48.png" sizes="48x48" type="image/png">
+  <link rel="apple-touch-icon" href="/img/apple-touch-icon.png">
+  <link rel="canonical" href="https://juanmarosado.com/en/projects.html">
+  <link rel="alternate" hreflang="es" href="https://juanmarosado.com/proyectos.html">
+  <link rel="alternate" hreflang="en" href="https://juanmarosado.com/en/projects.html">
+  <meta property="og:type" content="website">
+  <meta property="og:locale" content="en_GB">
+  <meta property="og:site_name" content="Juanma Rosado">
+  <meta property="og:title" content="Projects | Juanma Rosado">
+  <meta property="og:description" content="A home server with Proxmox VE, Reserfy (online table bookings with WordPress and Flask) and a Windows 11 and Linux Mint dual boot.">
+  <meta property="og:url" content="https://juanmarosado.com/en/projects.html">
+  <meta property="og:image" content="https://juanmarosado.com/img/og.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
+  <link rel="stylesheet" href="/comun/css/fonts.css">
+  <link rel="stylesheet" href="/css/styles.css?v=20261126">
+  <script src="/js/tema.js?v=20261126"></script>
+</head>
+<body>
+  <header class="cabecera columna">
+    <a href="/en/" class="cabecera__nombre">Juanma Rosado</a>
+    <nav aria-label="Main">
+      <a href="/en/">home</a>
+      <a href="/en/projects.html" aria-current="page">projects</a>
+      <a href="/en/about.html">about</a>
+      <a href="/en/contact.html">contact</a>
+    </nav>
+    <div class="opciones">
+      <a href="/proyectos.html" hreflang="es" lang="es">español</a>
+      <button type="button" class="boton-tema"></button>
+    </div>
+  </header>
+
+  <main class="columna">
+    <h1>Projects</h1>
+    <p class="dato">3 projects · newest first · the guides are in Spanish</p>
+    <p>There aren't many yet, but all of them really work and are documented. For each one I explain what I did, how, and what went wrong.</p>
+
+    <!-- Proyecto: arranque dual -->
+    <article class="proyecto" id="dual-boot">
+      <p class="dato"><time datetime="2026-11-23">23 Nov 2026</time> · class assignment, 1st year</p>
+      <h2>Windows 11 and Linux Mint on the same machine</h2>
+      <p>The task was to install two operating systems in one VirtualBox virtual machine and choose which one to start. Windows 11 needs TPM and Secure Boot, and with Secure Boot the Linux Guest Additions don't load unless they are signed, so I had to sign them too.</p>
+      <figure>
+        <img src="/guia-dual-w11-mint/img/paso-22.webp" width="800" height="600" alt="GRUB menu with Linux Mint and Windows Boot Manager in the same virtual machine" loading="lazy">
+        <figcaption>The GRUB menu with both systems.</figcaption>
+      </figure>
+      <ul class="lista-guiones">
+        <li>Windows 11 Pro 24H2 with TPM 2.0 and Secure Boot, and a local account with <code>bypassnro</code>.</li>
+        <li>GPT partitions planned first: 40 GB for Windows and the rest for Linux Mint XFCE, sharing the EFI partition.</li>
+        <li>Before installing Linux, I turned off Fast Startup and BitLocker in Windows.</li>
+        <li>Guest Additions in both systems, signed with a MOK key.</li>
+      </ul>
+      <p class="tecnologias">Windows 11 · Linux Mint · VirtualBox · GRUB · UEFI · Secure Boot</p>
+      <p><a href="/guia-dual-w11-mint/" hreflang="es">Read the guide (Spanish), with 32 screenshots</a></p>
+    </article>
+
+    <!-- Proyecto: servidor casero -->
+    <article class="proyecto" id="server">
+      <p class="dato"><time datetime="2026-10">Oct 2026</time> · personal project, still going</p>
+      <h2>My home server with Proxmox</h2>
+      <p>It's a computer with a Ryzen 5 2600 that works as a server at home. It hosts this site, a private cloud with Nextcloud and an ad blocker for the whole house. I haven't opened any port on the router.</p>
+      <figure>
+        <img src="/servidor/img/004.webp" width="1000" height="452" alt="Proxmox panel showing the mirrored ZFS pool called datos with both disks and no errors" loading="lazy">
+        <figcaption>The two mirrored ZFS disks in the Proxmox panel.</figcaption>
+      </figure>
+      <ul class="lista-guiones">
+        <li>Proxmox VE on two disks in a ZFS mirror, with snapshots and daily backups.</li>
+        <li>Two LXC containers: one with AdGuard Home and Tailscale for DNS and VPN, and another one with Nginx Proxy Manager.</li>
+        <li>Two virtual machines with Docker. One runs Nextcloud, Uptime Kuma and Homepage. The other one runs this site, kept apart from the home network by the firewall.</li>
+        <li>The site reaches the Internet through Cloudflare Tunnel. Internal services use HTTPS with a wildcard certificate.</li>
+        <li>If something goes down, I get a message on Telegram.</li>
+      </ul>
+      <p class="tecnologias">Proxmox VE · ZFS · LXC · Docker · Nginx · Cloudflare Tunnel · AdGuard Home · Tailscale · Nextcloud · Linux</p>
+      <p><a href="/servidor/" hreflang="es">Read the guide (Spanish)</a> · <a href="https://github.com/Juanma-Rosado/servidor-casero">see the configuration on GitHub</a></p>
+    </article>
+
+    <!-- Proyecto: Reserfy -->
+    <article class="proyecto" id="reserfy">
+      <p class="dato"><time datetime="2026-05">May 2026</time> · final project of my IT systems course, team of four</p>
+      <h2>Reserfy, online table bookings for restaurants</h2>
+      <p>We made up a company that sells a booking system to restaurants. We built its website and the website of an example restaurant, Échale Queso, where you can book a table. In November I restored it from a backup of the old server and put it back online on mine, fixing the parts that weren't secure.</p>
+      <figure>
+        <img src="/img/proyecto-reserfy.webp" width="1200" height="675" alt="Reserfy home page: «Tu mesa lista en un clic» (your table ready in one click)" loading="lazy">
+        <figcaption>The Reserfy home page (in Spanish).</figcaption>
+      </figure>
+      <ul class="lista-guiones">
+        <li>Both websites are made with WordPress.</li>
+        <li>The booking form uses Contact Form 7 and Flamingo, and saves each booking in MariaDB. In the demo, the confirmation email is shown on screen instead of being sent.</li>
+        <li>A PHP plugin I wrote checks on the server the phone number, the date, that it isn't a Monday and that the booking isn't repeated.</li>
+        <li>Other plugins I wrote stop bots and limit bookings per IP, delete test bookings after 7 days and block XML-RPC and password attacks.</li>
+        <li>A Python app with Flask to view, edit, cancel and delete bookings.</li>
+        <li>When I restored it: fixed versions, passwords out of the code, a database user with only the permissions it needs, CSRF protection and no personal data.</li>
+      </ul>
+      <p class="tecnologias">WordPress · PHP · Python · Flask · MariaDB · Docker · Nginx</p>
+      <p><a href="https://reserfy.juanmarosado.com/" hreflang="es">See Reserfy</a> · <a href="https://echalequeso.juanmarosado.com/" hreflang="es">see Échale Queso</a></p>
+    </article>
+
+    <p class="proyecto suave">I'm in my first year, so more projects are coming. I upload my code to <a href="https://github.com/Juanma-Rosado">GitHub</a>.</p>
+  </main>
+
+  <footer class="pie columna">
+    <p>© <span id="anio">2026</span> Juanma Rosado · HTML, CSS and JavaScript, no libraries</p>
+    <p><a href="https://github.com/Juanma-Rosado">GitHub</a> · <a href="https://www.linkedin.com/in/juanma-rosado-trujillo">LinkedIn</a></p>
+  </footer>
+  <script src="/js/main.js?v=20261126" defer></script>
+</body>
+</html>
