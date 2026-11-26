@@ -1,14 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Mapa del sitio para los buscadores. Al cambiar una página, actualiza su lastmod.
-     habilidades.html ya no sale: ahora redirige a sobre-mi.html. -->
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+     habilidades.html ya no sale: ahora redirige a sobre-mi.html.
+     Las páginas que existen en los dos idiomas llevan las dos versiones (xhtml:link). -->
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
     <loc>https://juanmarosado.com/</loc>
     <lastmod>2026-11-26</lastmod>
+    <xhtml:link rel="alternate" hreflang="es" href="https://juanmarosado.com/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://juanmarosado.com/en/"/>
   </url>
   <url>
     <loc>https://juanmarosado.com/proyectos.html</loc>
     <lastmod>2026-11-26</lastmod>
+    <xhtml:link rel="alternate" hreflang="es" href="https://juanmarosado.com/proyectos.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://juanmarosado.com/en/projects.html"/>
   </url>
   <url>
     <loc>https://juanmarosado.com/servidor/</loc>
@@ -21,25 +27,37 @@
   <url>
     <loc>https://juanmarosado.com/sobre-mi.html</loc>
     <lastmod>2026-11-26</lastmod>
+    <xhtml:link rel="alternate" hreflang="es" href="https://juanmarosado.com/sobre-mi.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://juanmarosado.com/en/about.html"/>
   </url>
   <url>
     <loc>https://juanmarosado.com/contacto.html</loc>
     <lastmod>2026-11-26</lastmod>
+    <xhtml:link rel="alternate" hreflang="es" href="https://juanmarosado.com/contacto.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://juanmarosado.com/en/contact.html"/>
   </url>
   <url>
     <loc>https://juanmarosado.com/en/</loc>
     <lastmod>2026-11-26</lastmod>
+    <xhtml:link rel="alternate" hreflang="es" href="https://juanmarosado.com/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://juanmarosado.com/en/"/>
   </url>
   <url>
     <loc>https://juanmarosado.com/en/projects.html</loc>
     <lastmod>2026-11-26</lastmod>
+    <xhtml:link rel="alternate" hreflang="es" href="https://juanmarosado.com/proyectos.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://juanmarosado.com/en/projects.html"/>
   </url>
   <url>
     <loc>https://juanmarosado.com/en/about.html</loc>
     <lastmod>2026-11-26</lastmod>
+    <xhtml:link rel="alternate" hreflang="es" href="https://juanmarosado.com/sobre-mi.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://juanmarosado.com/en/about.html"/>
   </url>
   <url>
     <loc>https://juanmarosado.com/en/contact.html</loc>
     <lastmod>2026-11-26</lastmod>
+    <xhtml:link rel="alternate" hreflang="es" href="https://juanmarosado.com/contacto.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://juanmarosado.com/en/contact.html"/>
   </url>
 </urlset>

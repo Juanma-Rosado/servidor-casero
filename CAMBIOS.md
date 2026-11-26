@@ -2,6 +2,11 @@
 
 Un resumen de lo que voy cambiando en el servidor y en la web. Cómo está montado cada paso lo explico en la guía: https://juanmarosado.com/servidor/
 
+## 2026-11-26 · Mejor para los buscadores y página de error en inglés
+- El mapa del sitio indica qué página en español corresponde a cada una en inglés.
+- La portada en inglés lleva los mismos datos para buscadores que la española.
+- La página de error 404 también está en inglés.
+
 ## 2026-11-26 · Lo que aprendí en cada proyecto y formulario que envía
 - Cada proyecto cuenta ahora lo que aprendí haciéndolo, en español y en inglés.
 - El formulario de contacto envía los mensajes de verdad. Si falla, abre el programa de correo.
