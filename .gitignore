@@ -18,3 +18,9 @@ desktop.ini
 
 # El registro de cambios con detalle se queda en mi PC; en GitHub va el resumen (CAMBIOS.md)
 CAMBIOS-detalle.md
+
+# Solo en mi PC: instrucciones para el asistente, reglas del firewall y configuración
+# de cada máquina. scripts/sincronizar.sh las sigue comparando con el servidor.
+pve/etc/pve/firewall/
+pve/etc/pve/nodes/pve/host.fw
+pve/guests/

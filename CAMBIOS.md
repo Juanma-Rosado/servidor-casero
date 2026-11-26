@@ -2,6 +2,9 @@
 
 Un resumen de lo que voy cambiando en el servidor y en la web. Cómo está montado cada paso lo explico en la guía: https://juanmarosado.com/servidor/
 
+## 2026-11-26 · Repositorio con menos detalles del servidor
+- Fuera del repositorio las reglas del firewall, la configuración de cada máquina y las IP de casa. Siguen en mi PC.
+
 ## 2026-11-26 · Portfolio más accesible y registro de cambios más corto
 - Enlace «Saltar al contenido» para quien navega con el teclado, y errores del formulario que se leen bien con lector de pantalla.
 - En la portada, una lista corta de novedades en vez de este registro.
