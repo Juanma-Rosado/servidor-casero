@@ -1,5 +1,24 @@
 # Registro de cambios
 
+## 2026-11-26 · Portfolio: mayúscula inicial en todo y «Me llamo Juanma»
+
+**Qué**
+- Mayúscula inicial en el menú (Inicio, Proyectos, Sobre mí, Contacto, y Home, Projects, About, Contact en inglés), en English/Español, en el botón «Modo oscuro / Modo claro», en los meses («Nov 2026») y en cada parte de las líneas pequeñas («Práctica de 1.º de DAW», «Busco prácticas»…). También en los meses del cuaderno, que escribe `main.js`.
+- Sobre mí empieza con «Me llamo Juanma y estudio…» (en inglés, «My name is Juanma and I'm in…»).
+- `main.js` pasa a `?v=20261126b` para que Cloudflare no sirva el de antes.
+
+**Por qué**
+- Lo pidió Juanma: primera letra siempre en mayúscula, y presentarse directamente como Juanma.
+
+**Copia previa**
+- La versión anterior está en git (commit `22a9acf`), y `publicar-web.sh` copia lo publicado antes de subir.
+
+**Comprobación**
+- `python scripts/comprobar-web.py` da la web por correcta. En local, el menú, el botón y las fechas del cuaderno salen con mayúscula.
+
+**Cómo deshacerlo**
+- `git checkout 22a9acf -- web/portfolio` y volver a publicar.
+
 ## 2026-11-26 · Portfolio nuevo: más sencillo, modo claro y oscuro, y versión en inglés
 
 **Qué**

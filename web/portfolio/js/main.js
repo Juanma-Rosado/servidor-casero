@@ -17,8 +17,8 @@ const IDIOMA = document.documentElement.lang === "en" ? "en" : "es";
 
 const TEXTOS = {
   es: {
-    pasarAOscuro: "modo oscuro",
-    pasarAClaro: "modo claro",
+    pasarAOscuro: "Modo oscuro",
+    pasarAClaro: "Modo claro",
     obligatorio: "Este campo es obligatorio.",
     correoMal: "Escribe un correo válido, por ejemplo nombre@correo.com.",
     mensajeCorto: "El mensaje tiene que tener al menos 10 caracteres.",
@@ -29,11 +29,11 @@ const TEXTOS = {
     falloEnvio: "No se pudo enviar. Abriendo tu programa de correo…",
     asunto: "Contacto desde el portfolio: ",
     de: "De: ",
-    meses: ["ene", "feb", "mar", "abr", "may", "jun", "jul", "ago", "sep", "oct", "nov", "dic"]
+    meses: ["Ene", "Feb", "Mar", "Abr", "May", "Jun", "Jul", "Ago", "Sep", "Oct", "Nov", "Dic"]
   },
   en: {
-    pasarAOscuro: "dark mode",
-    pasarAClaro: "light mode",
+    pasarAOscuro: "Dark mode",
+    pasarAClaro: "Light mode",
     obligatorio: "This field is required.",
     correoMal: "Please write a valid email, for example name@mail.com.",
     mensajeCorto: "The message needs at least 10 characters.",
