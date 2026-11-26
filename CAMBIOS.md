@@ -2,6 +2,10 @@
 
 Un resumen de lo que voy cambiando en el servidor y en la web. Cómo está montado cada paso lo explico en la guía: https://juanmarosado.com/servidor/
 
+## 2026-11-26 · Mi CV para descargar
+- El CV en PDF se puede descargar desde Sobre mí y Contacto, en español y en inglés.
+- El nivel de inglés pasa a B1, como en el CV.
+
 ## 2026-11-26 · Mejor para los buscadores y página de error en inglés
 - El mapa del sitio indica qué página en español corresponde a cada una en inglés.
 - La portada en inglés lleva los mismos datos para buscadores que la española.
