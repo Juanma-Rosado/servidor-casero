@@ -22,10 +22,11 @@
   <meta property="og:image:height" content="630">
   <meta name="twitter:card" content="summary_large_image">
   <link rel="stylesheet" href="/comun/css/fonts.css">
-  <link rel="stylesheet" href="/css/styles.css?v=20261126">
+  <link rel="stylesheet" href="/css/styles.css?v=20261126b">
   <script src="/js/tema.js?v=20261126"></script>
 </head>
 <body>
+  <a class="saltar" href="#contenido">Skip to content</a>
   <!-- Versión en inglés: misma estructura que las páginas en español -->
   <header class="cabecera columna">
     <a href="/en/" class="cabecera__nombre">Juanma Rosado</a>
@@ -41,7 +42,7 @@
     </div>
   </header>
 
-  <main class="columna">
+  <main class="columna" id="contenido">
     <h1>Juanma Rosado</h1>
     <p class="dato">Málaga, Spain · 1st year of web development · Looking for an internship</p>
 
@@ -74,22 +75,37 @@
     </ul>
     <p><a href="/en/projects.html">More about each project</a></p>
 
-    <h2>Server logbook</h2>
-    <p class="suave">I write down every change I make to the server. These are the latest ones (in Spanish):</p>
-    <!-- main.js rellena esta lista con CAMBIOS.md de GitHub -->
-    <ul class="lista-fechas" id="cuaderno" lang="es">
+    <h2>What's new</h2>
+    <p class="suave">The latest improvements to the website and the server:</p>
+    <!-- La lista la escribo a mano: solo cambios que importan, sin detalles técnicos -->
+    <ul class="lista-fechas">
       <li>
-        <span class="fecha">—</span>
-        <span lang="en">The full log is in <a href="https://github.com/Juanma-Rosado/servidor-casero/blob/main/CAMBIOS.md">CAMBIOS.md, on GitHub</a>.</span>
+        <time datetime="2026-11-26">26 Nov 2026</time>
+        <span>New portfolio, with light and dark mode and an English version</span>
+      </li>
+      <li>
+        <time datetime="2026-11-25">25 Nov 2026</time>
+        <span>Reserfy is back online, with both of its websites</span>
+      </li>
+      <li>
+        <time datetime="2026-11-24">24 Nov 2026</time>
+        <span>Security review of the server</span>
+      </li>
+      <li>
+        <time datetime="2026-11-23">23 Nov 2026</time>
+        <span>New guide: Windows 11 and Linux Mint on the same machine (in Spanish)</span>
+      </li>
+      <li>
+        <time datetime="2026-11-22">22 Nov 2026</time>
+        <span>Published the guide to my home server (in Spanish)</span>
       </li>
     </ul>
-    <p><a href="https://github.com/Juanma-Rosado/servidor-casero/blob/main/CAMBIOS.md">See the full log</a></p>
   </main>
 
   <footer class="pie columna">
     <p>© <span id="anio">2026</span> Juanma Rosado · HTML, CSS and JavaScript, no libraries</p>
     <p><a href="https://github.com/Juanma-Rosado">GitHub</a> · <a href="https://www.linkedin.com/in/juanma-rosado-trujillo">LinkedIn</a></p>
   </footer>
-  <script src="/js/main.js?v=20261126b" defer></script>
+  <script src="/js/main.js?v=20261126c" defer></script>
 </body>
 </html>

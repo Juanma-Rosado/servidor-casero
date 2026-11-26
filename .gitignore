@@ -15,3 +15,6 @@ backups/
 # Locales
 Thumbs.db
 desktop.ini
+
+# El registro de cambios con detalle se queda en mi PC; en GitHub va el resumen (CAMBIOS.md)
+CAMBIOS-detalle.md

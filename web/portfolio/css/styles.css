@@ -96,6 +96,22 @@ a:hover {
   outline-offset: 2px;
 }
 
+/* Enlace "Saltar al contenido": con el teclado, el primer Tab lleva aquí
+   y así no hay que pasar por todo el menú. Solo se ve cuando tiene el foco. */
+.saltar {
+  position: absolute;
+  top: -4rem;
+  left: 1rem;
+  z-index: 200;
+  padding: .4rem .8rem;
+  color: var(--fondo);
+  background: var(--acento);
+}
+
+.saltar:focus {
+  top: 1rem;
+}
+
 code {
   font-family: var(--mono);
   font-size: .9em;
@@ -209,7 +225,8 @@ main {
 
 .lista-fechas li {
   display: grid;
-  grid-template-columns: 6.5rem 1fr;
+  /* 8rem para que quepa "Mar – Jun 2026" en una sola línea */
+  grid-template-columns: 8rem 1fr;
   gap: 1rem;
   padding-block: .55rem;
   border-top: 1px dashed var(--linea);
@@ -317,9 +334,9 @@ main {
   border-radius: 4px;
 }
 
+/* Además del borde, se queda el contorno de :focus-visible para ver bien dónde estás */
 .campo input:focus, .campo textarea:focus {
   border-color: var(--acento);
-  outline: none;
 }
 
 .campo.invalido input, .campo.invalido textarea {

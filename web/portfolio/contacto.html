@@ -22,10 +22,11 @@
   <meta property="og:image:height" content="630">
   <meta name="twitter:card" content="summary_large_image">
   <link rel="stylesheet" href="/comun/css/fonts.css">
-  <link rel="stylesheet" href="/css/styles.css?v=20261126">
+  <link rel="stylesheet" href="/css/styles.css?v=20261126b">
   <script src="/js/tema.js?v=20261126"></script>
 </head>
 <body>
+  <a class="saltar" href="#contenido">Saltar al contenido</a>
   <header class="cabecera columna">
     <a href="/" class="cabecera__nombre">Juanma Rosado</a>
     <nav aria-label="Principal">
@@ -40,7 +41,7 @@
     </div>
   </header>
 
-  <main class="columna">
+  <main class="columna" id="contenido">
     <h1>Contacto</h1>
     <p class="dato">Busco prácticas de 1.º de DAW en Málaga</p>
     <p>Si tienes una empresa que acoge alumnos en prácticas, o simplemente quieres comentarme algo de la web o de las guías, escríbeme y te contesto lo antes posible.</p>
@@ -49,18 +50,18 @@
     <form id="formulario" class="formulario" novalidate>
       <div class="campo">
         <label for="nombre">Nombre</label>
-        <input type="text" id="nombre" name="nombre" autocomplete="name" required>
-        <small class="error" aria-live="polite"></small>
+        <input type="text" id="nombre" name="nombre" autocomplete="name" aria-describedby="error-nombre" required>
+        <small class="error" id="error-nombre" aria-live="polite"></small>
       </div>
       <div class="campo">
         <label for="email">Correo electrónico</label>
-        <input type="email" id="email" name="email" autocomplete="email" required>
-        <small class="error" aria-live="polite"></small>
+        <input type="email" id="email" name="email" autocomplete="email" aria-describedby="error-email" required>
+        <small class="error" id="error-email" aria-live="polite"></small>
       </div>
       <div class="campo">
         <label for="mensaje">Mensaje</label>
-        <textarea id="mensaje" name="mensaje" rows="6" required></textarea>
-        <small class="error" aria-live="polite"></small>
+        <textarea id="mensaje" name="mensaje" rows="6" aria-describedby="error-mensaje" required></textarea>
+        <small class="error" id="error-mensaje" aria-live="polite"></small>
       </div>
       <!-- Trampa para robots: una persona no la ve, así que no la marca -->
       <input type="checkbox" name="botcheck" class="trampa" tabindex="-1" autocomplete="off" aria-hidden="true">
@@ -80,6 +81,6 @@
     <p>© <span id="anio">2026</span> Juanma Rosado · HTML, CSS y JavaScript sin librerías</p>
     <p><a href="https://github.com/Juanma-Rosado">GitHub</a> · <a href="https://www.linkedin.com/in/juanma-rosado-trujillo">LinkedIn</a></p>
   </footer>
-  <script src="/js/main.js?v=20261126b" defer></script>
+  <script src="/js/main.js?v=20261126c" defer></script>
 </body>
 </html>

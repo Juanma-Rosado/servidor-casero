@@ -21,13 +21,13 @@ He escrito una guía paso a paso de cómo lo monté: https://juanmarosado.com/se
 | `lxc101-npm/` | Nginx Proxy Manager y cloudflared | LXC 101, `/opt/npm` y `/opt/cloudflared` |
 | `pve/` | El nodo Proxmox: copias, cron, sanoid, vzdump, almacenamiento, avisos, firewall, SSH y la configuración de cada máquina | Nodo `pve` |
 | `scripts/` | Scripts para mantener el servidor y el repositorio iguales y publicar la web | Mi PC |
-| `CAMBIOS.md` | Lo que voy cambiando y por qué | — |
+| `CAMBIOS.md` | Resumen de lo que voy cambiando | — |
 
 ## Cómo trabajo con este repositorio
 
 El repositorio es la referencia: lo que hay aquí es lo que hay en el servidor. Después de cada cambio:
 
-1. Lo apunto arriba del todo en `CAMBIOS.md`: qué, por qué, la copia previa, cómo lo comprobé y cómo deshacerlo.
+1. Lo apunto arriba del todo en mi registro con detalle (qué, por qué, la copia previa, cómo lo comprobé y cómo deshacerlo), que no se sube, y en una o dos líneas en `CAMBIOS.md`.
 2. Comparo el servidor con el repositorio:
    ```bash
    scripts/sincronizar.sh             # solo compara

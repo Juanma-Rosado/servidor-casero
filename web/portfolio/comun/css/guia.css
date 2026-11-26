@@ -100,6 +100,22 @@ a {
   outline-offset: 2px;
 }
 
+/* Enlace "Saltar al contenido": con el teclado, el primer Tab lleva aquí
+   y así no hay que pasar por todo el menú. Solo se ve cuando tiene el foco. */
+.saltar {
+  position: absolute;
+  top: -4rem;
+  left: 1rem;
+  z-index: 200;
+  padding: .4rem .8rem;
+  color: var(--fondo);
+  background: var(--acento);
+}
+
+.saltar:focus {
+  top: 1rem;
+}
+
 /* 3. ESTRUCTURA: índice a la izquierda y capítulo a la derecha */
 .maqueta {
   display: grid;

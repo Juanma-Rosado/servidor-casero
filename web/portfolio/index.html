@@ -78,10 +78,11 @@
     }
   </script>
   <link rel="stylesheet" href="/comun/css/fonts.css">
-  <link rel="stylesheet" href="/css/styles.css?v=20261126">
+  <link rel="stylesheet" href="/css/styles.css?v=20261126b">
   <script src="/js/tema.js?v=20261126"></script>
 </head>
 <body>
+  <a class="saltar" href="#contenido">Saltar al contenido</a>
   <!-- Cabecera: igual en todas las páginas, solo cambia el aria-current -->
   <header class="cabecera columna">
     <a href="/" class="cabecera__nombre">Juanma Rosado</a>
@@ -98,7 +99,7 @@
     </div>
   </header>
 
-  <main class="columna">
+  <main class="columna" id="contenido">
     <h1>Juanma Rosado</h1>
     <p class="dato">Málaga · 1.º de DAW en el IES Belén · Busco prácticas</p>
 
@@ -131,23 +132,37 @@
     </ul>
     <p><a href="/proyectos.html">Más detalles de cada proyecto</a></p>
 
-    <h2>Cuaderno del servidor</h2>
-    <p class="suave">Cada cambio que hago en el servidor lo apunto en un registro. Estos son los últimos:</p>
-    <!-- main.js rellena esta lista con CAMBIOS.md de GitHub.
-         Si no puede, se queda este enlace. -->
-    <ul class="lista-fechas" id="cuaderno">
+    <h2>Novedades</h2>
+    <p class="suave">Lo último que he mejorado en la web y en el servidor:</p>
+    <!-- La lista la escribo a mano: solo cambios que importan, sin detalles técnicos -->
+    <ul class="lista-fechas">
       <li>
-        <span class="fecha">—</span>
-        <span>El registro completo está en <a href="https://github.com/Juanma-Rosado/servidor-casero/blob/main/CAMBIOS.md">CAMBIOS.md, en GitHub</a>.</span>
+        <time datetime="2026-11-26">26 Nov 2026</time>
+        <span>Portfolio nuevo, con modo claro y oscuro y versión en inglés</span>
+      </li>
+      <li>
+        <time datetime="2026-11-25">25 Nov 2026</time>
+        <span>Reserfy vuelve a estar publicado, con sus dos webs</span>
+      </li>
+      <li>
+        <time datetime="2026-11-24">24 Nov 2026</time>
+        <span>Revisión de seguridad del servidor</span>
+      </li>
+      <li>
+        <time datetime="2026-11-23">23 Nov 2026</time>
+        <span>Guía nueva: Windows 11 y Linux Mint en la misma máquina</span>
+      </li>
+      <li>
+        <time datetime="2026-11-22">22 Nov 2026</time>
+        <span>Publicada la guía de mi servidor casero</span>
       </li>
     </ul>
-    <p><a href="https://github.com/Juanma-Rosado/servidor-casero/blob/main/CAMBIOS.md">Ver el registro completo</a></p>
   </main>
 
   <footer class="pie columna">
     <p>© <span id="anio">2026</span> Juanma Rosado · HTML, CSS y JavaScript sin librerías</p>
     <p><a href="https://github.com/Juanma-Rosado">GitHub</a> · <a href="https://www.linkedin.com/in/juanma-rosado-trujillo">LinkedIn</a></p>
   </footer>
-  <script src="/js/main.js?v=20261126b" defer></script>
+  <script src="/js/main.js?v=20261126c" defer></script>
 </body>
 </html>

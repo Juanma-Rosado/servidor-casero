@@ -8,10 +8,6 @@ const EMAIL_DESTINO = "rosadotrujillojuanma@gmail.com";
 const CLAVE_WEB3FORMS = "";
 const URL_WEB3FORMS = "https://api.web3forms.com/submit";
 
-// El registro de cambios del servidor está en mi repositorio público de GitHub
-const URL_CAMBIOS = "https://raw.githubusercontent.com/Juanma-Rosado/servidor-casero/main/CAMBIOS.md";
-const ENTRADAS_CUADERNO = 5;
-
 // Idioma de la página, para los textos que escribe este fichero
 const IDIOMA = document.documentElement.lang === "en" ? "en" : "es";
 
@@ -28,8 +24,7 @@ const TEXTOS = {
     abriendoCorreo: "Abriendo tu programa de correo…",
     falloEnvio: "No se pudo enviar. Abriendo tu programa de correo…",
     asunto: "Contacto desde el portfolio: ",
-    de: "De: ",
-    meses: ["Ene", "Feb", "Mar", "Abr", "May", "Jun", "Jul", "Ago", "Sep", "Oct", "Nov", "Dic"]
+    de: "De: "
   },
   en: {
     pasarAOscuro: "Dark mode",
@@ -43,8 +38,7 @@ const TEXTOS = {
     abriendoCorreo: "Opening your email app…",
     falloEnvio: "It couldn't be sent. Opening your email app…",
     asunto: "Contact from the portfolio: ",
-    de: "From: ",
-    meses: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]
+    de: "From: "
   }
 };
 
@@ -53,7 +47,6 @@ const texto = TEXTOS[IDIOMA];
 document.addEventListener("DOMContentLoaded", () => {
   iniciarBotonTema();
   ponerAnio();
-  cargarCuaderno();
   iniciarFormulario();
 });
 
@@ -97,70 +90,6 @@ function ponerAnio() {
   if (anio) {
     anio.textContent = new Date().getFullYear();
   }
-}
-
-// ---------- Cuaderno del servidor ----------
-
-// Lee CAMBIOS.md desde GitHub y enseña las últimas entradas.
-// Cada entrada empieza con una línea como "## 2026-11-25 · Título".
-// Si falla (sin conexión, GitHub caído...) se queda el texto que ya hay en el HTML.
-async function cargarCuaderno() {
-  const lista = document.getElementById("cuaderno");
-  if (!lista) {
-    return;
-  }
-
-  try {
-    const respuesta = await fetch(URL_CAMBIOS);
-    if (!respuesta.ok) {
-      return;
-    }
-    const markdown = await respuesta.text();
-    const entradas = sacarEntradas(markdown).slice(0, ENTRADAS_CUADERNO);
-    if (entradas.length === 0) {
-      return;
-    }
-
-    lista.replaceChildren();
-    entradas.forEach((entrada) => {
-      lista.append(crearFilaCuaderno(entrada));
-    });
-  } catch (error) {
-    console.warn("No se pudo leer el cuaderno:", error);
-  }
-}
-
-// Saca la fecha y el título de cada "## AAAA-MM-DD · Título"
-function sacarEntradas(markdown) {
-  const patron = /^## (\d{4})-(\d{2})-(\d{2}) · (.+)$/gm;
-  const entradas = [];
-  let coincidencia;
-
-  while ((coincidencia = patron.exec(markdown)) !== null) {
-    entradas.push({
-      fechaIso: coincidencia[1] + "-" + coincidencia[2] + "-" + coincidencia[3],
-      mes: Number(coincidencia[2]),
-      dia: Number(coincidencia[3]),
-      titulo: coincidencia[4].trim()
-    });
-  }
-  return entradas;
-}
-
-// Crea un <li> con la fecha y el título.
-// Uso textContent y no innerHTML para que el texto nunca se interprete como HTML.
-function crearFilaCuaderno(entrada) {
-  const fila = document.createElement("li");
-
-  const fecha = document.createElement("time");
-  fecha.dateTime = entrada.fechaIso;
-  fecha.textContent = entrada.dia + " " + texto.meses[entrada.mes - 1];
-
-  const titulo = document.createElement("span");
-  titulo.textContent = entrada.titulo;
-
-  fila.append(fecha, titulo);
-  return fila;
 }
 
 // ---------- Formulario de contacto ----------
@@ -268,5 +197,12 @@ function validar(campo) {
 
   caja.querySelector(".error").textContent = error;
   caja.classList.toggle("invalido", error !== "");
+  // aria-invalid avisa a los lectores de pantalla de que el campo está mal;
+  // el texto del error lo leen gracias al aria-describedby del HTML
+  if (error) {
+    campo.setAttribute("aria-invalid", "true");
+  } else {
+    campo.removeAttribute("aria-invalid");
+  }
   return error === "";
 }

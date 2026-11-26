@@ -44,10 +44,11 @@
   }
 </script>
 <link rel="stylesheet" href="/comun/css/fonts.css">
-<link rel="stylesheet" href="/comun/css/guia.css?v=20261126">
+<link rel="stylesheet" href="/comun/css/guia.css?v=20261126b">
 <script src="/js/tema.js?v=20261126"></script>
 </head>
 <body data-nombre-guia="Servidor casero con Proxmox">
+  <a class="saltar" href="#contenido">Saltar al contenido</a>
 <div class="barra-movil"><button id="boton-menu" type="button">☰ Capítulos</button><span id="titulo-movil"></span></div>
 <div class="maqueta">
   <aside class="lateral" aria-label="Capítulos">
@@ -60,7 +61,7 @@
     <ol class="indice" id="indice"></ol>
   </aside>
 
-  <main class="contenido"><div class="hoja">
+  <main class="contenido" id="contenido"><div class="hoja">
 
 <!-- Capítulo 00: Inicio -->
 <article class="capitulo" id="inicio" data-titulo="Qué vamos a montar">
@@ -1069,7 +1070,7 @@ docker inspect NOMBRE --format '{{index .Config.Labels "org.opencontainers.image
   </div>
   </div></main>
 </div>
-<script src="/js/main.js?v=20261126b"></script>
+<script src="/js/main.js?v=20261126c"></script>
 <script src="/comun/js/guia.js?v=20261126"></script>
 </body>
 </html>
