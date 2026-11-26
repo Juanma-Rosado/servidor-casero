@@ -13,7 +13,7 @@ if (!defined('ABSPATH')) {
 }
 
 // Dirección del proyecto en el portfolio, donde se explica qué es Reserfy
-const AVISO_DEMO_ENLACE = 'https://juanmarosado.com/proyectos.html#aplicaciones-web';
+const AVISO_DEMO_ENLACE = 'https://juanmarosado.com/proyectos.html#reserfy';
 
 // Indica si la web que se está sirviendo es la del restaurante de ejemplo
 function esWebRestaurante() {

@@ -1,5 +1,22 @@
 # Registro de cambios
 
+## 2026-11-26 · Reserfy: el aviso de demo enlaza a la nueva ficha del portfolio
+
+**Qué**
+- El enlace «Más información» de la franja de aviso (`aviso-demo.php`) apunta ahora a `proyectos.html#reserfy`.
+
+**Por qué**
+- Con el rediseño del portfolio, `proyectos.html#aplicaciones-web` ya no existe: el enlace llevaba al principio de la página.
+
+**Copia previa**
+- `aviso-demo.php.bak-20261126-1531`, movida a `copias/`.
+
+**Comprobación**
+- La franja de Échale Queso enlaza a `#reserfy`. El único otro enlace de las webs al portfolio (`contacto.html`) da `200`.
+
+**Cómo deshacerlo**
+- Volver a poner el enlace anterior en `aviso-demo.php`.
+
 ## 2026-11-26 · Guías con el estilo del portfolio, e iconos e imagen para redes nuevos
 
 **Qué**
