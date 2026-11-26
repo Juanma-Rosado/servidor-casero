@@ -41,6 +41,7 @@ El repositorio es la referencia: lo que hay aquí es lo que hay en el servidor. 
    ```bash
    scripts/publicar-web.sh
    ```
+   Si cambio el icono (`img/logo.svg`) o la imagen para redes (`scripts/imagenes/og.html`), antes vuelvo a generar los PNG con `scripts/generar-imagenes.sh`.
 6. Commit y push.
 
 ## Cómo está montado

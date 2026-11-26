@@ -1,5 +1,35 @@
 # Registro de cambios
 
+## 2026-11-26 · Guías con el estilo del portfolio, e iconos e imagen para redes nuevos
+
+**Qué**
+- Guías (`/servidor/` y `/guia-dual-w11-mint/`):
+  - Fuera el contador «0 de 13 capítulos completados», su barra y los botones «Marcar como completado», y el «$ » delante del título del índice.
+  - Arriba del índice, un enlace «← Juanma Rosado» a la portada y el botón de modo claro/oscuro. Es el mismo del portfolio: cargan `/js/tema.js` y `/js/main.js`, y la elección se comparte. Antes las guías solo seguían al sistema y no hacían caso de lo elegido en el portfolio.
+  - `guia.css` y `guia.js` con nombres en español, como el resto: `capitulo`, `aviso consejo`, `captura`, `pasos`, `antetitulo`... en vez de `chapter`, `callout tip`, `shot`, `steps`, `eyebrow`. También las variables (`--fondo`, `--acento`...) y los atributos (`data-titulo`, `data-lenguaje`). El cambio en el HTML se hizo con un script que solo toca los atributos `class`: el texto de las guías no cambia.
+  - La numeración que sigue de una lista de pasos a otra va con `start` en el `<ol>`, en vez de `style="counter-reset"` dentro del HTML.
+  - `guia.js` crea el índice y los enlaces con `createElement` y `textContent` en lugar de `innerHTML`.
+  - «Última revisión» de la guía del arranque dual: 26 de noviembre de 2026.
+- Imágenes:
+  - `og.png` nueva (la que sale al compartir el enlace): fondo papel, nombre, una línea en monoespaciada y los tres proyectos con fecha, como la portada.
+  - `favicon-48.png`, `apple-touch-icon.png` y `favicon.ico` sacados del `logo.svg` nuevo (la J sobre rojo teja), sin el degradado.
+  - Se hacen con `scripts/generar-imagenes.sh`, que hace capturas con Edge sin ventana de `scripts/imagenes/og.html` e `icono.html`. El `.ico` lo monta con Python: es un PNG con una cabecera de 22 bytes delante.
+
+**Por qué**
+- Era lo que más delataba la plantilla: las guías parecían una aplicación y no unos apuntes, y la imagen que sale en LinkedIn o WhatsApp seguía con el degradado turquesa y violeta.
+- Los nombres en inglés de diseñador no eran los míos: el resto del código está en español.
+
+**Copia previa**
+- La versión anterior está en git (commit `9ba23d4`), y `publicar-web.sh` copia lo publicado antes de subir.
+
+**Comprobación**
+- `python scripts/comprobar-web.py` da la web por correcta.
+- En local: las dos guías cargan sin errores en la consola. El modo elegido en el portfolio se mantiene en las guías y al revés. La segunda lista de pasos de «Instalar Windows 11 Pro» empieza en 03, como antes. Anterior/siguiente, copiar y ampliar capturas funcionan. En el móvil se abre el índice.
+- Error real: al principio `apple-touch-icon.png` salía solo rojo, sin la J. Edge sin ventana no respetaba bien `--window-size`, y el SVG al 100 % quedaba fuera del recorte. Ahora la plantilla pone el icono en píxeles (`?tam=180`) arriba a la izquierda.
+
+**Cómo deshacerlo**
+- `git checkout 9ba23d4 -- web/portfolio` y volver a publicar.
+
 ## 2026-11-26 · Portfolio: mayúscula inicial en todo y «Me llamo Juanma»
 
 **Qué**

@@ -3,20 +3,20 @@
 
 /* Solo en esta guía: diagrama del disco */
 svg .win {
-  fill: var(--accent-soft);
-  stroke: var(--accent);
+  fill: var(--acento-suave);
+  stroke: var(--acento);
   stroke-width: 1.5;
 }
 
 svg .lin {
-  fill: var(--ok-soft);
-  stroke: var(--ok);
+  fill: var(--bien-suave);
+  stroke: var(--bien);
   stroke-width: 1.5;
 }
 
 /* Marca de «Sí» en la tabla de comprobaciones */
 .si {
-  color: var(--ok);
+  color: var(--bien);
   font-weight: 600;
 }
 

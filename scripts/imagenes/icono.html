@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Icono de la web</title>
+  <!-- Pinta img/logo.svg arriba a la izquierda, del tamaño que diga ?tam=
+       scripts/generar-imagenes.sh lo abre con tam=48 y con tam=180.
+       Con &cuadrado se quitan las esquinas redondeadas: el iPhone las redondea él solo.
+       El tamaño va en píxeles porque Edge sin ventana no siempre respeta --window-size. -->
+  <style>
+    html, body {
+      margin: 0;
+      overflow: hidden;
+      background: transparent;
+    }
+
+    img {
+      display: block;
+      width: 48px;
+      height: 48px;
+    }
+
+    .cuadrado {
+      background: #b0442a;
+    }
+  </style>
+</head>
+<body>
+  <img src="../../web/portfolio/img/logo.svg" alt="">
+  <script>
+    const parametros = new URLSearchParams(location.search);
+    const imagen = document.querySelector("img");
+    const tamano = parametros.get("tam") || "48";
+
+    imagen.style.width = tamano + "px";
+    imagen.style.height = tamano + "px";
+
+    // Con &cuadrado, el fondo rojo llena las esquinas
+    if (parametros.has("cuadrado")) {
+      imagen.classList.add("cuadrado");
+    }
+  </script>
+</body>
+</html>

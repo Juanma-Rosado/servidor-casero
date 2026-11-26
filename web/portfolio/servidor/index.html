@@ -44,27 +44,30 @@
   }
 </script>
 <link rel="stylesheet" href="/comun/css/fonts.css">
-<link rel="stylesheet" href="/comun/css/guia.css?v=20261124">
+<link rel="stylesheet" href="/comun/css/guia.css?v=20261126">
+<script src="/js/tema.js?v=20261126"></script>
 </head>
-<body data-clave-progreso="guia-hecho" data-nombre-guia="Servidor casero con Proxmox">
-<div class="topbar"><button id="menu-btn" type="button">☰ Capítulos</button><span id="topbar-title"></span></div>
-<div class="layout">
-  <aside class="side" aria-label="Capítulos">
-    <p class="brand">Servidor casero</p>
-    <p class="brand-sub">Proxmox VE · ZFS · Docker</p>
-    <div class="progress"><i id="bar"></i></div>
-    <p class="progress-label" id="plabel"></p>
-    <ol class="nav" id="nav" style="list-style:none;margin:0;padding:0"></ol>
+<body data-nombre-guia="Servidor casero con Proxmox">
+<div class="barra-movil"><button id="boton-menu" type="button">☰ Capítulos</button><span id="titulo-movil"></span></div>
+<div class="maqueta">
+  <aside class="lateral" aria-label="Capítulos">
+    <div class="lateral__arriba">
+      <a href="/">← Juanma Rosado</a>
+      <button type="button" class="boton-tema"></button>
+    </div>
+    <p class="lateral__titulo">Servidor casero</p>
+    <p class="lateral__subtitulo">Proxmox VE · ZFS · Docker</p>
+    <ol class="indice" id="indice"></ol>
   </aside>
 
-  <main class="main"><div class="page">
+  <main class="contenido"><div class="hoja">
 
 <!-- Capítulo 00: Inicio -->
-<article class="chapter" id="inicio" data-title="Qué vamos a montar">
-  <p class="eyebrow">Guía completa</p>
+<article class="capitulo" id="inicio" data-titulo="Qué vamos a montar">
+  <p class="antetitulo">Guía completa</p>
   <h1>Un servidor casero con Proxmox, desde cero</h1>
-  <p class="lead">Esta guía explica cómo montar un servidor en casa que aloja tu web, tu nube privada y un bloqueador de anuncios para toda la red, sin abrir ningún puerto del router. Cada capítulo tiene los pasos, los comandos y cómo comprobar que funciona.</p>
-  <ul class="meta">
+  <p class="entradilla">Esta guía explica cómo montar un servidor en casa que aloja tu web, tu nube privada y un bloqueador de anuncios para toda la red, sin abrir ningún puerto del router. Cada capítulo tiene los pasos, los comandos y cómo comprobar que funciona.</p>
+  <ul class="ficha">
     <li><b>Nivel:</b> 1.º de DAW, sin experiencia previa en servidores</li>
     <li><b>Tiempo:</b> un fin de semana largo</li>
     <li><b>Coste:</b> un dominio (unos 10 € al año)</li>
@@ -74,50 +77,50 @@
   <h2>Resultado final</h2>
   <p>Un único equipo que ejecuta cuatro entornos separados y aislados entre sí. El diagrama muestra qué corre en cada uno y cómo llega el tráfico.</p>
   <figure>
-    <div class="diagram">
+    <div class="diagrama">
       <svg viewBox="0 0 720 400" role="img" aria-label="Arquitectura: Proxmox con dos contenedores LXC y dos máquinas virtuales sobre un pool ZFS en espejo; Cloudflare entra por un túnel hasta Nginx Proxy Manager">
         <defs>
-          <marker id="a1" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0L10 5L0 10z" class="arr"/></marker>
-          <marker id="a2" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0L10 5L0 10z" class="arr2"/></marker>
+          <marker id="a1" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0L10 5L0 10z" class="flecha"/></marker>
+          <marker id="a2" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0L10 5L0 10z" class="flecha2"/></marker>
         </defs>
-        <rect class="box" x="45" y="18" width="140" height="44" rx="8"/><text class="t" x="115" y="38" text-anchor="middle">Tu móvil</text><text class="s" x="115" y="54" text-anchor="middle">fuera de casa</text>
-        <rect class="box" x="205" y="18" width="150" height="44" rx="8"/><text class="t" x="280" y="38" text-anchor="middle">Cloudflare</text><text class="s" x="280" y="54" text-anchor="middle">DNS · WAF · CDN</text>
-        <rect class="box" x="400" y="18" width="140" height="44" rx="8"/><text class="t" x="470" y="38" text-anchor="middle">Internet</text><text class="s" x="470" y="54" text-anchor="middle">visitantes de la web</text>
-        <line class="ln" x1="400" y1="40" x2="357" y2="40" marker-end="url(#a1)"/>
-        <line class="ln" x1="280" y1="64" x2="280" y2="136" marker-end="url(#a1)"/>
-        <text class="m" x="288" y="104">túnel</text>
-        <line class="ln2" x1="115" y1="64" x2="115" y2="136" marker-end="url(#a2)"/>
-        <text class="m" x="123" y="104">VPN</text>
+        <rect class="caja" x="45" y="18" width="140" height="44" rx="8"/><text class="rotulo" x="115" y="38" text-anchor="middle">Tu móvil</text><text class="detalle" x="115" y="54" text-anchor="middle">fuera de casa</text>
+        <rect class="caja" x="205" y="18" width="150" height="44" rx="8"/><text class="rotulo" x="280" y="38" text-anchor="middle">Cloudflare</text><text class="detalle" x="280" y="54" text-anchor="middle">DNS · WAF · CDN</text>
+        <rect class="caja" x="400" y="18" width="140" height="44" rx="8"/><text class="rotulo" x="470" y="38" text-anchor="middle">Internet</text><text class="detalle" x="470" y="54" text-anchor="middle">visitantes de la web</text>
+        <line class="linea" x1="400" y1="40" x2="357" y2="40" marker-end="url(#a1)"/>
+        <line class="linea" x1="280" y1="64" x2="280" y2="136" marker-end="url(#a1)"/>
+        <text class="dato" x="288" y="104">túnel</text>
+        <line class="linea2" x1="115" y1="64" x2="115" y2="136" marker-end="url(#a2)"/>
+        <text class="dato" x="123" y="104">VPN</text>
 
-        <rect class="host" x="20" y="82" width="680" height="300" rx="12"/>
-        <text class="m" x="688" y="100" text-anchor="end">Proxmox VE · pve · 192.168.0.254</text>
+        <rect class="equipo" x="20" y="82" width="680" height="300" rx="12"/>
+        <text class="dato" x="688" y="100" text-anchor="end">Proxmox VE · pve · 192.168.0.254</text>
 
-        <rect class="box" x="40" y="140" width="150" height="110" rx="8"/>
-        <text class="m" x="52" y="158">LXC 100 · .253</text><text class="t" x="52" y="178">adguard</text>
-        <text class="s" x="52" y="198">AdGuard Home</text><text class="s" x="52" y="216">Tailscale</text>
-        <rect class="hi" x="205" y="140" width="150" height="110" rx="8"/>
-        <text class="m" x="217" y="158">LXC 101 · .252</text><text class="t" x="217" y="178">npm</text>
-        <text class="s" x="217" y="198">Nginx Proxy Manager</text><text class="s" x="217" y="216">cloudflared</text>
-        <rect class="box" x="370" y="140" width="150" height="110" rx="8"/>
-        <text class="m" x="382" y="158">VM 102 · .250</text><text class="t" x="382" y="178">personal</text>
-        <text class="s" x="382" y="198">Nextcloud · Kuma</text><text class="s" x="382" y="216">Homepage · Portainer</text>
-        <rect class="box" x="535" y="140" width="150" height="110" rx="8"/>
-        <text class="m" x="547" y="158">VM 103 · .251</text><text class="t" x="547" y="178">profesional</text>
-        <text class="s" x="547" y="198">Portfolio web</text><text class="s" x="547" y="216">Portainer</text>
+        <rect class="caja" x="40" y="140" width="150" height="110" rx="8"/>
+        <text class="dato" x="52" y="158">LXC 100 · .253</text><text class="rotulo" x="52" y="178">adguard</text>
+        <text class="detalle" x="52" y="198">AdGuard Home</text><text class="detalle" x="52" y="216">Tailscale</text>
+        <rect class="destacado" x="205" y="140" width="150" height="110" rx="8"/>
+        <text class="dato" x="217" y="158">LXC 101 · .252</text><text class="rotulo" x="217" y="178">npm</text>
+        <text class="detalle" x="217" y="198">Nginx Proxy Manager</text><text class="detalle" x="217" y="216">cloudflared</text>
+        <rect class="caja" x="370" y="140" width="150" height="110" rx="8"/>
+        <text class="dato" x="382" y="158">VM 102 · .250</text><text class="rotulo" x="382" y="178">personal</text>
+        <text class="detalle" x="382" y="198">Nextcloud · Kuma</text><text class="detalle" x="382" y="216">Homepage · Portainer</text>
+        <rect class="caja" x="535" y="140" width="150" height="110" rx="8"/>
+        <text class="dato" x="547" y="158">VM 103 · .251</text><text class="rotulo" x="547" y="178">profesional</text>
+        <text class="detalle" x="547" y="198">Portfolio web</text><text class="detalle" x="547" y="216">Portainer</text>
 
-        <line class="ln" x1="355" y1="195" x2="370" y2="195" marker-end="url(#a1)"/>
-        <path class="ln" d="M280 252 V266 H610 V252" marker-end="url(#a1)"/>
+        <line class="linea" x1="355" y1="195" x2="370" y2="195" marker-end="url(#a1)"/>
+        <path class="linea" d="M280 252 V266 H610 V252" marker-end="url(#a1)"/>
 
-        <rect class="box" x="40" y="292" width="645" height="62" rx="8"/>
-        <text class="t" x="56" y="316">Pool ZFS «datos» en espejo</text>
-        <text class="s" x="56" y="336">2 discos de 512 GB · si uno falla, el otro tiene todo · discos de las VM, backups y snapshots</text>
+        <rect class="caja" x="40" y="292" width="645" height="62" rx="8"/>
+        <text class="rotulo" x="56" y="316">Pool ZFS «datos» en espejo</text>
+        <text class="detalle" x="56" y="336">2 discos de 512 GB · si uno falla, el otro tiene todo · discos de las VM, backups y snapshots</text>
       </svg>
     </div>
     <figcaption>Cada recuadro es un entorno independiente. El destacado es la puerta de entrada web.</figcaption>
   </figure>
 
   <h2>Qué necesitas</h2>
-  <div class="tablewrap"><table>
+  <div class="tabla"><table>
     <tr><th>Elemento</th><th>En este proyecto</th><th>Mínimo recomendable</th></tr>
     <tr><td>Equipo</td><td>Ryzen 5 2600, 40 GB RAM</td><td>4 núcleos y 16 GB de RAM</td></tr>
     <tr><td>Disco del sistema</td><td>SSD de 128 GB</td><td>SSD de 64 GB</td></tr>
@@ -127,23 +130,23 @@
     <tr><td>Telegram</td><td>Bot para avisos</td><td>Opcional</td></tr>
   </table></div>
 
-  <figure class="shot"><img src="img/000.webp" width="402" height="403" alt="CPU-Z del equipo" loading="lazy"><figcaption>El procesador del servidor visto con CPU-Z: Ryzen 5 2600, 6 núcleos y 12 hilos.</figcaption></figure>
-  <div class="callout tip"><strong>Cómo leer esta guía</strong>
+  <figure class="captura"><img src="img/000.webp" width="402" height="403" alt="CPU-Z del equipo" loading="lazy"><figcaption>El procesador del servidor visto con CPU-Z: Ryzen 5 2600, 6 núcleos y 12 hilos.</figcaption></figure>
+  <div class="aviso consejo"><strong>Cómo leer esta guía</strong>
     <p>Sigue los capítulos en orden. Los comandos tienen botón <b>Copiar</b>. Donde veas <code>tudominio.com</code> pon tu dominio, y las IP <code>192.168.0.x</code> son las de este montaje: cámbialas si tu red es otra.</p>
   </div>
-  <div class="callout warn"><strong>Antes de empezar</strong>
+  <div class="aviso cuidado"><strong>Antes de empezar</strong>
     <p>Instalar Proxmox borra el disco del sistema. Haz copia de todo lo que quieras conservar del equipo anterior.</p>
   </div>
 </article>
 
 <!-- Capítulo 01: Proxmox -->
-<article class="chapter" id="proxmox" data-title="Instalar Proxmox VE">
-  <p class="eyebrow">Capítulo 1</p>
+<article class="capitulo" id="proxmox" data-titulo="Instalar Proxmox VE">
+  <p class="antetitulo">Capítulo 1</p>
   <h2 class="t1">Instalar Proxmox VE</h2>
-  <p class="lead">Proxmox es el sistema que se instala directamente en el equipo y permite crear máquinas virtuales y contenedores desde una web.</p>
-  <ul class="meta"><li><b>Tiempo:</b> 30 minutos</li><li><b>Necesitas:</b> pendrive de 8 GB, monitor y teclado</li></ul>
+  <p class="entradilla">Proxmox es el sistema que se instala directamente en el equipo y permite crear máquinas virtuales y contenedores desde una web.</p>
+  <ul class="ficha"><li><b>Tiempo:</b> 30 minutos</li><li><b>Necesitas:</b> pendrive de 8 GB, monitor y teclado</li></ul>
 
-  <ol class="steps">
+  <ol class="pasos">
     <li><strong>Descarga la ISO y crea el pendrive de arranque</strong>
       <p>Descarga la ISO de Proxmox VE desde proxmox.com y grábala con Balena Etcher o Rufus.</p>
     </li>
@@ -155,106 +158,106 @@
     </li>
     <li><strong>Configura la red</strong>
       <p>Pon una IP fija fuera del rango que reparte el router, por ejemplo <code>192.168.0.254</code>, con la puerta de enlace del router (normalmente <code>192.168.0.1</code>). En el nombre del equipo (FQDN) usa algo como <code>pve.tudominio.com</code>.</p>
-      <div class="callout tip"><strong>Por qué pve</strong><p>El primer trozo es el nombre del nodo. Es corto y no se puede cambiar fácilmente después, así que elígelo bien al instalar.</p></div>
+      <div class="aviso consejo"><strong>Por qué pve</strong><p>El primer trozo es el nombre del nodo. Es corto y no se puede cambiar fácilmente después, así que elígelo bien al instalar.</p></div>
     </li>
     <li><strong>Entra en la web de administración</strong>
       <p>Cuando reinicie, desconecta monitor y teclado. Desde otro ordenador abre <code>https://192.168.0.254:8006</code>, acepta el aviso de certificado y entra con el usuario <code>root</code> y el dominio <b>Linux PAM</b>.</p>
     </li>
     <li><strong>Comprueba el estado de los discos</strong>
       <p>Abre el terminal del nodo (Nodo → Consola) y revisa que los tres discos están sanos.</p>
-<pre data-lang="bash"><code>apt install -y smartmontools
+<pre data-lenguaje="bash"><code>apt install -y smartmontools
 smartctl -H /dev/sda
 smartctl -H /dev/sdb
 smartctl -H /dev/sdc</code></pre>
     </li>
     <li><strong>Actualiza el sistema</strong>
-<pre data-lang="bash"><code>apt update &amp;&amp; apt full-upgrade -y</code></pre>
-<figure class="shot"><img src="img/001.webp" width="638" height="381" alt="Actualización de Proxmox" loading="lazy"><figcaption>Durante la actualización aparecen avisos sobre el microcódigo de AMD: son informativos.</figcaption></figure>
-      <div class="callout warn"><strong>Aviso de suscripción</strong><p>Sin licencia, Proxmox muestra un aviso al entrar y puede fallar <code>apt update</code> con los repositorios Enterprise. Desactiva esos repositorios en Nodo → Actualizaciones → Repositorios y añade el repositorio <b>No-Subscription</b>.</p></div>
+<pre data-lenguaje="bash"><code>apt update &amp;&amp; apt full-upgrade -y</code></pre>
+<figure class="captura"><img src="img/001.webp" width="638" height="381" alt="Actualización de Proxmox" loading="lazy"><figcaption>Durante la actualización aparecen avisos sobre el microcódigo de AMD: son informativos.</figcaption></figure>
+      <div class="aviso cuidado"><strong>Aviso de suscripción</strong><p>Sin licencia, Proxmox muestra un aviso al entrar y puede fallar <code>apt update</code> con los repositorios Enterprise. Desactiva esos repositorios en Nodo → Actualizaciones → Repositorios y añade el repositorio <b>No-Subscription</b>.</p></div>
     </li>
   </ol>
-  <div class="callout check"><strong>Comprueba que funciona</strong><p>Ves la web en el puerto 8006, los tres discos aparecen como <code>PASSED</code> y el sistema está actualizado.</p></div>
+  <div class="aviso comprobacion"><strong>Comprueba que funciona</strong><p>Ves la web en el puerto 8006, los tres discos aparecen como <code>PASSED</code> y el sistema está actualizado.</p></div>
 </article>
 
 <!-- Capítulo 02: ZFS -->
-<article class="chapter" id="zfs" data-title="Discos de datos con ZFS">
-  <p class="eyebrow">Capítulo 2</p>
+<article class="capitulo" id="zfs" data-titulo="Discos de datos con ZFS">
+  <p class="antetitulo">Capítulo 2</p>
   <h2 class="t1">Discos de datos con ZFS en espejo</h2>
-  <p class="lead">ZFS es un sistema de ficheros con redundancia incorporada. En modo espejo, cada dato se escribe en los dos discos a la vez: si uno se rompe, el servidor sigue funcionando.</p>
+  <p class="entradilla">ZFS es un sistema de ficheros con redundancia incorporada. En modo espejo, cada dato se escribe en los dos discos a la vez: si uno se rompe, el servidor sigue funcionando.</p>
 
   <figure>
-    <div class="diagram">
+    <div class="diagrama">
       <svg viewBox="0 0 640 170" role="img" aria-label="Pool ZFS en espejo: dos discos con los mismos datos">
-        <rect class="box" x="30" y="30" width="160" height="110" rx="8"/><text class="t" x="110" y="64" text-anchor="middle">Disco A</text><text class="s" x="110" y="84" text-anchor="middle">512 GB</text><text class="m" x="110" y="108" text-anchor="middle">copia completa</text>
-        <rect class="box" x="450" y="30" width="160" height="110" rx="8"/><text class="t" x="530" y="64" text-anchor="middle">Disco B</text><text class="s" x="530" y="84" text-anchor="middle">512 GB</text><text class="m" x="530" y="108" text-anchor="middle">copia completa</text>
-        <rect class="hi" x="240" y="45" width="160" height="80" rx="8"/><text class="t" x="320" y="80" text-anchor="middle">Pool «datos»</text><text class="s" x="320" y="100" text-anchor="middle">512 GB utilizables</text>
-        <line class="ln" x1="240" y1="85" x2="192" y2="85"/><line class="ln" x1="400" y1="85" x2="448" y2="85"/>
+        <rect class="caja" x="30" y="30" width="160" height="110" rx="8"/><text class="rotulo" x="110" y="64" text-anchor="middle">Disco A</text><text class="detalle" x="110" y="84" text-anchor="middle">512 GB</text><text class="dato" x="110" y="108" text-anchor="middle">copia completa</text>
+        <rect class="caja" x="450" y="30" width="160" height="110" rx="8"/><text class="rotulo" x="530" y="64" text-anchor="middle">Disco B</text><text class="detalle" x="530" y="84" text-anchor="middle">512 GB</text><text class="dato" x="530" y="108" text-anchor="middle">copia completa</text>
+        <rect class="destacado" x="240" y="45" width="160" height="80" rx="8"/><text class="rotulo" x="320" y="80" text-anchor="middle">Pool «datos»</text><text class="detalle" x="320" y="100" text-anchor="middle">512 GB utilizables</text>
+        <line class="linea" x1="240" y1="85" x2="192" y2="85"/><line class="linea" x1="400" y1="85" x2="448" y2="85"/>
       </svg>
     </div>
     <figcaption>Con dos discos de 512 GB tienes 512 GB útiles: la mitad se usa como copia.</figcaption>
   </figure>
 
-  <div class="callout warn"><strong>Esto borra los discos</strong><p>Crear el pool destruye lo que hubiera en ellos. Comprueba bien cuáles son con <code>lsblk</code> antes de continuar.</p></div>
+  <div class="aviso cuidado"><strong>Esto borra los discos</strong><p>Crear el pool destruye lo que hubiera en ellos. Comprueba bien cuáles son con <code>lsblk</code> antes de continuar.</p></div>
 
-  <ol class="steps">
+  <ol class="pasos">
     <li><strong>Identifica los discos por su ID estable</strong>
       <p>Los nombres <code>/dev/sdb</code> pueden cambiar entre reinicios. Los IDs no.</p>
-<pre data-lang="bash"><code>lsblk -o NAME,SIZE,MODEL,SERIAL
+<pre data-lenguaje="bash"><code>lsblk -o NAME,SIZE,MODEL,SERIAL
 ls -l /dev/disk/by-id/ | grep -v part</code></pre>
     </li>
     <li><strong>Crea el pool en espejo</strong>
       <p>Cambia los dos IDs por los de tus discos.</p>
-<pre data-lang="bash"><code>zpool create -f -o ashift=12 datos mirror \
+<pre data-lenguaje="bash"><code>zpool create -f -o ashift=12 datos mirror \
   /dev/disk/by-id/ATA-DISCO_A \
   /dev/disk/by-id/ATA-DISCO_B
 zfs set compression=lz4 datos
 zfs set atime=off datos</code></pre>
       <p>También puedes crearlo desde la web: Nodo → Discos → ZFS → <b>Crear: ZFS</b>, nombre <code>datos</code>, nivel RAID <b>Mirror</b> y marcas los dos discos.</p>
-      <figure class="shot"><img src="img/002.webp" width="795" height="421" alt="Diálogo Crear ZFS" loading="lazy"><figcaption>Diálogo «Crear: ZFS» con los dos discos y el nivel de RAID en espejo.</figcaption></figure>
+      <figure class="captura"><img src="img/002.webp" width="795" height="421" alt="Diálogo Crear ZFS" loading="lazy"><figcaption>Diálogo «Crear: ZFS» con los dos discos y el nivel de RAID en espejo.</figcaption></figure>
     </li>
     <li><strong>Limita la memoria que usa ZFS</strong>
       <p>ZFS reserva mucha RAM como caché. Con 40 GB, lo dejamos en 6 GB para que las máquinas virtuales tengan memoria.</p>
-<pre data-lang="bash"><code>echo "options zfs zfs_arc_max=6442450944" &gt; /etc/modprobe.d/zfs.conf
+<pre data-lenguaje="bash"><code>echo "options zfs zfs_arc_max=6442450944" &gt; /etc/modprobe.d/zfs.conf
 update-initramfs -u -k all
 reboot</code></pre>
-      <figure class="shot"><div class="shot-grid"><img src="img/007.webp" width="1000" height="354" alt="Comando del límite de ARC" loading="lazy"><img src="img/008.webp" width="637" height="390" alt="Valor de zfs_arc_max" loading="lazy"></div><figcaption>A la izquierda, el límite escrito en <code>/etc/modprobe.d</code>. A la derecha, la comprobación tras reiniciar: 6 GB.</figcaption></figure>
+      <figure class="captura"><div class="capturas"><img src="img/007.webp" width="1000" height="354" alt="Comando del límite de ARC" loading="lazy"><img src="img/008.webp" width="637" height="390" alt="Valor de zfs_arc_max" loading="lazy"></div><figcaption>A la izquierda, el límite escrito en <code>/etc/modprobe.d</code>. A la derecha, la comprobación tras reiniciar: 6 GB.</figcaption></figure>
     </li>
     <li><strong>Regístralo como almacenamiento en Proxmox</strong>
       <p>Datacenter → Almacenamiento → Añadir → ZFS, ID <code>datos</code>, y marca <b>Disk image</b> y <b>Container</b>.</p>
-      <figure class="shot"><img src="img/011.webp" width="943" height="124" alt="pvesm status" loading="lazy"><figcaption><code>pvesm status</code> lista los almacenamientos: <code>datos</code> activo y, más adelante, <code>backups</code>.</figcaption></figure>
+      <figure class="captura"><img src="img/011.webp" width="943" height="124" alt="pvesm status" loading="lazy"><figcaption><code>pvesm status</code> lista los almacenamientos: <code>datos</code> activo y, más adelante, <code>backups</code>.</figcaption></figure>
     </li>
   </ol>
-  <div class="callout check"><strong>Comprueba que funciona</strong>
-<pre data-lang="bash"><code>zpool status datos</code></pre>
-<figure class="shot"><div class="shot-grid"><img src="img/004.webp" width="1000" height="452" alt="Pool online" loading="lazy"><img src="img/005.webp" width="792" height="251" alt="zpool status" loading="lazy"></div><figcaption>El pool <code>datos</code> en estado ONLINE con los dos discos del espejo sin errores.</figcaption></figure>
+  <div class="aviso comprobacion"><strong>Comprueba que funciona</strong>
+<pre data-lenguaje="bash"><code>zpool status datos</code></pre>
+<figure class="captura"><div class="capturas"><img src="img/004.webp" width="1000" height="452" alt="Pool online" loading="lazy"><img src="img/005.webp" width="792" height="251" alt="zpool status" loading="lazy"></div><figcaption>El pool <code>datos</code> en estado ONLINE con los dos discos del espejo sin errores.</figcaption></figure>
     <p>Debe poner <code>ONLINE</code> para el pool y para los dos discos, sin errores.</p></div>
 </article>
 
 <!-- Capítulo 03: Copias -->
-<article class="chapter" id="copias" data-title="Copias, snapshots y alertas">
-  <p class="eyebrow">Capítulo 3</p>
+<article class="capitulo" id="copias" data-titulo="Copias, snapshots y alertas">
+  <p class="antetitulo">Capítulo 3</p>
   <h2 class="t1">Copias de seguridad y snapshots</h2>
-  <p class="lead">El espejo protege de que se rompa un disco, pero no de borrar un archivo por error. Para eso hacemos snapshots frecuentes y copias nocturnas de las máquinas.</p>
+  <p class="entradilla">El espejo protege de que se rompa un disco, pero no de borrar un archivo por error. Para eso hacemos snapshots frecuentes y copias nocturnas de las máquinas.</p>
 
-  <div class="callout tip"><strong>Espejo no es copia</strong><p>Si borras un fichero, se borra en los dos discos a la vez. Las copias y los snapshots te dejan volver atrás.</p></div>
+  <div class="aviso consejo"><strong>Espejo no es copia</strong><p>Si borras un fichero, se borra en los dos discos a la vez. Las copias y los snapshots te dejan volver atrás.</p></div>
 
   <h3 class="t2">Almacenamiento para las copias</h3>
-  <ol class="steps">
+  <ol class="pasos">
     <li><strong>Crea un dataset con cuota</strong>
       <p>La cuota evita que las copias se coman todo el pool.</p>
-<pre data-lang="bash"><code>zfs create -o quota=150G datos/backups
+<pre data-lenguaje="bash"><code>zfs create -o quota=150G datos/backups
 pvesm add dir backups --path /datos/backups --content backup</code></pre>
-      <figure class="shot"><img src="img/009.webp" width="963" height="391" alt="Error de retención" loading="lazy"><figcaption>Error real que salió al pegar el comando en varias líneas: la opción de retención llegó partida. Escríbelo en una sola línea.</figcaption></figure>
+      <figure class="captura"><img src="img/009.webp" width="963" height="391" alt="Error de retención" loading="lazy"><figcaption>Error real que salió al pegar el comando en varias líneas: la opción de retención llegó partida. Escríbelo en una sola línea.</figcaption></figure>
     </li>
     <li><strong>Crea el trabajo de copia diario</strong>
       <p>Datacenter → Copia de seguridad → Añadir. Elige las máquinas, el almacenamiento <code>backups</code>, la hora <code>03:00</code> y la retención.</p>
-      <figure class="shot"><div class="shot-grid"><img src="img/135.webp" width="1000" height="560" alt="Trabajo de copia" loading="lazy"><img src="img/137.webp" width="1000" height="367" alt="Retención" loading="lazy"></div><figcaption>Trabajo diario a las 03:00 con compresión ZSTD y modo snapshot. En Retención: 2 copias diarias y 2 semanales.</figcaption></figure>
-      <div class="callout error"><strong>Error típico</strong><p>Si pegas un comando largo con varias líneas en el terminal web, puede cortarse a medias. Escríbelo en una sola línea entre comillas.</p></div>
+      <figure class="captura"><div class="capturas"><img src="img/135.webp" width="1000" height="560" alt="Trabajo de copia" loading="lazy"><img src="img/137.webp" width="1000" height="367" alt="Retención" loading="lazy"></div><figcaption>Trabajo diario a las 03:00 con compresión ZSTD y modo snapshot. En Retención: 2 copias diarias y 2 semanales.</figcaption></figure>
+      <div class="aviso error"><strong>Error típico</strong><p>Si pegas un comando largo con varias líneas en el terminal web, puede cortarse a medias. Escríbelo en una sola línea entre comillas.</p></div>
     </li>
   </ol>
 
   <h3 class="t2">Snapshots automáticos con sanoid</h3>
-<pre data-lang="bash"><code>apt install -y sanoid
+<pre data-lenguaje="bash"><code>apt install -y sanoid
 mkdir -p /etc/sanoid
 cat &gt; /etc/sanoid/sanoid.conf &lt;&lt;'EOF'
 [datos]
@@ -270,99 +273,99 @@ cat &gt; /etc/sanoid/sanoid.conf &lt;&lt;'EOF'
 EOF
 systemctl enable --now sanoid.timer</code></pre>
 
-<figure class="shot"><div class="shot-grid"><img src="img/018.webp" width="514" height="418" alt="Configuración de sanoid" loading="lazy"><img src="img/019.webp" width="958" height="56" alt="Temporizador de sanoid" loading="lazy"></div><figcaption>La configuración de sanoid y el temporizador <code>sanoid.timer</code> activo, que lanza los snapshots solo.</figcaption></figure>
+<figure class="captura"><div class="capturas"><img src="img/018.webp" width="514" height="418" alt="Configuración de sanoid" loading="lazy"><img src="img/019.webp" width="958" height="56" alt="Temporizador de sanoid" loading="lazy"></div><figcaption>La configuración de sanoid y el temporizador <code>sanoid.timer</code> activo, que lanza los snapshots solo.</figcaption></figure>
 
   <h3 class="t2">Avisos de fallos</h3>
   <p>Proxmox envía alertas cuando falla una copia o un disco. Al principio van por correo; más adelante las pasaremos a Telegram en el capítulo de avisos.</p>
-  <div class="callout check"><strong>Comprueba que funciona</strong>
-<pre data-lang="bash"><code>zfs list -t snapshot | head
+  <div class="aviso comprobacion"><strong>Comprueba que funciona</strong>
+<pre data-lenguaje="bash"><code>zfs list -t snapshot | head
 vzdump 100 --storage backups --mode snapshot</code></pre>
     <p>Aparecen snapshots con nombre <code>autosnap_…</code> y la copia manual termina sin errores.</p></div>
 
   <h3 class="t2">Prueba a restaurar una copia</h3>
   <p>Una copia que nunca has restaurado no sabes si sirve. De vez en cuando, restaura la última copia de una máquina con otro ID, sin red y sin arranque automático, comprueba que funciona y bórrala.</p>
-<pre data-lang="bash"><code>qmrestore /datos/backups/dump/vzdump-qemu-103-FECHA.vma.zst 9103 --storage datos --unique 1
+<pre data-lenguaje="bash"><code>qmrestore /datos/backups/dump/vzdump-qemu-103-FECHA.vma.zst 9103 --storage datos --unique 1
 qm set 9103 --name prueba-restauracion-103 --onboot 0
 # Sin red: así no choca con la máquina de verdad, que tiene la misma IP
 qm set 9103 --net0 "$(qm config 9103 | grep ^net0 | cut -d' ' -f2),link_down=1"
 qm start 9103
 qm guest exec 9103 -- docker ps
 qm stop 9103 &amp;&amp; qm destroy 9103 --purge 1</code></pre>
-  <div class="callout tip"><strong>En este servidor</strong><p>La copia de la VM 103 (2 GB comprimida, 66 GB de discos) se restauró en 80 segundos. Arrancó, levantó sus contenedores y la web respondió dentro de la máquina.</p></div>
+  <div class="aviso consejo"><strong>En este servidor</strong><p>La copia de la VM 103 (2 GB comprimida, 66 GB de discos) se restauró en 80 segundos. Arrancó, levantó sus contenedores y la web respondió dentro de la máquina.</p></div>
 </article>
 
 <!-- Capítulo 04: AdGuard -->
-<article class="chapter" id="adguard" data-title="DNS y VPN (LXC 100)">
-  <p class="eyebrow">Capítulo 4</p>
+<article class="capitulo" id="adguard" data-titulo="DNS y VPN (LXC 100)">
+  <p class="antetitulo">Capítulo 4</p>
   <h2 class="t1">DNS y acceso remoto: LXC 100</h2>
-  <p class="lead">Un contenedor LXC es un mini sistema Linux que gasta muy poca memoria. Aquí instalamos AdGuard Home (bloqueo de anuncios para toda la casa) y Tailscale (VPN para entrar desde fuera sin abrir puertos).</p>
-  <div class="callout tip"><strong>Por qué aparte de Docker</strong><p>Si Docker se detiene, la red de casa sigue teniendo DNS y la VPN sigue funcionando.</p></div>
+  <p class="entradilla">Un contenedor LXC es un mini sistema Linux que gasta muy poca memoria. Aquí instalamos AdGuard Home (bloqueo de anuncios para toda la casa) y Tailscale (VPN para entrar desde fuera sin abrir puertos).</p>
+  <div class="aviso consejo"><strong>Por qué aparte de Docker</strong><p>Si Docker se detiene, la red de casa sigue teniendo DNS y la VPN sigue funcionando.</p></div>
 
-  <ol class="steps">
+  <ol class="pasos">
     <li><strong>Descarga la plantilla de Debian</strong>
       <p>Almacenamiento <code>local</code> → Plantillas de CT → descarga <b>debian-13-standard</b>.</p>
-      <figure class="shot"><div class="shot-grid"><img src="img/020.webp" width="1000" height="214" alt="Plantillas de CT" loading="lazy"><img src="img/021.webp" width="902" height="602" alt="Debian 13" loading="lazy"></div><figcaption>Se elige la plantilla de Debian 13 y se descarga.</figcaption></figure>
+      <figure class="captura"><div class="capturas"><img src="img/020.webp" width="1000" height="214" alt="Plantillas de CT" loading="lazy"><img src="img/021.webp" width="902" height="602" alt="Debian 13" loading="lazy"></div><figcaption>Se elige la plantilla de Debian 13 y se descarga.</figcaption></figure>
     </li>
     <li><strong>Crea el contenedor</strong>
       <p>Crear CT con ID <code>100</code>, nombre <code>adguard</code>, 1 núcleo, 512 MB de RAM, 8 GB de disco, IP fija <code>192.168.0.253/24</code> y puerta <code>192.168.0.1</code>. Deja marcado «Contenedor sin privilegios» y activa el anidamiento.</p>
-      <figure class="shot"><div class="shot-grid"><img src="img/023.webp" width="756" height="564" alt="General" loading="lazy"><img src="img/024.webp" width="765" height="568" alt="Plantilla" loading="lazy"><img src="img/025.webp" width="759" height="572" alt="Disco" loading="lazy"><img src="img/026.webp" width="759" height="572" alt="CPU" loading="lazy"><img src="img/027.webp" width="757" height="564" alt="Memoria" loading="lazy"><img src="img/028.webp" width="759" height="568" alt="Red" loading="lazy"><img src="img/029.webp" width="755" height="569" alt="DNS" loading="lazy"></div><figcaption>Pestañas del asistente: General, Plantilla, Disco (8 GB), CPU (1 núcleo), Memoria (512 MB), Red (IP fija) y DNS.</figcaption></figure>
+      <figure class="captura"><div class="capturas"><img src="img/023.webp" width="756" height="564" alt="General" loading="lazy"><img src="img/024.webp" width="765" height="568" alt="Plantilla" loading="lazy"><img src="img/025.webp" width="759" height="572" alt="Disco" loading="lazy"><img src="img/026.webp" width="759" height="572" alt="CPU" loading="lazy"><img src="img/027.webp" width="757" height="564" alt="Memoria" loading="lazy"><img src="img/028.webp" width="759" height="568" alt="Red" loading="lazy"><img src="img/029.webp" width="755" height="569" alt="DNS" loading="lazy"></div><figcaption>Pestañas del asistente: General, Plantilla, Disco (8 GB), CPU (1 núcleo), Memoria (512 MB), Red (IP fija) y DNS.</figcaption></figure>
     </li>
     <li><strong>Instala AdGuard Home</strong>
       <p>Abre la consola del contenedor (100 → Consola):</p>
-<pre data-lang="bash"><code>apt update &amp;&amp; apt install -y curl
+<pre data-lenguaje="bash"><code>apt update &amp;&amp; apt install -y curl
 curl -s -S -O -L https://raw.githubusercontent.com/AdguardTeam/AdGuardHome/master/scripts/install.sh
 sh install.sh -v</code></pre>
       <p>Después entra en <code>http://192.168.0.253:3000</code> para el asistente inicial y crea tu usuario.</p>
-      <figure class="shot"><div class="shot-grid"><img src="img/036.webp" width="333" height="39" alt="Asistente en el puerto 3000" loading="lazy"><img src="img/037.webp" width="647" height="948" alt="Interfaces" loading="lazy"><img src="img/040.webp" width="650" height="383" alt="Completado" loading="lazy"></div><figcaption>El asistente se abre en el puerto 3000: eliges las interfaces, creas el usuario y termina con «¡Felicidades!».</figcaption></figure>
+      <figure class="captura"><div class="capturas"><img src="img/036.webp" width="333" height="39" alt="Asistente en el puerto 3000" loading="lazy"><img src="img/037.webp" width="647" height="948" alt="Interfaces" loading="lazy"><img src="img/040.webp" width="650" height="383" alt="Completado" loading="lazy"></div><figcaption>El asistente se abre en el puerto 3000: eliges las interfaces, creas el usuario y termina con «¡Felicidades!».</figcaption></figure>
       <p>Después, en Ajustes → Configuración de DNS, usa servidores cifrados (DoH) como <code>https://dns10.quad9.net/dns-query</code>, y en Filtros → Listas de bloqueo activa las listas de anuncios, rastreadores y malware.</p>
-      <figure class="shot"><div class="shot-grid"><img src="img/041.webp" width="1000" height="234" alt="DNS DoH" loading="lazy"><img src="img/046.webp" width="1000" height="558" alt="Listas de bloqueo" loading="lazy"></div><figcaption>DNS ascendentes cifrados y listas de bloqueo activas.</figcaption></figure>
+      <figure class="captura"><div class="capturas"><img src="img/041.webp" width="1000" height="234" alt="DNS DoH" loading="lazy"><img src="img/046.webp" width="1000" height="558" alt="Listas de bloqueo" loading="lazy"></div><figcaption>DNS ascendentes cifrados y listas de bloqueo activas.</figcaption></figure>
     </li>
     <li><strong>Instala Tailscale como puente a tu red</strong>
       <p>Tailscale necesita el dispositivo <code>/dev/net/tun</code>. Apaga el contenedor y, <b>en el nodo Proxmox</b>, añade estas dos líneas:</p>
-<pre data-lang="bash"><code>cat &gt;&gt; /etc/pve/lxc/100.conf &lt;&lt;'EOF'
+<pre data-lenguaje="bash"><code>cat &gt;&gt; /etc/pve/lxc/100.conf &lt;&lt;'EOF'
 lxc.cgroup2.devices.allow: c 10:200 rwm
 lxc.mount.entry: /dev/net/tun dev/net/tun none bind,create=file
 EOF</code></pre>
-      <figure class="shot"><img src="img/030.webp" width="1000" height="309" alt="100.conf" loading="lazy"><figcaption>El fichero <code>/etc/pve/lxc/100.conf</code> con las dos líneas añadidas.</figcaption></figure>
+      <figure class="captura"><img src="img/030.webp" width="1000" height="309" alt="100.conf" loading="lazy"><figcaption>El fichero <code>/etc/pve/lxc/100.conf</code> con las dos líneas añadidas.</figcaption></figure>
       <p>Enciende el contenedor y, dentro de él:</p>
-<pre data-lang="bash"><code>curl -fsSL https://tailscale.com/install.sh | sh
+<pre data-lenguaje="bash"><code>curl -fsSL https://tailscale.com/install.sh | sh
 echo 'net.ipv4.ip_forward = 1' &gt;&gt; /etc/sysctl.d/99-tailscale.conf
 sysctl -p /etc/sysctl.d/99-tailscale.conf
 tailscale up --advertise-routes=192.168.0.0/24</code></pre>
       <p>Abre el enlace que muestra, inicia sesión y, en el panel de Tailscale, aprueba la ruta anunciada.</p>
-      <figure class="shot"><img src="img/053.webp" width="506" height="422" alt="Aprobar ruta" loading="lazy"><figcaption>En el panel de Tailscale se aprueba la ruta de subred <code>192.168.0.0/24</code>.</figcaption></figure>
+      <figure class="captura"><img src="img/053.webp" width="506" height="422" alt="Aprobar ruta" loading="lazy"><figcaption>En el panel de Tailscale se aprueba la ruta de subred <code>192.168.0.0/24</code>.</figcaption></figure>
       <p>Para usar AdGuard también fuera de casa, en Tailscale → DNS → Add nameserver pon la IP de Tailscale del contenedor (<code>tailscale ip -4</code>).</p>
-      <figure class="shot"><img src="img/057.webp" width="507" height="412" alt="Add nameserver" loading="lazy"><figcaption>AdGuard como servidor DNS de la tailnet.</figcaption></figure>
+      <figure class="captura"><img src="img/057.webp" width="507" height="412" alt="Add nameserver" loading="lazy"><figcaption>AdGuard como servidor DNS de la tailnet.</figcaption></figure>
     </li>
     <li><strong>Reparte el DNS por la red</strong>
       <p>En el router, en la configuración del DHCP, pon como DNS <code>192.168.0.253</code>. Todos los dispositivos usarán AdGuard al renovar la conexión.</p>
-      <figure class="shot"><img src="img/047.webp" width="1000" height="469" alt="DHCP del router" loading="lazy"><figcaption>En el router (aquí un TP-Link), Servidor DHCP: el DNS primario apunta a <code>192.168.0.253</code>.</figcaption></figure>
-      <div class="callout warn"><strong>Router de la operadora</strong><p>Algunos routers no permiten cambiar el DNS del DHCP. Si es tu caso, pon el DNS a mano en cada dispositivo o usa un router propio.</p></div>
+      <figure class="captura"><img src="img/047.webp" width="1000" height="469" alt="DHCP del router" loading="lazy"><figcaption>En el router (aquí un TP-Link), Servidor DHCP: el DNS primario apunta a <code>192.168.0.253</code>.</figcaption></figure>
+      <div class="aviso cuidado"><strong>Router de la operadora</strong><p>Algunos routers no permiten cambiar el DNS del DHCP. Si es tu caso, pon el DNS a mano en cada dispositivo o usa un router propio.</p></div>
     </li>
   </ol>
-  <div class="callout check"><strong>Comprueba que funciona</strong>
-<pre data-lang="bash"><code>nslookup google.com 192.168.0.253</code></pre>
+  <div class="aviso comprobacion"><strong>Comprueba que funciona</strong>
+<pre data-lenguaje="bash"><code>nslookup google.com 192.168.0.253</code></pre>
     <p>Responde con una IP, y en el panel de AdGuard empiezan a aparecer consultas de tus dispositivos.</p></div>
 </article>
 
 <!-- Capítulo 05: Nginx Proxy Manager -->
-<article class="chapter" id="npm" data-title="Proxy inverso (LXC 101)">
-  <p class="eyebrow">Capítulo 5</p>
+<article class="capitulo" id="npm" data-titulo="Proxy inverso (LXC 101)">
+  <p class="antetitulo">Capítulo 5</p>
   <h2 class="t1">La puerta de entrada web: LXC 101</h2>
-  <p class="lead">Un proxy inverso recibe todas las peticiones web y las reparte según el nombre: <code>kuma.tudominio.com</code> va a una máquina y <code>tudominio.com</code> a otra, con HTTPS en todas.</p>
+  <p class="entradilla">Un proxy inverso recibe todas las peticiones web y las reparte según el nombre: <code>kuma.tudominio.com</code> va a una máquina y <code>tudominio.com</code> a otra, con HTTPS en todas.</p>
 
-  <ol class="steps">
+  <ol class="pasos">
     <li><strong>Crea el contenedor</strong>
       <p>ID <code>101</code>, nombre <code>npm</code>, 1 GB de RAM, 8 GB de disco en el almacenamiento <code>datos</code> (el espejo ZFS), IP <code>192.168.0.252/24</code>. En la pestaña <b>Opciones → Características</b> marca <b>Nesting</b> y <b>keyctl</b>: Docker las necesita dentro de un LXC.</p>
-      <figure class="shot"><div class="shot-grid"><img src="img/066.webp" width="755" height="565" alt="Resumen LXC 101" loading="lazy"><img src="img/067.webp" width="434" height="55" alt="pct set" loading="lazy"></div><figcaption>A la izquierda, el resumen del asistente. A la derecha, los comandos para activar nesting y arrancar el contenedor.</figcaption></figure>
+      <figure class="captura"><div class="capturas"><img src="img/066.webp" width="755" height="565" alt="Resumen LXC 101" loading="lazy"><img src="img/067.webp" width="434" height="55" alt="pct set" loading="lazy"></div><figcaption>A la izquierda, el resumen del asistente. A la derecha, los comandos para activar nesting y arrancar el contenedor.</figcaption></figure>
     </li>
     <li><strong>Instala Docker</strong>
-<pre data-lang="bash"><code>apt update &amp;&amp; apt install -y curl
+<pre data-lenguaje="bash"><code>apt update &amp;&amp; apt install -y curl
 curl -fsSL https://get.docker.com | sh</code></pre>
     </li>
     <li><strong>Arranca Nginx Proxy Manager</strong>
       <p>Crea <code>/opt/npm/docker-compose.yml</code>:</p>
-<pre data-lang="yaml"><code>services:
+<pre data-lenguaje="yaml"><code>services:
   npm:
     image: jc21/nginx-proxy-manager:2.16.0
     restart: unless-stopped
@@ -373,42 +376,42 @@ curl -fsSL https://get.docker.com | sh</code></pre>
     volumes:
       - ./data:/data
       - ./letsencrypt:/etc/letsencrypt</code></pre>
-<pre data-lang="bash"><code>cd /opt/npm &amp;&amp; docker compose up -d</code></pre>
+<pre data-lenguaje="bash"><code>cd /opt/npm &amp;&amp; docker compose up -d</code></pre>
     </li>
     <li><strong>Entra en el panel y cambia las credenciales</strong>
       <p>Abre <code>http://192.168.0.252:81</code>. Crea tu usuario administrador en el primer acceso, con una contraseña larga y única.</p>
-      <figure class="shot"><img src="img/070.webp" width="1000" height="227" alt="Panel de NPM" loading="lazy"><figcaption>El panel de NPM recién instalado, sin proxy hosts todavía.</figcaption></figure>
+      <figure class="captura"><img src="img/070.webp" width="1000" height="227" alt="Panel de NPM" loading="lazy"><figcaption>El panel de NPM recién instalado, sin proxy hosts todavía.</figcaption></figure>
     </li>
   </ol>
-  <div class="callout tip"><strong>Versiones fijas</strong><p>Fíjate en que la imagen lleva una versión concreta (<code>2.16.0</code>) y no <code>latest</code>. Así una actualización nunca llega sin que tú lo decidas.</p></div>
-  <div class="callout check"><strong>Comprueba que funciona</strong><p>El panel carga en el puerto 81 y <code>docker ps</code> muestra el contenedor <code>npm</code> en estado <i>Up</i>.</p></div>
+  <div class="aviso consejo"><strong>Versiones fijas</strong><p>Fíjate en que la imagen lleva una versión concreta (<code>2.16.0</code>) y no <code>latest</code>. Así una actualización nunca llega sin que tú lo decidas.</p></div>
+  <div class="aviso comprobacion"><strong>Comprueba que funciona</strong><p>El panel carga en el puerto 81 y <code>docker ps</code> muestra el contenedor <code>npm</code> en estado <i>Up</i>.</p></div>
 </article>
 
 <!-- Capítulo 06: VMs -->
-<article class="chapter" id="vms" data-title="Máquinas virtuales con Docker">
-  <p class="eyebrow">Capítulo 6</p>
+<article class="capitulo" id="vms" data-titulo="Máquinas virtuales con Docker">
+  <p class="antetitulo">Capítulo 6</p>
   <h2 class="t1">Dos máquinas virtuales: personal y profesional</h2>
-  <p class="lead">Las aplicaciones van en máquinas virtuales Debian con Docker. Usamos dos para aislar lo personal (tu nube) de lo profesional (tu web pública y pruebas): si algo se compromete en una, la otra no se ve afectada.</p>
+  <p class="entradilla">Las aplicaciones van en máquinas virtuales Debian con Docker. Usamos dos para aislar lo personal (tu nube) de lo profesional (tu web pública y pruebas): si algo se compromete en una, la otra no se ve afectada.</p>
 
-  <div class="tablewrap"><table>
+  <div class="tabla"><table>
     <tr><th>VM</th><th>Nombre</th><th>IP</th><th>RAM</th><th>Disco sistema</th><th>Disco datos</th></tr>
     <tr><td>102</td><td>personal</td><td>192.168.0.250</td><td>8 GB</td><td>20 GB (ZFS)</td><td>100 GB (ZFS)</td></tr>
     <tr><td>103</td><td>profesional</td><td>192.168.0.251</td><td>8 GB</td><td>16 GB (ZFS)</td><td>50 GB (ZFS)</td></tr>
   </table></div>
 
-  <ol class="steps">
+  <ol class="pasos">
     <li><strong>Crea la VM</strong>
       <p>Sube la ISO de Debian 13 netinst, y en Crear VM elige: máquina <code>q35</code> con la BIOS por defecto (SeaBIOS), controlador VirtIO SCSI single, disco en <code>datos</code> (el espejo ZFS), 2 núcleos con tipo de CPU <code>host</code>, 8 GB de RAM y red VirtIO. En la pestaña Sistema marca <b>Agente QEMU</b>.</p>
-      <figure class="shot"><div class="shot-grid"><img src="img/074.webp" width="762" height="569" alt="General" loading="lazy"><img src="img/077.webp" width="759" height="566" alt="Sistema" loading="lazy"><img src="img/078.webp" width="761" height="566" alt="Disco" loading="lazy"><img src="img/079.webp" width="759" height="568" alt="CPU" loading="lazy"><img src="img/080.webp" width="758" height="570" alt="Memoria" loading="lazy"><img src="img/083.webp" width="756" height="567" alt="Confirmar" loading="lazy"></div><figcaption>Asistente de la VM 102: General, Sistema (agente QEMU), Disco (20 GB), CPU (2 núcleos, tipo host), Memoria (8 GB) y confirmación.</figcaption></figure>
-      <div class="callout warn"><strong>Pon también el disco del sistema en el espejo</strong><p>En las capturas el disco va a <code>local-lvm</code>, que está en el SSD único del sistema: si ese SSD falla, la VM solo se recupera desde la copia nocturna. Este servidor empezó así y después se movieron los discos en caliente, sin apagar nada: VM → Hardware → disco → <b>Acción del disco → Mover almacenamiento</b> → <code>datos</code>, con «Borrar origen» marcado. Desde la terminal: <code>qm disk move 102 scsi0 datos --delete 1</code>. Un LXC hay que pararlo antes: <code>pct move-volume 101 rootfs datos --delete 1</code>.</p></div>
+      <figure class="captura"><div class="capturas"><img src="img/074.webp" width="762" height="569" alt="General" loading="lazy"><img src="img/077.webp" width="759" height="566" alt="Sistema" loading="lazy"><img src="img/078.webp" width="761" height="566" alt="Disco" loading="lazy"><img src="img/079.webp" width="759" height="568" alt="CPU" loading="lazy"><img src="img/080.webp" width="758" height="570" alt="Memoria" loading="lazy"><img src="img/083.webp" width="756" height="567" alt="Confirmar" loading="lazy"></div><figcaption>Asistente de la VM 102: General, Sistema (agente QEMU), Disco (20 GB), CPU (2 núcleos, tipo host), Memoria (8 GB) y confirmación.</figcaption></figure>
+      <div class="aviso cuidado"><strong>Pon también el disco del sistema en el espejo</strong><p>En las capturas el disco va a <code>local-lvm</code>, que está en el SSD único del sistema: si ese SSD falla, la VM solo se recupera desde la copia nocturna. Este servidor empezó así y después se movieron los discos en caliente, sin apagar nada: VM → Hardware → disco → <b>Acción del disco → Mover almacenamiento</b> → <code>datos</code>, con «Borrar origen» marcado. Desde la terminal: <code>qm disk move 102 scsi0 datos --delete 1</code>. Un LXC hay que pararlo antes: <code>pct move-volume 101 rootfs datos --delete 1</code>.</p></div>
     </li>
     <li><strong>Instala Debian</strong>
       <p>Instalación mínima: sin escritorio, con <b>servidor SSH</b> y utilidades estándar. Crea un usuario normal, por ejemplo <code>juanma</code>, y no uses root para el día a día. Pon la IP fija desde el router (reserva DHCP) o en <code>/etc/network/interfaces</code>.</p>
-      <figure class="shot"><div class="shot-grid"><img src="img/088.webp" width="1000" height="202" alt="Nombre" loading="lazy"><img src="img/090.webp" width="1000" height="401" alt="Particionado" loading="lazy"><img src="img/093.webp" width="1000" height="158" alt="Programas" loading="lazy"><img src="img/095.webp" width="1000" height="94" alt="GRUB" loading="lazy"></div><figcaption>Instalador de Debian: nombre de la máquina, particionado guiado, selección de programas (servidor SSH y utilidades) e instalación de GRUB.</figcaption></figure>
-      <figure class="shot"><div class="shot-grid"><img src="img/099.webp" width="859" height="273" alt="IP estática" loading="lazy"><img src="img/102.webp" width="826" height="295" alt="Ping" loading="lazy"></div><figcaption>IP estática en <code>/etc/network/interfaces</code> y prueba de red con <code>ping</code>.</figcaption></figure>
+      <figure class="captura"><div class="capturas"><img src="img/088.webp" width="1000" height="202" alt="Nombre" loading="lazy"><img src="img/090.webp" width="1000" height="401" alt="Particionado" loading="lazy"><img src="img/093.webp" width="1000" height="158" alt="Programas" loading="lazy"><img src="img/095.webp" width="1000" height="94" alt="GRUB" loading="lazy"></div><figcaption>Instalador de Debian: nombre de la máquina, particionado guiado, selección de programas (servidor SSH y utilidades) e instalación de GRUB.</figcaption></figure>
+      <figure class="captura"><div class="capturas"><img src="img/099.webp" width="859" height="273" alt="IP estática" loading="lazy"><img src="img/102.webp" width="826" height="295" alt="Ping" loading="lazy"></div><figcaption>IP estática en <code>/etc/network/interfaces</code> y prueba de red con <code>ping</code>.</figcaption></figure>
     </li>
     <li><strong>Instala el agente y Docker</strong>
-<pre data-lang="bash"><code>sudo apt update
+<pre data-lenguaje="bash"><code>sudo apt update
 sudo apt install -y qemu-guest-agent curl
 sudo systemctl enable --now qemu-guest-agent
 curl -fsSL https://get.docker.com | sudo sh
@@ -417,7 +420,7 @@ sudo usermod -aG docker $USER</code></pre>
     </li>
     <li><strong>Limita el tamaño de los logs de Docker</strong>
       <p>Por defecto Docker guarda los logs de cada contenedor sin límite y, con meses de uso, pueden llenar el disco. Con esto cada contenedor guarda como mucho 3 ficheros de 10 MB:</p>
-<pre data-lang="bash"><code>sudo tee /etc/docker/daemon.json &lt;&lt;'EOF'
+<pre data-lenguaje="bash"><code>sudo tee /etc/docker/daemon.json &lt;&lt;'EOF'
 {
   "log-driver": "json-file",
   "log-opts": { "max-size": "10m", "max-file": "3" }
@@ -427,40 +430,40 @@ sudo systemctl restart docker</code></pre>
       <p>Solo se aplica a los contenedores creados después. Si ya tenías alguno, recréalo con <code>docker compose up -d --force-recreate</code>. Haz lo mismo en el LXC 101.</p>
     </li>
     <li><strong>Activa las actualizaciones de seguridad automáticas</strong>
-<pre data-lang="bash"><code>sudo apt install -y unattended-upgrades
+<pre data-lenguaje="bash"><code>sudo apt install -y unattended-upgrades
 printf '%s\n' 'APT::Periodic::Update-Package-Lists "1";' 'APT::Periodic::Unattended-Upgrade "1";' | sudo tee /etc/apt/apt.conf.d/20auto-upgrades</code></pre>
       <p>En Debian solo instala, por defecto, los parches del repositorio de seguridad. El resto de actualizaciones las decides tú. Hazlo también en los dos LXC. En el nodo Proxmox no: allí conviene actualizar a mano.</p>
     </li>
     <li><strong>Añade un disco de datos en ZFS</strong>
       <p>VM → Hardware → Añadir → Disco duro, almacenamiento <code>datos</code>, 100 GB. Dentro de la VM:</p>
-      <figure class="shot"><div class="shot-grid"><img src="img/109.webp" width="1000" height="362" alt="Añadir disco" loading="lazy"><img src="img/110.webp" width="597" height="298" alt="Disco de 100 GB" loading="lazy"></div><figcaption>Se añade un disco nuevo desde el almacenamiento <code>datos</code> (el pool ZFS).</figcaption></figure>
-<pre data-lang="bash"><code>lsblk
+      <figure class="captura"><div class="capturas"><img src="img/109.webp" width="1000" height="362" alt="Añadir disco" loading="lazy"><img src="img/110.webp" width="597" height="298" alt="Disco de 100 GB" loading="lazy"></div><figcaption>Se añade un disco nuevo desde el almacenamiento <code>datos</code> (el pool ZFS).</figcaption></figure>
+<pre data-lenguaje="bash"><code>lsblk
 sudo mkfs.ext4 /dev/sdb
 sudo mkdir -p /srv/data
 echo "UUID=$(sudo blkid -s UUID -o value /dev/sdb) /srv/data ext4 defaults 0 2" | sudo tee -a /etc/fstab
 sudo mount -a
 sudo chown -R $USER:$USER /srv/data</code></pre>
-      <figure class="shot"><img src="img/111.webp" width="476" height="150" alt="lsblk" loading="lazy"><figcaption><code>lsblk</code> muestra el disco del sistema y el nuevo de 100 GB sin particionar.</figcaption></figure>
-      <div class="callout error"><strong>Error típico</strong><p>Si ejecutas los pasos como <code>root</code> en vez de con tu usuario, los ficheros quedan con otro dueño y los contenedores no pueden leerlos. Se arregla con <code>sudo chown -R juanma:juanma /srv/data</code>.</p></div>
-      <figure class="shot"><img src="img/112.webp" width="704" height="137" alt="Error tuusuario" loading="lazy"><figcaption>Error real: se copió el comando con <code>tuusuario</code> sin cambiarlo. Sustituye siempre los valores de ejemplo por los tuyos.</figcaption></figure>
+      <figure class="captura"><img src="img/111.webp" width="476" height="150" alt="lsblk" loading="lazy"><figcaption><code>lsblk</code> muestra el disco del sistema y el nuevo de 100 GB sin particionar.</figcaption></figure>
+      <div class="aviso error"><strong>Error típico</strong><p>Si ejecutas los pasos como <code>root</code> en vez de con tu usuario, los ficheros quedan con otro dueño y los contenedores no pueden leerlos. Se arregla con <code>sudo chown -R juanma:juanma /srv/data</code>.</p></div>
+      <figure class="captura"><img src="img/112.webp" width="704" height="137" alt="Error tuusuario" loading="lazy"><figcaption>Error real: se copió el comando con <code>tuusuario</code> sin cambiarlo. Sustituye siempre los valores de ejemplo por los tuyos.</figcaption></figure>
     </li>
   </ol>
   <p>Repite para la VM 103 con su nombre, IP y disco de 50 GB.</p>
-  <div class="callout check"><strong>Comprueba que funciona</strong>
-<pre data-lang="bash"><code>docker run --rm hello-world
+  <div class="aviso comprobacion"><strong>Comprueba que funciona</strong>
+<pre data-lenguaje="bash"><code>docker run --rm hello-world
 df -h /srv/data</code></pre>
     <p>Docker responde con el mensaje de bienvenida y <code>/srv/data</code> aparece montado con el tamaño del disco.</p></div>
 </article>
 
 <!-- Capítulo 07: Servicios -->
-<article class="chapter" id="servicios" data-title="Aplicaciones con Docker Compose">
-  <p class="eyebrow">Capítulo 7</p>
+<article class="capitulo" id="servicios" data-titulo="Aplicaciones con Docker Compose">
+  <p class="antetitulo">Capítulo 7</p>
   <h2 class="t1">Desplegar las aplicaciones</h2>
-  <p class="lead">Cada aplicación se describe en un archivo <code>docker-compose.yml</code>. Todo queda en <code>/srv/data</code>, que está en el pool ZFS, así que se copia y se protege con el resto.</p>
+  <p class="entradilla">Cada aplicación se describe en un archivo <code>docker-compose.yml</code>. Todo queda en <code>/srv/data</code>, que está en el pool ZFS, así que se copia y se protege con el resto.</p>
 
   <h3 class="t2">VM 102: utilidades</h3>
   <p>Crea <code>/srv/data/stacks/utilidades/docker-compose.yml</code>:</p>
-<pre data-lang="yaml"><code>services:
+<pre data-lenguaje="yaml"><code>services:
   uptime-kuma:
     image: louislam/uptime-kuma:2.5.8
     restart: unless-stopped
@@ -476,18 +479,18 @@ df -h /srv/data</code></pre>
       HOMEPAGE_ALLOWED_HOSTS: 192.168.0.250:3000,home.casa.tudominio.com
     volumes:
       - /srv/data/utilidades/homepage:/app/config</code></pre>
-<pre data-lang="bash"><code>cd /srv/data/stacks/utilidades &amp;&amp; docker compose up -d</code></pre>
-  <figure class="shot"><div class="shot-grid"><img src="img/116.webp" width="469" height="453" alt="Compose utilidades" loading="lazy"><img src="img/117.webp" width="1000" height="631" alt="Asistente de Kuma" loading="lazy"></div><figcaption>El compose de utilidades y el asistente inicial de Uptime Kuma (elige SQLite, la opción sencilla).</figcaption></figure>
-  <div class="callout error"><strong>Error típico</strong><p>Si Homepage responde <code>Host validation failed</code>, falta el nombre con el que accedes en <code>HOMEPAGE_ALLOWED_HOSTS</code>. Añádelo y recrea el contenedor.</p></div>
+<pre data-lenguaje="bash"><code>cd /srv/data/stacks/utilidades &amp;&amp; docker compose up -d</code></pre>
+  <figure class="captura"><div class="capturas"><img src="img/116.webp" width="469" height="453" alt="Compose utilidades" loading="lazy"><img src="img/117.webp" width="1000" height="631" alt="Asistente de Kuma" loading="lazy"></div><figcaption>El compose de utilidades y el asistente inicial de Uptime Kuma (elige SQLite, la opción sencilla).</figcaption></figure>
+  <div class="aviso error"><strong>Error típico</strong><p>Si Homepage responde <code>Host validation failed</code>, falta el nombre con el que accedes en <code>HOMEPAGE_ALLOWED_HOSTS</code>. Añádelo y recrea el contenedor.</p></div>
 
   <h3 class="t2">VM 102: Nextcloud</h3>
   <p>Tu nube privada, con base de datos MariaDB y caché Redis. Las contraseñas no van en el compose, sino en un fichero <code>.env</code> en la misma carpeta, que Docker Compose lee solo.</p>
-<pre data-lang="bash"><code>cd /srv/data/stacks/nextcloud
+<pre data-lenguaje="bash"><code>cd /srv/data/stacks/nextcloud
 # El .env solo lo podrá leer tu usuario
 umask 077
 P1=$(openssl rand -base64 24); P2=$(openssl rand -base64 24)
 printf "MARIADB_ROOT_PASSWORD='%s'\nMARIADB_PASSWORD='%s'\nMYSQL_PASSWORD='%s'\n" "$P1" "$P2" "$P2" &gt; .env</code></pre>
-<pre data-lang="yaml"><code>services:
+<pre data-lenguaje="yaml"><code>services:
   db:
     image: mariadb:11.8.9
     container_name: nextcloud-db
@@ -518,18 +521,18 @@ printf "MARIADB_ROOT_PASSWORD='%s'\nMARIADB_PASSWORD='%s'\nMYSQL_PASSWORD='%s'\n
       REDIS_HOST: redis
     volumes:
       - /srv/data/nextcloud/html:/var/www/html</code></pre>
-  <figure class="shot"><img src="img/115.webp" width="683" height="594" alt="Compose de Nextcloud" loading="lazy"><figcaption>El compose de Nextcloud en la VM, con las contraseñas generadas en el <code>.env</code>.</figcaption></figure>
-  <div class="callout error"><strong>Error típico: un <code>$</code> dentro de la contraseña</strong><p>Docker Compose trata <code>$</code> como el inicio de una variable, tanto en el compose como en un <code>.env</code> sin comillas, y la contraseña que recibe el contenedor ya no es la que escribiste. Pon los valores del <code>.env</code> entre comillas simples, como arriba. Para ver lo que reciben de verdad los contenedores: <code>docker compose config</code>.</p></div>
-  <div class="callout warn"><strong>El archivo .env no se sube a ningún repositorio</strong><p>Contiene contraseñas. Si algún día publicas tus compose en GitHub, sube solo un <code>.env.example</code> con valores falsos. Este proyecto lo hace así: <code>.env</code> está en el <code>.gitignore</code>.</p></div>
+  <figure class="captura"><img src="img/115.webp" width="683" height="594" alt="Compose de Nextcloud" loading="lazy"><figcaption>El compose de Nextcloud en la VM, con las contraseñas generadas en el <code>.env</code>.</figcaption></figure>
+  <div class="aviso error"><strong>Error típico: un <code>$</code> dentro de la contraseña</strong><p>Docker Compose trata <code>$</code> como el inicio de una variable, tanto en el compose como en un <code>.env</code> sin comillas, y la contraseña que recibe el contenedor ya no es la que escribiste. Pon los valores del <code>.env</code> entre comillas simples, como arriba. Para ver lo que reciben de verdad los contenedores: <code>docker compose config</code>.</p></div>
+  <div class="aviso cuidado"><strong>El archivo .env no se sube a ningún repositorio</strong><p>Contiene contraseñas. Si algún día publicas tus compose en GitHub, sube solo un <code>.env.example</code> con valores falsos. Este proyecto lo hace así: <code>.env</code> está en el <code>.gitignore</code>.</p></div>
   <h4 class="t3">Tareas de fondo de Nextcloud</h4>
   <p>Nextcloud tiene tareas periódicas: vaciar la papelera, limpiar versiones y ficheros temporales o enviar avisos. Por defecto solo se lanzan cuando alguien abre la web (modo «AJAX»), así que con poco uso pasan semanas sin ejecutarse. Pásalo a cron:</p>
-<pre data-lang="bash"><code>docker exec -u www-data nextcloud php occ background:cron
+<pre data-lenguaje="bash"><code>docker exec -u www-data nextcloud php occ background:cron
 ( crontab -l 2&gt;/dev/null; echo '*/5 * * * * docker exec -u www-data nextcloud php -f /var/www/html/cron.php &gt;/dev/null 2&gt;&amp;1' ) | crontab -</code></pre>
   <p>Tu usuario está en el grupo <code>docker</code>, así que no hace falta root. En Nextcloud → Ajustes de administración → Ajustes básicos debe aparecer «Cron» marcado, con la última ejecución hace menos de 5 minutos.</p>
 
   <h3 class="t2">VM 102 y 103: Portainer</h3>
   <p>Portainer da una interfaz web para ver y gestionar los contenedores de cada VM. Como el resto, va en su propio compose, <code>/srv/data/stacks/portainer/docker-compose.yml</code>, para que su versión quede fija y escrita:</p>
-<pre data-lang="yaml"><code>services:
+<pre data-lenguaje="yaml"><code>services:
   portainer:
     image: portainer/portainer-ce:2.45.3
     container_name: portainer
@@ -541,14 +544,14 @@ printf "MARIADB_ROOT_PASSWORD='%s'\nMARIADB_PASSWORD='%s'\nMYSQL_PASSWORD='%s'\n
 volumes:
   portainer_data:
     external: true</code></pre>
-<pre data-lang="bash"><code>docker volume create portainer_data
+<pre data-lenguaje="bash"><code>docker volume create portainer_data
 cd /srv/data/stacks/portainer &amp;&amp; docker compose up -d</code></pre>
   <p>Entra en <code>https://IP-DE-LA-VM:9443</code> y crea el usuario administrador en los primeros minutos, porque pasado un rato Portainer bloquea el registro por seguridad.</p>
-  <figure class="shot"><div class="shot-grid"><img src="img/134.webp" width="1000" height="70" alt="Comando Portainer" loading="lazy"><img src="img/122.webp" width="1000" height="699" alt="Administrador" loading="lazy"></div><figcaption>Arranque de Portainer en la VM 103 y primera pantalla para crear el administrador.</figcaption></figure>
+  <figure class="captura"><div class="capturas"><img src="img/134.webp" width="1000" height="70" alt="Comando Portainer" loading="lazy"><img src="img/122.webp" width="1000" height="699" alt="Administrador" loading="lazy"></div><figcaption>Arranque de Portainer en la VM 103 y primera pantalla para crear el administrador.</figcaption></figure>
 
   <h3 class="t2">VM 103: portfolio</h3>
   <p>Una web estática servida con nginx. Los archivos de tu web están en <code>/srv/data/portfolio</code>.</p>
-<pre data-lang="yaml"><code>services:
+<pre data-lenguaje="yaml"><code>services:
   portfolio:
     image: nginx:1.31.8-alpine3.24
     container_name: portfolio
@@ -558,7 +561,7 @@ cd /srv/data/stacks/portainer &amp;&amp; docker compose up -d</code></pre>
       - /srv/data/portfolio:/usr/share/nginx/html:ro
       - ./default.conf:/etc/nginx/conf.d/default.conf:ro</code></pre>
   <p>Y su configuración, <code>default.conf</code>, en la misma carpeta:</p>
-<pre data-lang="nginx"><code># nginx del portfolio (VM 103). Sustituye a la configuración de serie de la imagen.
+<pre data-lenguaje="nginx"><code># nginx del portfolio (VM 103). Sustituye a la configuración de serie de la imagen.
 
 server {
   listen 80;
@@ -603,11 +606,11 @@ server {
   add_header Strict-Transport-Security "max-age=31536000" always;
   return 301 https://tudominio.com$request_uri;
 }</code></pre>
-<pre data-lang="bash"><code># Comprueba la configuración antes de aplicarla
+<pre data-lenguaje="bash"><code># Comprueba la configuración antes de aplicarla
 docker run --rm -v "$PWD/default.conf:/etc/nginx/conf.d/default.conf:ro" nginx:1.31.8-alpine3.24 nginx -t
 docker compose up -d</code></pre>
-  <figure class="shot"><img src="img/141.webp" width="688" height="269" alt="Compose del portfolio" loading="lazy"><figcaption>El compose del portfolio en la VM 103.</figcaption></figure>
-  <div class="callout error"><strong>Error típico</strong><p>Si la web carga pero las imágenes dan 404, es un problema de permisos de lectura: <code>chmod -R a+rX /srv/data/portfolio</code>.</p></div>
+  <figure class="captura"><img src="img/141.webp" width="688" height="269" alt="Compose del portfolio" loading="lazy"><figcaption>El compose del portfolio en la VM 103.</figcaption></figure>
+  <div class="aviso error"><strong>Error típico</strong><p>Si la web carga pero las imágenes dan 404, es un problema de permisos de lectura: <code>chmod -R a+rX /srv/data/portfolio</code>.</p></div>
 
   <h3 class="t2">VM 103: un proyecto con varias webs (Reserfy)</h3>
   <p>Reserfy fue mi proyecto final de 2.º SMR: dos webs WordPress (la de la empresa y la de un restaurante de ejemplo), una app en Flask para gestionar las reservas y sus bases de datos. Lo recuperé de una copia del servidor antiguo. Si tienes un proyecto parecido, estas son las ideas que sirven para cualquiera:</p>
@@ -623,17 +626,17 @@ docker compose up -d</code></pre>
     <li><b>Cierra lo que no usas.</b> <code>xmlrpc.php</code> responde 403, la API no lista los usuarios y, tras 5 contraseñas fallidas, esa IP espera 15 minutos. Son lo primero que prueban los ataques automáticos a WordPress.</li>
   </ul>
   <p>Todo eso son <em>must-use plugins</em>: ficheros PHP en <code>wp-content/mu-plugins</code> que WordPress carga siempre y que no se pueden desactivar desde el panel. Viven en el repositorio y se montan en solo lectura:</p>
-<pre data-lang="yaml"><code>    volumes:
+<pre data-lenguaje="yaml"><code>    volumes:
       - ./datos/web-restaurante:/var/www/html
       # Plugins propios: aviso, validación, correo, protección, limpieza y seguridad
       - ./wordpress/mu-plugins:/var/www/html/wp-content/mu-plugins:ro</code></pre>
-<pre data-lang="bash"><code># Cambia el dominio antiguo por el nuevo en toda la base (respeta los datos serializados)
+<pre data-lenguaje="bash"><code># Cambia el dominio antiguo por el nuevo en toda la base (respeta los datos serializados)
 docker compose run --rm cli-reserfy wp search-replace antiguo.duckdns.org reserfy.tudominio.com \
   --all-tables-with-prefix --skip-columns=guid
 # Quita los plugins que una demo no necesita (copias, Jetpack, cachés...)
 docker compose run --rm cli-reserfy wp plugin uninstall jetpack updraftplus --deactivate</code></pre>
   <p>Para publicarlo: una regla en el firewall de la VM que deje llegar al <code>8082</code> solo desde NPM, un proxy host por dominio en NPM hacia <code>192.168.0.251:8082</code> y una ruta por dominio en el túnel hacia NPM, como en el capítulo 8. El panel de gestión no va al túnel: tiene su nombre en <code>*.casa</code> y la lista de acceso de la red de casa.</p>
-<pre data-lang="nginx"><code># nginx de entrada del stack: el esquema real del visitante
+<pre data-lenguaje="nginx"><code># nginx de entrada del stack: el esquema real del visitante
 map $http_cf_visitor $esquema_cloudflare {
   "~\"scheme\":\"https\"" https;
   default "";
@@ -644,33 +647,33 @@ map $esquema_cloudflare $esquema_visitante {
 }
 # ...y en cada location:
 proxy_set_header X-Forwarded-Proto $esquema_visitante;</code></pre>
-  <div class="callout error"><strong>Error real</strong><p>WordPress detrás de Cloudflare Tunnel y NPM se queda en un bucle de redirecciones a https. El túnel entrega a NPM por <code>http</code>, NPM pone <code>X-Forwarded-Proto: http</code> y WordPress, configurado en https, vuelve a redirigir. Se comprueba con <code>curl -H "Host: …"</code>: da <code>301</code> a la misma dirección. La solución es leer el esquema de la cabecera <code>CF-Visitor</code>, que Cloudflare añade y NPM no toca.</p></div>
+  <div class="aviso error"><strong>Error real</strong><p>WordPress detrás de Cloudflare Tunnel y NPM se queda en un bucle de redirecciones a https. El túnel entrega a NPM por <code>http</code>, NPM pone <code>X-Forwarded-Proto: http</code> y WordPress, configurado en https, vuelve a redirigir. Se comprueba con <code>curl -H "Host: …"</code>: da <code>301</code> a la misma dirección. La solución es leer el esquema de la cabecera <code>CF-Visitor</code>, que Cloudflare añade y NPM no toca.</p></div>
 
-  <div class="callout check"><strong>Comprueba que funciona</strong><p>Cada servicio responde en su puerto desde tu ordenador: Kuma en <code>:3001</code>, Homepage en <code>:3000</code>, Nextcloud en <code>:8080</code> y Portainer en <code>:9443</code>. El portfolio, en <code>:8081</code>, solo debe verse desde el proxy: el firewall del capítulo de seguridad lo bloqueará para el resto.</p></div>
+  <div class="aviso comprobacion"><strong>Comprueba que funciona</strong><p>Cada servicio responde en su puerto desde tu ordenador: Kuma en <code>:3001</code>, Homepage en <code>:3000</code>, Nextcloud en <code>:8080</code> y Portainer en <code>:9443</code>. El portfolio, en <code>:8081</code>, solo debe verse desde el proxy: el firewall del capítulo de seguridad lo bloqueará para el resto.</p></div>
 </article>
 
 <!-- Capítulo 08: Túnel -->
-<article class="chapter" id="tunel" data-title="Publicar la web con Cloudflare Tunnel">
-  <p class="eyebrow">Capítulo 8</p>
+<article class="capitulo" id="tunel" data-titulo="Publicar la web con Cloudflare Tunnel">
+  <p class="antetitulo">Capítulo 8</p>
   <h2 class="t1">Publicar tu web sin abrir puertos</h2>
-  <p class="lead">Normalmente para publicar una web abres los puertos 80 y 443 del router y expones tu IP de casa. Con Cloudflare Tunnel es tu servidor el que se conecta hacia fuera, así que no hay puertos abiertos ni IP pública expuesta. Funciona incluso si tu operadora usa CGNAT.</p>
+  <p class="entradilla">Normalmente para publicar una web abres los puertos 80 y 443 del router y expones tu IP de casa. Con Cloudflare Tunnel es tu servidor el que se conecta hacia fuera, así que no hay puertos abiertos ni IP pública expuesta. Funciona incluso si tu operadora usa CGNAT.</p>
 
   <figure>
-    <div class="diagram">
+    <div class="diagrama">
       <svg viewBox="0 0 720 150" role="img" aria-label="Flujo: visitante, Cloudflare, túnel, Nginx Proxy Manager, servidor web">
-        <defs><marker id="a3" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0L10 5L0 10z" class="arr"/></marker></defs>
-        <rect class="box" x="10" y="40" width="120" height="60" rx="8"/><text class="t" x="70" y="68" text-anchor="middle">Visitante</text><text class="s" x="70" y="86" text-anchor="middle">tudominio.com</text>
-        <rect class="box" x="160" y="40" width="120" height="60" rx="8"/><text class="t" x="220" y="68" text-anchor="middle">Cloudflare</text><text class="s" x="220" y="86" text-anchor="middle">oculta tu IP</text>
-        <rect class="hi" x="310" y="40" width="120" height="60" rx="8"/><text class="t" x="370" y="68" text-anchor="middle">cloudflared</text><text class="s" x="370" y="86" text-anchor="middle">el túnel (LXC 101)</text>
-        <rect class="box" x="460" y="40" width="120" height="60" rx="8"/><text class="t" x="520" y="68" text-anchor="middle">NPM</text><text class="s" x="520" y="86" text-anchor="middle">reparte por nombre</text>
-        <rect class="box" x="610" y="40" width="100" height="60" rx="8"/><text class="t" x="660" y="68" text-anchor="middle">VM 103</text><text class="s" x="660" y="86" text-anchor="middle">:8081</text>
-        <line class="ln" x1="132" y1="70" x2="158" y2="70" marker-end="url(#a3)"/><line class="ln" x1="282" y1="70" x2="308" y2="70" marker-end="url(#a3)"/><line class="ln" x1="432" y1="70" x2="458" y2="70" marker-end="url(#a3)"/><line class="ln" x1="582" y1="70" x2="608" y2="70" marker-end="url(#a3)"/>
-        <text class="m" x="360" y="130" text-anchor="middle">conexión saliente iniciada desde casa</text>
+        <defs><marker id="a3" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0L10 5L0 10z" class="flecha"/></marker></defs>
+        <rect class="caja" x="10" y="40" width="120" height="60" rx="8"/><text class="rotulo" x="70" y="68" text-anchor="middle">Visitante</text><text class="detalle" x="70" y="86" text-anchor="middle">tudominio.com</text>
+        <rect class="caja" x="160" y="40" width="120" height="60" rx="8"/><text class="rotulo" x="220" y="68" text-anchor="middle">Cloudflare</text><text class="detalle" x="220" y="86" text-anchor="middle">oculta tu IP</text>
+        <rect class="destacado" x="310" y="40" width="120" height="60" rx="8"/><text class="rotulo" x="370" y="68" text-anchor="middle">cloudflared</text><text class="detalle" x="370" y="86" text-anchor="middle">el túnel (LXC 101)</text>
+        <rect class="caja" x="460" y="40" width="120" height="60" rx="8"/><text class="rotulo" x="520" y="68" text-anchor="middle">NPM</text><text class="detalle" x="520" y="86" text-anchor="middle">reparte por nombre</text>
+        <rect class="caja" x="610" y="40" width="100" height="60" rx="8"/><text class="rotulo" x="660" y="68" text-anchor="middle">VM 103</text><text class="detalle" x="660" y="86" text-anchor="middle">:8081</text>
+        <line class="linea" x1="132" y1="70" x2="158" y2="70" marker-end="url(#a3)"/><line class="linea" x1="282" y1="70" x2="308" y2="70" marker-end="url(#a3)"/><line class="linea" x1="432" y1="70" x2="458" y2="70" marker-end="url(#a3)"/><line class="linea" x1="582" y1="70" x2="608" y2="70" marker-end="url(#a3)"/>
+        <text class="dato" x="360" y="130" text-anchor="middle">conexión saliente iniciada desde casa</text>
       </svg>
     </div>
   </figure>
 
-  <ol class="steps">
+  <ol class="pasos">
     <li><strong>Pasa tu dominio a Cloudflare</strong>
       <p>Crea una cuenta gratuita, añade tu dominio y cambia los servidores de nombres (nameservers) en el registrador por los que te indique Cloudflare. Tarda desde unos minutos hasta unas horas.</p>
     </li>
@@ -679,44 +682,44 @@ proxy_set_header X-Forwarded-Proto $esquema_visitante;</code></pre>
     </li>
     <li><strong>Arranca cloudflared</strong>
       <p>En el LXC 101, crea <code>/opt/cloudflared/docker-compose.yml</code> y un <code>.env</code> con el token:</p>
-<pre data-lang="yaml"><code>services:
+<pre data-lenguaje="yaml"><code>services:
   cloudflared:
     image: cloudflare/cloudflared:2026.10.7
     restart: unless-stopped
     command: tunnel --no-autoupdate run
     environment:
       TUNNEL_TOKEN: ${TUNNEL_TOKEN}</code></pre>
-<pre data-lang="bash"><code>cd /opt/cloudflared
+<pre data-lenguaje="bash"><code>cd /opt/cloudflared
 echo 'TUNNEL_TOKEN=PEGA_AQUI_TU_TOKEN' &gt; .env
 chmod 600 .env
 docker compose up -d</code></pre>
     </li>
     <li><strong>Enlaza el nombre con NPM</strong>
       <p>En el túnel, pestaña <b>Public Hostname</b> → añade <code>tudominio.com</code> con servicio <code>HTTP</code> a <code>192.168.0.252:80</code>. Repite con <code>www</code>.</p>
-      <figure class="shot"><div class="shot-grid"><img src="img/139.webp" width="666" height="619" alt="Public hostname" loading="lazy"><img src="img/140.webp" width="669" height="623" alt="Servicio" loading="lazy"></div><figcaption>«Agregar aplicación publicada»: el dominio apunta a <code>http://192.168.0.252:80</code>, el NPM.</figcaption></figure>
+      <figure class="captura"><div class="capturas"><img src="img/139.webp" width="666" height="619" alt="Public hostname" loading="lazy"><img src="img/140.webp" width="669" height="623" alt="Servicio" loading="lazy"></div><figcaption>«Agregar aplicación publicada»: el dominio apunta a <code>http://192.168.0.252:80</code>, el NPM.</figcaption></figure>
     </li>
     <li><strong>Crea el proxy host en NPM</strong>
       <p>En NPM → Hosts → Proxy Hosts → Añadir: dominio <code>tudominio.com</code>, esquema <code>http</code>, IP <code>192.168.0.251</code> y puerto <code>8081</code>.</p>
-      <figure class="shot"><div class="shot-grid"><img src="img/142.webp" width="1000" height="370" alt="Proxy hosts" loading="lazy"><img src="img/143.webp" width="542" height="660" alt="Proxy host" loading="lazy"><img src="img/144.webp" width="529" height="649" alt="Proxy host www" loading="lazy"></div><figcaption>NPM → Proxy Hosts: una entrada por dominio, con destino <code>http 192.168.0.251:8081</code>.</figcaption></figure>
+      <figure class="captura"><div class="capturas"><img src="img/142.webp" width="1000" height="370" alt="Proxy hosts" loading="lazy"><img src="img/143.webp" width="542" height="660" alt="Proxy host" loading="lazy"><img src="img/144.webp" width="529" height="649" alt="Proxy host www" loading="lazy"></div><figcaption>NPM → Proxy Hosts: una entrada por dominio, con destino <code>http 192.168.0.251:8081</code>.</figcaption></figure>
     </li>
   </ol>
-  <div class="callout warn"><strong>Token del túnel</strong><p>El token da acceso al túnel. No lo publiques ni lo pegues en capturas. Si se filtra, regenéralo desde el panel de Cloudflare.</p></div>
-  <div class="callout check"><strong>Comprueba que funciona</strong><p>Abre <code>https://tudominio.com</code> desde los datos del móvil (sin wifi). Debe cargar tu web con candado.</p></div>
+  <div class="aviso cuidado"><strong>Token del túnel</strong><p>El token da acceso al túnel. No lo publiques ni lo pegues en capturas. Si se filtra, regenéralo desde el panel de Cloudflare.</p></div>
+  <div class="aviso comprobacion"><strong>Comprueba que funciona</strong><p>Abre <code>https://tudominio.com</code> desde los datos del móvil (sin wifi). Debe cargar tu web con candado.</p></div>
 </article>
 
 <!-- Capítulo 09: HTTPS interno -->
-<article class="chapter" id="https" data-title="Nombres y HTTPS internos">
-  <p class="eyebrow">Capítulo 9</p>
+<article class="capitulo" id="https" data-titulo="Nombres y HTTPS internos">
+  <p class="antetitulo">Capítulo 9</p>
   <h2 class="t1">Nombres con HTTPS para tus servicios internos</h2>
-  <p class="lead">En lugar de recordar <code>192.168.0.250:3001</code>, accederás a <code>https://kuma.casa.tudominio.com</code> con certificado válido, pero solo desde tu red o por VPN.</p>
+  <p class="entradilla">En lugar de recordar <code>192.168.0.250:3001</code>, accederás a <code>https://kuma.casa.tudominio.com</code> con certificado válido, pero solo desde tu red o por VPN.</p>
 
-  <ol class="steps">
+  <ol class="pasos">
     <li><strong>Crea un token de Cloudflare para el certificado</strong>
       <p>Cloudflare → Mi perfil → Tokens de API → Crear token con la plantilla <b>Edit zone DNS</b>, limitado a tu zona. Cópialo.</p>
     </li>
     <li><strong>Pide un certificado comodín en NPM</strong>
       <p>NPM → SSL Certificates → Add → Let's Encrypt via DNS. Dominios: <code>*.casa.tudominio.com</code> y <code>casa.tudominio.com</code>. Proveedor: Cloudflare, y pega el token. Acepta los términos.</p>
-      <div class="callout tip"><strong>Por qué comodín</strong><p>Un solo certificado vale para todos los nombres <code>algo.casa.tudominio.com</code>. Cada servicio nuevo no necesita certificado propio.</p></div>
+      <div class="aviso consejo"><strong>Por qué comodín</strong><p>Un solo certificado vale para todos los nombres <code>algo.casa.tudominio.com</code>. Cada servicio nuevo no necesita certificado propio.</p></div>
     </li>
     <li><strong>Haz que el nombre apunte a NPM dentro de casa</strong>
       <p>En AdGuard Home → Filtros → Reescrituras de DNS → Añadir: <code>*.casa.tudominio.com</code> → <code>192.168.0.252</code>.</p>
@@ -726,7 +729,7 @@ docker compose up -d</code></pre>
       <p>NPM → Access Lists → Añadir: nombre <code>solo-lan</code>, y en Rules permite <code>192.168.0.0/24</code>. Si usas Tailscale, añade también <code>100.64.0.0/10</code>.</p>
     </li>
     <li><strong>Crea un proxy host por servicio</strong>
-      <div class="tablewrap"><table>
+      <div class="tabla"><table>
         <tr><th>Nombre</th><th>Destino</th><th>Notas</th></tr>
         <tr><td>kuma.casa…</td><td>http 192.168.0.250:3001</td><td>Websockets</td></tr>
         <tr><td>home.casa…</td><td>http 192.168.0.250:3000</td><td></td></tr>
@@ -740,7 +743,7 @@ docker compose up -d</code></pre>
     </li>
     <li><strong>Ajusta Nextcloud para que acepte el nuevo nombre</strong>
       <p>Nextcloud rechaza nombres que no conoce. Desde la VM 102:</p>
-<pre data-lang="bash"><code>O='docker exec -u www-data nextcloud php occ config:system:set'
+<pre data-lenguaje="bash"><code>O='docker exec -u www-data nextcloud php occ config:system:set'
 $O trusted_domains 1 --value=nextcloud.casa.tudominio.com
 $O trusted_proxies 0 --value=192.168.0.252
 $O overwriteprotocol --value=https
@@ -748,18 +751,18 @@ $O overwrite.cli.url --value=https://nextcloud.casa.tudominio.com</code></pre>
       <p>En el proxy host de Nextcloud, pestaña Advanced, añade <code>client_max_body_size 10G;</code> para poder subir archivos grandes.</p>
     </li>
   </ol>
-  <div class="callout error"><strong>Error típico</strong><p>Si el nombre no abre, vacía la caché DNS del ordenador con <code>ipconfig /flushdns</code> y comprueba con <code>nslookup kuma.casa.tudominio.com</code> que responde <code>192.168.0.252</code>.</p></div>
-  <div class="callout check"><strong>Comprueba que funciona</strong><p>Todos los nombres abren con candado en casa. Desde el móvil con datos, sin VPN, dan error: es lo que queremos.</p></div>
+  <div class="aviso error"><strong>Error típico</strong><p>Si el nombre no abre, vacía la caché DNS del ordenador con <code>ipconfig /flushdns</code> y comprueba con <code>nslookup kuma.casa.tudominio.com</code> que responde <code>192.168.0.252</code>.</p></div>
+  <div class="aviso comprobacion"><strong>Comprueba que funciona</strong><p>Todos los nombres abren con candado en casa. Desde el móvil con datos, sin VPN, dan error: es lo que queremos.</p></div>
 </article>
 
 <!-- Capítulo 10: Seguridad -->
-<article class="chapter" id="seguridad" data-title="Seguridad y firewall">
-  <p class="eyebrow">Capítulo 10</p>
+<article class="capitulo" id="seguridad" data-titulo="Seguridad y firewall">
+  <p class="antetitulo">Capítulo 10</p>
   <h2 class="t1">Seguridad: firewall y accesos</h2>
-  <p class="lead">Ya funciona todo. Ahora lo protegemos para que, si algo se compromete, el daño quede contenido.</p>
+  <p class="entradilla">Ya funciona todo. Ahora lo protegemos para que, si algo se compromete, el daño quede contenido.</p>
 
   <h3 class="t2">Principios aplicados</h3>
-  <div class="tablewrap"><table>
+  <div class="tabla"><table>
     <tr><th>Medida</th><th>Qué evita</th></tr>
     <tr><td>Sin puertos abiertos en el router</td><td>Escaneos y ataques directos desde Internet</td></tr>
     <tr><td>Cloudflare delante de la web</td><td>Oculta tu IP y filtra tráfico malicioso</td></tr>
@@ -768,18 +771,18 @@ $O overwrite.cli.url --value=https://nextcloud.casa.tudominio.com</code></pre>
     <tr><td>Usuario propio con 2FA en Proxmox</td><td>Entrar con la cuenta root si se filtra una contraseña</td></tr>
   </table></div>
 
-  <ol class="steps">
+  <ol class="pasos">
     <li><strong>Crea tu usuario en Proxmox con 2FA</strong>
       <p>Datacenter → Permisos → Usuarios → Añadir, reino <b>Proxmox VE authentication server</b>. Dale el rol <code>Administrator</code> en la ruta <code>/</code>. Después, Datacenter → Permisos → Two Factor → Añadir un TOTP y escanea el QR con una app de autenticación.</p>
-      <figure class="shot"><div class="shot-grid"><img src="img/147.webp" width="1000" height="377" alt="Usuarios" loading="lazy"><img src="img/148.webp" width="617" height="367" alt="Crear usuario" loading="lazy"><img src="img/150.webp" width="399" height="207" alt="Permisos" loading="lazy"><img src="img/151.webp" width="794" height="326" alt="Dos factores" loading="lazy"><img src="img/152.webp" width="182" height="127" alt="Tipos de 2FA" loading="lazy"></div><figcaption>Crear el usuario, darle el rol Administrator en <code>/</code> y añadir un segundo factor TOTP.</figcaption></figure>
-      <div class="callout warn"><strong>Guarda los códigos de recuperación</strong><p>Si pierdes el móvil y no tienes los códigos, tendrás que entrar con <code>root@pam</code> desde el terminal para recuperarte. Déjalo como acceso de emergencia.</p></div>
+      <figure class="captura"><div class="capturas"><img src="img/147.webp" width="1000" height="377" alt="Usuarios" loading="lazy"><img src="img/148.webp" width="617" height="367" alt="Crear usuario" loading="lazy"><img src="img/150.webp" width="399" height="207" alt="Permisos" loading="lazy"><img src="img/151.webp" width="794" height="326" alt="Dos factores" loading="lazy"><img src="img/152.webp" width="182" height="127" alt="Tipos de 2FA" loading="lazy"></div><figcaption>Crear el usuario, darle el rol Administrator en <code>/</code> y añadir un segundo factor TOTP.</figcaption></figure>
+      <div class="aviso cuidado"><strong>Guarda los códigos de recuperación</strong><p>Si pierdes el móvil y no tienes los códigos, tendrás que entrar con <code>root@pam</code> desde el terminal para recuperarte. Déjalo como acceso de emergencia.</p></div>
     </li>
     <li><strong>Activa el firewall del datacenter</strong>
       <p>Datacenter → Cortafuegos → Opciones → Cortafuegos: <b>Sí</b>. Al activarlo, Proxmox deja entrar a la web (8006) y al SSH (22) desde los equipos del conjunto <code>management</code>. Si no lo defines, ese conjunto es toda tu red local.</p>
     </li>
     <li><strong>Cierra el nodo al resto de la red</strong>
       <p>Por defecto, todo lo que no tiene regla entra: cualquier móvil, tele o máquina virtual de casa llega a la web de Proxmox, a su SSH y a servicios que no usas, como <code>rpcbind</code> (111). Deja la política de entrada en DROP y da acceso solo a quien lo necesita. En <code>/etc/pve/firewall/cluster.fw</code>:</p>
-<pre data-lang="text"><code>[OPTIONS]
+<pre data-lenguaje="text"><code>[OPTIONS]
 enable: 1
 policy_in: DROP
 
@@ -790,39 +793,39 @@ local_network 192.168.0.254        # solo el propio nodo
 192.168.0.135                      # tu PC (fija su IP en el router)
 192.168.0.253                      # Tailscale: lo que llega por la VPN sale con esta IP</code></pre>
       <p>Y en <code>/etc/pve/nodes/pve/host.fw</code>, las excepciones de servicios que consultan la web del nodo:</p>
-<pre data-lang="text"><code>[RULES]
+<pre data-lenguaje="text"><code>[RULES]
 IN Ping(ACCEPT) -source 192.168.0.0/24          # ping desde casa
 IN ACCEPT -source 192.168.0.250 -p tcp -dport 8006  # Uptime Kuma y Homepage
 IN ACCEPT -source 192.168.0.252 -p tcp -dport 8006  # NPM: proxmox.casa...</code></pre>
       <p>Apaga también <code>rpcbind</code> si no usas almacenamiento NFS: <code>systemctl disable --now rpcbind.service rpcbind.socket</code>.</p>
-      <div class="callout warn"><strong>Trampa: el alias <code>local_network</code></strong><p>Aunque definas tu propio <code>management</code>, Proxmox le añade siempre el alias automático <code>local_network</code>, que es toda la red de casa: el SSH seguía abierto para las VMs. Se ve con <code>ipset list PVEFW-0-management-v4</code>. Redefinir el alias con la IP del nodo lo arregla.</p></div>
-      <div class="callout tip"><strong>Con red de seguridad</strong><p>Antes de tocar reglas que pueden dejarte fuera, programa la vuelta atrás: <code>systemd-run --on-active=300 cp /root/cluster.fw.antes /etc/pve/firewall/cluster.fw</code>. Si todo va bien, la cancelas con <code>systemctl stop</code> del temporizador. Si te quedas fuera, en 5 minutos vuelve la configuración anterior.</p></div>
+      <div class="aviso cuidado"><strong>Trampa: el alias <code>local_network</code></strong><p>Aunque definas tu propio <code>management</code>, Proxmox le añade siempre el alias automático <code>local_network</code>, que es toda la red de casa: el SSH seguía abierto para las VMs. Se ve con <code>ipset list PVEFW-0-management-v4</code>. Redefinir el alias con la IP del nodo lo arregla.</p></div>
+      <div class="aviso consejo"><strong>Con red de seguridad</strong><p>Antes de tocar reglas que pueden dejarte fuera, programa la vuelta atrás: <code>systemd-run --on-active=300 cp /root/cluster.fw.antes /etc/pve/firewall/cluster.fw</code>. Si todo va bien, la cancelas con <code>systemctl stop</code> del temporizador. Si te quedas fuera, en 5 minutos vuelve la configuración anterior.</p></div>
     </li>
     <li><strong>Reglas de la VM profesional (103)</strong>
       <p>VM 103 → Cortafuegos. El objetivo es que solo NPM pueda llegar a la web y que la VM no pueda tocar al resto.</p>
-<pre data-lang="text"><code>IN   ACCEPT  8081/tcp    origen 192.168.0.252     (NPM → portfolio)
+<pre data-lenguaje="text"><code>IN   ACCEPT  8081/tcp    origen 192.168.0.252     (NPM → portfolio)
 IN   ACCEPT  22/tcp      origen 192.168.0.0/24    (SSH desde la LAN)
 IN   ACCEPT  9443/tcp    origen 192.168.0.0/24    (Portainer desde la LAN)
 OUT  DROP    destino 192.168.0.250                (no llega a la VM personal)
 OUT  ACCEPT  destino 192.168.0.253  puerto 53    (consultas DNS a AdGuard)
 OUT  DROP    destino 192.168.0.0/24               (resto de la red local)</code></pre>
-      <div class="callout tip"><strong>El orden importa</strong><p>Las reglas se evalúan de arriba abajo y gana la primera que coincide. Pon las excepciones (ACCEPT) antes del bloqueo general (DROP).</p></div>
-      <div class="callout error"><strong>Error real: la VM se quedó sin DNS</strong><p>En este servidor el <code>OUT DROP</code> de la red local acabó encima del <code>ACCEPT</code> del DNS. La web seguía funcionando, porque recibe tráfico y no necesita resolver nombres, pero la VM no podía resolver ninguno: <code>apt update</code> se quedaba colgado y no llegaban las actualizaciones. Se detecta con <code>getent hosts deb.debian.org</code> dentro de la VM. En la interfaz, arrastra la regla de DNS encima del DROP.</p></div>
+      <div class="aviso consejo"><strong>El orden importa</strong><p>Las reglas se evalúan de arriba abajo y gana la primera que coincide. Pon las excepciones (ACCEPT) antes del bloqueo general (DROP).</p></div>
+      <div class="aviso error"><strong>Error real: la VM se quedó sin DNS</strong><p>En este servidor el <code>OUT DROP</code> de la red local acabó encima del <code>ACCEPT</code> del DNS. La web seguía funcionando, porque recibe tráfico y no necesita resolver nombres, pero la VM no podía resolver ninguno: <code>apt update</code> se quedaba colgado y no llegaban las actualizaciones. Se detecta con <code>getent hosts deb.debian.org</code> dentro de la VM. En la interfaz, arrastra la regla de DNS encima del DROP.</p></div>
     </li>
     <li><strong>SSH solo con clave, sin contraseñas</strong>
       <p>Con contraseña, cualquiera en tu red puede intentar adivinarla. Con clave, hace falta el fichero que solo está en tu ordenador. Primero crea tu clave y cópiala a cada equipo, y <b>comprueba que entras con ella</b> antes de desactivar las contraseñas. En Windows, desde PowerShell:</p>
-<pre data-lang="powershell"><code>ssh-keygen -t ed25519
+<pre data-lenguaje="powershell"><code>ssh-keygen -t ed25519
 type $env:USERPROFILE\.ssh\id_ed25519.pub | ssh root@192.168.0.254 "cat &gt;&gt; /root/.ssh/authorized_keys"</code></pre>
       <p>Repite la copia en cada LXC y VM (en las VMs, en <code>/home/juanma/.ssh/authorized_keys</code>). Después, en cada equipo:</p>
-<pre data-lang="bash"><code>printf '%s\n' 'PasswordAuthentication no' 'KbdInteractiveAuthentication no' 'PermitRootLogin prohibit-password' \
+<pre data-lenguaje="bash"><code>printf '%s\n' 'PasswordAuthentication no' 'KbdInteractiveAuthentication no' 'PermitRootLogin prohibit-password' \
   &gt; /etc/ssh/sshd_config.d/00-solo-claves.conf
 sshd -t &amp;&amp; systemctl reload ssh</code></pre>
       <p>La consola web de Proxmox sigue funcionando con contraseña: es tu acceso de emergencia si pierdes la clave.</p>
-      <div class="callout error"><strong>Error real: SSH caído en un LXC</strong><p>En los contenedores LXC de Debian estaban activos a la vez <code>ssh.socket</code> y <code>ssh.service</code>, y competían por el puerto 22. Al recargar, el servicio falló con <i>Cannot bind any address</i> y el LXC se quedó sin SSH. Se arregla desde Proxmox, que no depende de SSH: <code>pct exec 101 -- bash -c "systemctl disable --now ssh.socket; systemctl enable --now ssh.service"</code>.</p></div>
+      <div class="aviso error"><strong>Error real: SSH caído en un LXC</strong><p>En los contenedores LXC de Debian estaban activos a la vez <code>ssh.socket</code> y <code>ssh.service</code>, y competían por el puerto 22. Al recargar, el servicio falló con <i>Cannot bind any address</i> y el LXC se quedó sin SSH. Se arregla desde Proxmox, que no depende de SSH: <code>pct exec 101 -- bash -c "systemctl disable --now ssh.socket; systemctl enable --now ssh.service"</code>.</p></div>
     </li>
   </ol>
-  <div class="callout check"><strong>Comprueba que funciona</strong>
-<pre data-lang="bash"><code># Desde tu PC: debe FALLAR (solo NPM puede llegar)
+  <div class="aviso comprobacion"><strong>Comprueba que funciona</strong>
+<pre data-lenguaje="bash"><code># Desde tu PC: debe FALLAR (solo NPM puede llegar)
 curl -m 5 http://192.168.0.251:8081
 # Desde la VM 103: debe FALLAR (no alcanza la VM personal)
 curl -m 5 http://192.168.0.250:8080
@@ -838,27 +841,27 @@ curl -I https://tudominio.com</code></pre></div>
 </article>
 
 <!-- Capítulo 11: Avisos -->
-<article class="chapter" id="avisos" data-title="Monitorización y avisos por Telegram">
-  <p class="eyebrow">Capítulo 11</p>
+<article class="capitulo" id="avisos" data-titulo="Monitorización y avisos por Telegram">
+  <p class="antetitulo">Capítulo 11</p>
   <h2 class="t1">Monitorización y avisos por Telegram</h2>
-  <p class="lead">Un servidor que se cae sin que te enteres no sirve. Uptime Kuma vigila tus servicios y Proxmox avisa de fallos de copias y discos, todo al mismo chat de Telegram.</p>
+  <p class="entradilla">Un servidor que se cae sin que te enteres no sirve. Uptime Kuma vigila tus servicios y Proxmox avisa de fallos de copias y discos, todo al mismo chat de Telegram.</p>
 
   <h3 class="t2">1. Crea el bot</h3>
-  <ol class="steps">
+  <ol class="pasos">
     <li><strong>Habla con @BotFather en Telegram</strong>
       <p>Envía <code>/newbot</code>, elige un nombre y recibirás un <b>token</b>. Escribe un mensaje cualquiera a tu bot, y consulta tu <b>chat ID</b> con un bot como @userinfobot.</p>
-      <div class="callout warn"><strong>El token es una contraseña</strong><p>Quien lo tenga puede enviar mensajes como tu bot. No lo pegues en chats, capturas ni repositorios. Si se filtra, en @BotFather usa <code>/revoke</code> y genera uno nuevo.</p></div>
+      <div class="aviso cuidado"><strong>El token es una contraseña</strong><p>Quien lo tenga puede enviar mensajes como tu bot. No lo pegues en chats, capturas ni repositorios. Si se filtra, en @BotFather usa <code>/revoke</code> y genera uno nuevo.</p></div>
     </li>
   </ol>
 
   <h3 class="t2">2. Uptime Kuma</h3>
-  <ol class="steps">
+  <ol class="pasos">
     <li><strong>Añade la notificación de Telegram</strong>
       <p>Ajustes → Notificaciones → Configurar → tipo <b>Telegram</b>, pega el token y el chat ID y activa <b>Predeterminada</b> para que se aplique a todos los monitores nuevos.</p>
     </li>
     <li><strong>Añade monitores</strong>
       <p>Añadir nuevo monitor → tipo <b>HTTP(s)</b> con la URL de cada servicio. Estos son los de este proyecto:</p>
-      <div class="tablewrap"><table>
+      <div class="tabla"><table>
         <tr><th>Monitor</th><th>Qué comprueba</th></tr>
         <tr><td>Internet</td><td>Ping a un DNS público (1.1.1.1)</td></tr>
         <tr><td>Router</td><td>Ping a 192.168.0.1</td></tr>
@@ -867,42 +870,42 @@ curl -I https://tudominio.com</code></pre></div>
         <tr><td>Nextcloud, Homepage</td><td>La web responde</td></tr>
         <tr><td>Portfolio</td><td>La web pública responde (desde fuera de la LAN)</td></tr>
       </table></div>
-      <figure class="shot"><img src="img/121.webp" width="1000" height="521" alt="Monitores" loading="lazy"><figcaption>Lista de monitores de Uptime Kuma.</figcaption></figure>
+      <figure class="captura"><img src="img/121.webp" width="1000" height="521" alt="Monitores" loading="lazy"><figcaption>Lista de monitores de Uptime Kuma.</figcaption></figure>
     </li>
   </ol>
 
   <h3 class="t2">3. Avisos de Proxmox</h3>
   <p>Proxmox no trae Telegram, pero permite un destino <b>Webhook</b>.</p>
-  <ol class="steps">
+  <ol class="pasos">
     <li><strong>Crea el destino</strong>
       <p>Datacenter → Notificaciones → Destinos → Añadir → Webhook:</p>
-<pre data-lang="text"><code>Nombre:    telegram
+<pre data-lenguaje="text"><code>Nombre:    telegram
 Método:    POST
 URL:       https://api.telegram.org/bot{{ secrets.token }}/sendMessage
 Cabecera:  Content-Type: application/json
 Cuerpo:    {"chat_id":"TU_CHAT_ID","text":"{{ title }}\n\n{{ message }}"}
 Secreto:   nombre = token   valor = (tu token)</code></pre>
-      <div class="callout error"><strong>Error típico</strong><p>Si sale <i>invalid handlebars syntax</i>, has puesto el token dentro de las llaves de la URL. La URL debe llevar literalmente <code>{{ secrets.token }}</code>; el token real va solo en el campo Secreto.</p></div>
+      <div class="aviso error"><strong>Error típico</strong><p>Si sale <i>invalid handlebars syntax</i>, has puesto el token dentro de las llaves de la URL. La URL debe llevar literalmente <code>{{ secrets.token }}</code>; el token real va solo en el campo Secreto.</p></div>
     </li>
     <li><strong>Pruébalo y enrútalo</strong>
       <p>Pulsa <b>Probar</b>: debe llegarte un mensaje. Después, en Matchers, edita <code>default-matcher</code> y marca el destino <code>telegram</code>.</p>
-      <div class="callout error"><strong>Error real: el destino creado pero sin usar</strong><p>En este servidor el webhook existía y la prueba funcionaba, pero <code>default-matcher</code> seguía enviando solo al correo de root. Los correos rebotaban, así que un fallo de disco o de copia no habría avisado a nadie. Comprueba la regla con <code>grep -A4 "matcher:" /etc/pve/notifications.cfg</code>: debe aparecer <code>target telegram</code>.</p></div>
-      <div class="callout error"><strong>Error real: Gmail rechaza el correo del servidor</strong><p>Con <code>mail-to-root</code> y <code>telegram</code> a la vez, cada noche llegaba a Telegram un «Undelivered Mail Returned to Sender». El servidor mandaba el aviso directamente a Gmail desde la IP de casa, sin SPF ni DKIM, y Gmail lo rechazaba (<code>550 5.7.26</code>). El rebote iba a root, y el correo de root se reenvía a Telegram. Si no necesitas correo, quita <code>mail-to-root</code> de <code>default-matcher</code>. Si lo necesitas, usa un destino SMTP con una contraseña de aplicación de Google en lugar de enviar directamente.</p></div>
-      <figure class="shot"><img src="img/016.webp" width="265" height="133" alt="default-matcher" loading="lazy"><figcaption>El comparador <code>default-matcher</code>, que decide a qué destino van los avisos.</figcaption></figure>
+      <div class="aviso error"><strong>Error real: el destino creado pero sin usar</strong><p>En este servidor el webhook existía y la prueba funcionaba, pero <code>default-matcher</code> seguía enviando solo al correo de root. Los correos rebotaban, así que un fallo de disco o de copia no habría avisado a nadie. Comprueba la regla con <code>grep -A4 "matcher:" /etc/pve/notifications.cfg</code>: debe aparecer <code>target telegram</code>.</p></div>
+      <div class="aviso error"><strong>Error real: Gmail rechaza el correo del servidor</strong><p>Con <code>mail-to-root</code> y <code>telegram</code> a la vez, cada noche llegaba a Telegram un «Undelivered Mail Returned to Sender». El servidor mandaba el aviso directamente a Gmail desde la IP de casa, sin SPF ni DKIM, y Gmail lo rechazaba (<code>550 5.7.26</code>). El rebote iba a root, y el correo de root se reenvía a Telegram. Si no necesitas correo, quita <code>mail-to-root</code> de <code>default-matcher</code>. Si lo necesitas, usa un destino SMTP con una contraseña de aplicación de Google en lugar de enviar directamente.</p></div>
+      <figure class="captura"><img src="img/016.webp" width="265" height="133" alt="default-matcher" loading="lazy"><figcaption>El comparador <code>default-matcher</code>, que decide a qué destino van los avisos.</figcaption></figure>
     </li>
   </ol>
-  <div class="callout check"><strong>Comprueba que funciona</strong><p>Para el contenedor de Nextcloud durante un minuto: Kuma te avisa por Telegram. Vuelve a encenderlo y recibes el aviso de recuperación.</p></div>
+  <div class="aviso comprobacion"><strong>Comprueba que funciona</strong><p>Para el contenedor de Nextcloud durante un minuto: Kuma te avisa por Telegram. Vuelve a encenderlo y recibes el aviso de recuperación.</p></div>
 </article>
 
 <!-- Capítulo 12: Mantenimiento -->
-<article class="chapter" id="mantenimiento" data-title="Copias de configuración y actualizaciones">
-  <p class="eyebrow">Capítulo 12</p>
+<article class="capitulo" id="mantenimiento" data-titulo="Copias de configuración y actualizaciones">
+  <p class="antetitulo">Capítulo 12</p>
   <h2 class="t1">Copias de configuración y actualizaciones</h2>
-  <p class="lead">Las copias de las máquinas ya cubren los discos, pero la configuración del propio Proxmox y los volcados de bases de datos conviene guardarlos aparte y en un formato que se pueda leer.</p>
+  <p class="entradilla">Las copias de las máquinas ya cubren los discos, pero la configuración del propio Proxmox y los volcados de bases de datos conviene guardarlos aparte y en un formato que se pueda leer.</p>
 
   <h3 class="t2">Script de copia en la VM 102</h3>
   <p>Guarda un volcado de la base de datos de Nextcloud y los ficheros de configuración. Créalo en <code>/usr/local/bin/dbdump.sh</code>:</p>
-<pre data-lang="bash"><code>#!/bin/bash
+<pre data-lenguaje="bash"><code>#!/bin/bash
 # Volcado de la base de datos de Nextcloud y copia de los compose (VM 102).
 # Lo lanza backup-config.sh desde el nodo Proxmox cada noche.
 
@@ -925,7 +928,7 @@ find "$DESTINO" -mtime +$DIAS_GUARDADOS -type f -delete</code></pre>
 
   <h3 class="t2">Script de copia en el nodo Proxmox</h3>
   <p>Guarda <code>/etc/pve</code> (configuración de todas las máquinas), la red y sanoid, y llama al script anterior. Créalo en <code>/usr/local/bin/backup-config.sh</code>:</p>
-<pre data-lang="bash"><code>#!/bin/bash
+<pre data-lenguaje="bash"><code>#!/bin/bash
 # Copia diaria de la configuración de Proxmox y volcado de la BD de Nextcloud.
 # Se ejecuta a las 02:45, antes de vzdump (03:00), para que la copia
 # nocturna de la VM 102 ya lleve dentro el volcado del día.
@@ -980,44 +983,44 @@ find "$DESTINO" -name 'pve-config-*.tar.gz' -mtime +$DIAS_GUARDADOS -delete
 chmod 600 "$DESTINO"/* 2&gt;/dev/null
 
 exit $FALLO</code></pre>
-<pre data-lang="bash"><code>chmod 700 /usr/local/bin/backup-config.sh
+<pre data-lenguaje="bash"><code>chmod 700 /usr/local/bin/backup-config.sh
 printf '%s\n' 'PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin' \
   '45 2 * * * root /usr/local/bin/backup-config.sh' &gt; /etc/cron.d/backup-config
 # Prueba en un entorno tan pobre como el de cron, no desde tu terminal
 env -i PATH=/usr/bin:/bin /usr/local/bin/backup-config.sh
 cat /var/log/backup-config.log</code></pre>
   <p>Se ejecuta a las <b>02:45</b>, antes de la copia de vzdump de las 03:00, para que la copia de la VM 102 ya lleve el volcado del día.</p>
-  <div class="callout error"><strong>Error real: el volcado no se hizo nunca</strong><p>La primera versión de este script terminaba con <code>&gt;/dev/null 2&gt;&amp;1</code> y el cron no definía <code>PATH</code>. Al probarlo a mano funcionaba, porque tu terminal sí encuentra <code>qm</code>. Desde cron fallaba cada noche sin dejar rastro: durante semanas no hubo ni un volcado. Moraleja: no tires los errores a <code>/dev/null</code>; guárdalos en un registro y pruébalo como lo ejecutará cron.</p></div>
-  <div class="callout warn"><strong>Misma ubicación, mismo riesgo</strong><p>Estas copias están en el mismo pool. Si fallan los dos discos a la vez, se pierden también. Sube de vez en cuando un archivo comprimido con lo crítico a un servicio externo.</p></div>
+  <div class="aviso error"><strong>Error real: el volcado no se hizo nunca</strong><p>La primera versión de este script terminaba con <code>&gt;/dev/null 2&gt;&amp;1</code> y el cron no definía <code>PATH</code>. Al probarlo a mano funcionaba, porque tu terminal sí encuentra <code>qm</code>. Desde cron fallaba cada noche sin dejar rastro: durante semanas no hubo ni un volcado. Moraleja: no tires los errores a <code>/dev/null</code>; guárdalos en un registro y pruébalo como lo ejecutará cron.</p></div>
+  <div class="aviso cuidado"><strong>Misma ubicación, mismo riesgo</strong><p>Estas copias están en el mismo pool. Si fallan los dos discos a la vez, se pierden también. Sube de vez en cuando un archivo comprimido con lo crítico a un servicio externo.</p></div>
 
   <h3 class="t2">Fijar versiones de las imágenes Docker</h3>
   <p>Con <code>latest</code>, una actualización automática puede romper un servicio sin que lo notes. Fija la versión exacta en el compose:</p>
-<pre data-lang="bash"><code># Ver la versión que corre ahora
+<pre data-lenguaje="bash"><code># Ver la versión que corre ahora
 docker inspect NOMBRE --format '{{index .Config.Labels "org.opencontainers.image.version"}}'
 # Cambiar en el compose, por ejemplo
 #   image: jc21/nginx-proxy-manager:latest  →  jc21/nginx-proxy-manager:2.16.0</code></pre>
   <p>Si quieres asegurarte de que siempre es la misma imagen, aunque la etiqueta se vuelva a publicar, añade su huella: <code>image: nginx:1.31.8-alpine3.24@sha256:…</code>. La sacas con <code>docker image inspect IMAGEN --format '{{json .RepoDigests}}'</code>.</p>
-  <div class="callout error"><strong>Error real: el compose dice una versión y corre otra</strong><p>Cambiar la etiqueta en el compose no cambia el contenedor que ya está en marcha: hay que recrearlo. Aquí varios servicios siguieron semanas con <code>latest</code> después de fijar la versión. Compruébalo con <code>docker ps --format '{{.Names}} {{.Image}}'</code>. Si la imagen ya está descargada, recrea sin descargar nada con <code>docker compose up -d --pull never</code>.</p></div>
+  <div class="aviso error"><strong>Error real: el compose dice una versión y corre otra</strong><p>Cambiar la etiqueta en el compose no cambia el contenedor que ya está en marcha: hay que recrearlo. Aquí varios servicios siguieron semanas con <code>latest</code> después de fijar la versión. Compruébalo con <code>docker ps --format '{{.Names}} {{.Image}}'</code>. Si la imagen ya está descargada, recrea sin descargar nada con <code>docker compose up -d --pull never</code>.</p></div>
   <h4 class="t3">Limpieza</h4>
   <p>Las imágenes antiguas se quedan en el disco después de actualizar. <code>docker image prune -a</code> borra las que no usa ningún contenedor. En este servidor liberó 2,6 GB.</p>
 
   <h3 class="t2">Cómo actualizar con seguridad</h3>
-  <ol class="steps">
+  <ol class="pasos">
     <li><strong>Haz una copia antes</strong><p>Ejecuta <code>vzdump</code> de la máquina o <code>backup-config.sh</code>.</p></li>
     <li><strong>Cambia el número de versión en el compose</strong><p>Mira primero las notas de la versión por si hay cambios importantes.</p></li>
     <li><strong>Aplica la actualización</strong>
-<pre data-lang="bash"><code>docker compose pull &amp;&amp; docker compose up -d</code></pre></li>
+<pre data-lenguaje="bash"><code>docker compose pull &amp;&amp; docker compose up -d</code></pre></li>
     <li><strong>Mira Uptime Kuma</strong><p>Si el monitor sigue en verde, listo. Si no, vuelve a la versión anterior y repite el último paso.</p></li>
   </ol>
 </article>
 
 <!-- Capítulo 13: Errores -->
-<article class="chapter" id="errores" data-title="Errores frecuentes y lecciones">
-  <p class="eyebrow">Capítulo 13</p>
+<article class="capitulo" id="errores" data-titulo="Errores frecuentes y lecciones">
+  <p class="antetitulo">Capítulo 13</p>
   <h2 class="t1">Errores frecuentes y lecciones aprendidas</h2>
-  <p class="lead">Estos son los problemas reales que aparecieron al montar este servidor. Casi todos tienen causa sencilla, y reconocerlos ahorra horas.</p>
+  <p class="entradilla">Estos son los problemas reales que aparecieron al montar este servidor. Casi todos tienen causa sencilla, y reconocerlos ahorra horas.</p>
 
-  <div class="tablewrap"><table>
+  <div class="tabla"><table>
     <tr><th>Síntoma</th><th>Causa</th><th>Solución</th></tr>
     <tr><td>El comando pegado se corta y da error</td><td>El terminal web parte las líneas largas o con saltos</td><td>Escribe el comando en una sola línea o usa <code>\</code> al final de cada línea</td></tr>
     <tr><td>Ficheros con propietario incorrecto, contenedor sin permisos</td><td>Pasos hechos como root en vez de con el usuario normal</td><td><code>sudo chown -R usuario:usuario /srv/data</code></td></tr>
@@ -1060,12 +1063,13 @@ docker inspect NOMBRE --format '{{index .Config.Labels "org.opencontainers.image
   </ul>
 </article>
 
-  <div class="footer">
+  <div class="pie">
     <p>Proyecto personal de <a href="/sobre-mi.html">Juanma Rosado</a> · 1.º DAW, IES Belén (Málaga). HTML, CSS y JavaScript sin librerías.</p>
     <p>Otra guía: <a href="/guia-dual-w11-mint/">arranque dual de Windows 11 y Linux Mint en VirtualBox</a> · <a href="/proyectos.html">Todos mis proyectos</a></p>
   </div>
   </div></main>
 </div>
-<script src="/comun/js/guia.js?v=20261124"></script>
+<script src="/js/main.js?v=20261126b"></script>
+<script src="/comun/js/guia.js?v=20261126"></script>
 </body>
 </html>

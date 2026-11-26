@@ -1,131 +1,86 @@
 // guia.js: código común de las guías (servidor y arranque dual).
-// Menú de capítulos, progreso guardado en el navegador y botones de copiar.
+// Índice de capítulos, anterior/siguiente, botones de copiar y capturas que se amplían.
+// El botón de modo claro/oscuro lo lleva /js/main.js, el mismo del portfolio.
 
-// Cada guía indica en el body su clave de progreso y su nombre
-const CLAVE_PROGRESO = document.body.dataset.claveProgreso;
+// Cada guía pone su nombre en el body (data-nombre-guia)
 const NOMBRE_GUIA = document.body.dataset.nombreGuia;
 
 // Título de la página tal como viene en el HTML: es el que ven los buscadores en el inicio
 const TITULO_PAGINA = document.title;
 
-const capitulos = [...document.querySelectorAll(".chapter")];
-const menuLateral = document.getElementById("nav");
-const hechos = leerProgreso();
+const capitulos = [...document.querySelectorAll(".capitulo")];
+const indice = document.getElementById("indice");
 
-crearMenu();
-crearBotones();
+crearIndice();
+crearPaginadores();
 prepararBloquesCodigo();
 prepararCapturas();
 
-document.getElementById("menu-btn").addEventListener("click", () => {
-  document.body.classList.toggle("menu");
+// En el móvil, el índice se abre y se cierra con el botón de arriba
+document.getElementById("boton-menu").addEventListener("click", () => {
+  document.body.classList.toggle("menu-abierto");
 });
-menuLateral.addEventListener("click", () => {
-  document.body.classList.remove("menu");
+indice.addEventListener("click", () => {
+  document.body.classList.remove("menu-abierto");
 });
 window.addEventListener("hashchange", mostrarCapitulo);
 
-actualizarProgreso();
 mostrarCapitulo();
 
-// Lee del navegador los capítulos marcados como hechos
-function leerProgreso() {
-  try {
-    return JSON.parse(localStorage.getItem(CLAVE_PROGRESO) || "[]");
-  } catch (error) {
-    return [];
-  }
-}
-
-function guardarProgreso() {
-  try {
-    localStorage.setItem(CLAVE_PROGRESO, JSON.stringify(hechos));
-  } catch (error) {
-    // Si el navegador no deja guardar, la guía sigue funcionando sin progreso
-  }
-}
-
-// Crea el menú lateral a partir de los capítulos de la página
-function crearMenu() {
+// Crea el índice lateral a partir de los capítulos de la página
+function crearIndice() {
   capitulos.forEach((capitulo, i) => {
-    const numero = String(i).padStart(2, "0");
     const elemento = document.createElement("li");
-    elemento.dataset.id = capitulo.id;
-    elemento.innerHTML = '<a href="#' + capitulo.id + '">'
-        + '<span class="n">' + numero + "</span>"
-        + "<span>" + capitulo.dataset.title + "</span>"
-        + '<span class="done" aria-label="completado">✓</span>'
-        + "</a>";
-    menuLateral.appendChild(elemento);
+    const enlace = document.createElement("a");
+    enlace.href = "#" + capitulo.id;
+
+    const numero = document.createElement("span");
+    numero.className = "numero";
+    numero.textContent = String(i).padStart(2, "0");
+
+    const titulo = document.createElement("span");
+    titulo.textContent = capitulo.dataset.titulo;
+
+    enlace.append(numero, titulo);
+    elemento.append(enlace);
+    indice.append(elemento);
   });
 }
 
-// Añade a cada capítulo los botones "anterior", "siguiente" y "completado"
-function crearBotones() {
+// Añade al final de cada capítulo los enlaces al anterior y al siguiente
+function crearPaginadores() {
   capitulos.forEach((capitulo, i) => {
+    const paginador = document.createElement("nav");
+    paginador.className = "paginador";
+    paginador.setAttribute("aria-label", "Capítulos anterior y siguiente");
+
     const anterior = capitulos[i - 1];
     const siguiente = capitulos[i + 1];
 
-    // El inicio (capítulo 0) no lleva botón de completado
-    if (i > 0) {
-      const boton = document.createElement("button");
-      boton.className = "donebtn";
-      boton.type = "button";
-      boton.addEventListener("click", () => {
-        marcarHecho(capitulo.id);
-      });
-      capitulo.appendChild(boton);
-    }
-
-    const paginador = document.createElement("div");
-    paginador.className = "pager";
-    let html = "<span></span>";
+    // Si no hay anterior, un hueco vacío para que el siguiente quede a la derecha
     if (anterior) {
-      html = '<a href="#' + anterior.id + '"><small>← Anterior</small>'
-          + anterior.dataset.title + "</a>";
+      paginador.append(crearEnlaceCapitulo(anterior, "← Anterior", ""));
+    } else {
+      paginador.append(document.createElement("span"));
     }
     if (siguiente) {
-      html += '<a class="next" href="#' + siguiente.id + '"><small>Siguiente →</small>'
-          + siguiente.dataset.title + "</a>";
+      paginador.append(crearEnlaceCapitulo(siguiente, "Siguiente →", "siguiente"));
     }
-    paginador.innerHTML = html;
-    capitulo.appendChild(paginador);
+
+    capitulo.append(paginador);
   });
 }
 
-// Marca o desmarca un capítulo como completado
-function marcarHecho(id) {
-  const posicion = hechos.indexOf(id);
-  if (posicion > -1) {
-    hechos.splice(posicion, 1);
-  } else {
-    hechos.push(id);
+function crearEnlaceCapitulo(capitulo, texto, clase) {
+  const enlace = document.createElement("a");
+  enlace.href = "#" + capitulo.id;
+  if (clase) {
+    enlace.className = clase;
   }
-  guardarProgreso();
-  actualizarProgreso();
-}
-
-// Actualiza la barra de progreso, los ✓ del menú y los botones
-function actualizarProgreso() {
-  // El inicio no cuenta como capítulo
-  const total = capitulos.length - 1;
-  const completados = hechos.filter((id) => id !== capitulos[0].id).length;
-
-  document.getElementById("bar").style.width = Math.round(completados / total * 100) + "%";
-  document.getElementById("plabel").textContent = completados + " de " + total + " capítulos completados";
-
-  menuLateral.querySelectorAll("li").forEach((elemento) => {
-    elemento.classList.toggle("is-done", hechos.includes(elemento.dataset.id));
-  });
-
-  capitulos.forEach((capitulo) => {
-    const boton = capitulo.querySelector(".donebtn");
-    if (boton) {
-      const hecho = hechos.includes(capitulo.id);
-      boton.setAttribute("aria-pressed", hecho);
-      boton.textContent = hecho ? "✓ Capítulo completado" : "Marcar como completado";
-    }
-  });
+  const pequeno = document.createElement("small");
+  pequeno.textContent = texto;
+  enlace.append(pequeno, capitulo.dataset.titulo);
+  return enlace;
 }
 
 // Enseña solo el capítulo que pone en la dirección (#capitulo)
@@ -137,10 +92,10 @@ function mostrarCapitulo() {
   }
 
   capitulos.forEach((capitulo, i) => {
-    capitulo.classList.toggle("active", i === actual);
+    capitulo.classList.toggle("visible", i === actual);
   });
 
-  menuLateral.querySelectorAll("a").forEach((enlace, i) => {
+  indice.querySelectorAll("a").forEach((enlace, i) => {
     if (i === actual) {
       enlace.setAttribute("aria-current", "page");
     } else {
@@ -148,15 +103,16 @@ function mostrarCapitulo() {
     }
   });
 
-  const titulo = capitulos[actual].dataset.title;
-  document.getElementById("topbar-title").textContent = titulo;
+  const titulo = capitulos[actual].dataset.titulo;
+  document.getElementById("titulo-movil").textContent = titulo;
+
   // En el inicio se deja el título del HTML; en los capítulos, el del capítulo
   if (actual === 0) {
     document.title = TITULO_PAGINA;
   } else {
     document.title = titulo + " · " + NOMBRE_GUIA;
   }
-  document.body.classList.remove("menu");
+  document.body.classList.remove("menu-abierto");
   window.scrollTo(0, 0);
 }
 
@@ -165,76 +121,90 @@ function prepararBloquesCodigo() {
   document.querySelectorAll("pre").forEach((bloque) => {
     const codigo = bloque.querySelector("code");
     const boton = document.createElement("button");
-    boton.className = "copy";
+    boton.className = "boton-copiar";
     boton.type = "button";
     boton.textContent = "Copiar";
 
     boton.addEventListener("click", () => {
-      const copiado = () => {
-        boton.textContent = "¡Copiado!";
-        setTimeout(() => {
-          boton.textContent = "Copiar";
-        }, 1500);
-      };
-
-      // Si no se puede usar el portapapeles, se selecciona el texto para copiarlo a mano
-      const seleccionar = () => {
-        const rango = document.createRange();
-        rango.selectNodeContents(codigo);
-        const seleccion = getSelection();
-        seleccion.removeAllRanges();
-        seleccion.addRange(rango);
-        boton.textContent = "Selecciona y copia";
-      };
-
+      // Si el navegador deja usar el portapapeles, lo copio directamente
       if (navigator.clipboard && navigator.clipboard.writeText) {
-        navigator.clipboard.writeText(codigo.innerText).then(copiado, seleccionar);
+        navigator.clipboard.writeText(codigo.innerText).then(
+          () => avisarCopiado(boton),
+          () => seleccionarTexto(codigo, boton)
+        );
       } else {
-        seleccionar();
+        seleccionarTexto(codigo, boton);
       }
     });
 
-    bloque.appendChild(boton);
+    bloque.append(boton);
   });
 }
 
+function avisarCopiado(boton) {
+  boton.textContent = "¡Copiado!";
+  setTimeout(() => {
+    boton.textContent = "Copiar";
+  }, 1500);
+}
+
+// Si no se puede copiar, dejo el texto seleccionado para copiarlo a mano
+function seleccionarTexto(codigo, boton) {
+  const rango = document.createRange();
+  rango.selectNodeContents(codigo);
+  const seleccion = getSelection();
+  seleccion.removeAllRanges();
+  seleccion.addRange(rango);
+  boton.textContent = "Selecciona y copia";
+}
+
 // Las capturas se amplían al pulsarlas.
-// Si una no carga, se pone un hueco que explica qué imagen falta.
+// Si una no carga, pongo un hueco que dice qué imagen falta.
 function prepararCapturas() {
-  document.querySelectorAll(".shot img").forEach((imagen) => {
-    const ponerHueco = () => {
-      const hueco = document.createElement("div");
-      hueco.className = "shot-ph";
-      hueco.innerHTML = "<b>Aquí va una captura</b>" + (imagen.dataset.hint || imagen.alt)
-          + "<br><code>" + imagen.getAttribute("src") + "</code>";
-      imagen.replaceWith(hueco);
-    };
-
-    imagen.addEventListener("error", ponerHueco);
+  document.querySelectorAll(".captura img").forEach((imagen) => {
+    imagen.addEventListener("error", () => ponerHueco(imagen));
     if (imagen.complete && imagen.naturalWidth === 0) {
-      ponerHueco();
+      ponerHueco(imagen);
     }
-
-    imagen.addEventListener("click", () => {
-      const visor = document.createElement("div");
-      visor.className = "lightbox";
-      const grande = document.createElement("img");
-      grande.src = imagen.currentSrc || imagen.src;
-      grande.alt = imagen.alt;
-      visor.appendChild(grande);
-      // Se cierra con un clic o con la tecla Esc
-      const cerrarConEscape = (evento) => {
-        if (evento.key === "Escape") {
-          cerrarVisor();
-        }
-      };
-      const cerrarVisor = () => {
-        visor.remove();
-        document.removeEventListener("keydown", cerrarConEscape);
-      };
-      visor.addEventListener("click", cerrarVisor);
-      document.addEventListener("keydown", cerrarConEscape);
-      document.body.appendChild(visor);
-    });
+    imagen.addEventListener("click", () => abrirVisor(imagen));
   });
+}
+
+function ponerHueco(imagen) {
+  const hueco = document.createElement("div");
+  hueco.className = "captura-falta";
+
+  const aviso = document.createElement("b");
+  aviso.textContent = "Aquí va una captura";
+  const ruta = document.createElement("code");
+  ruta.textContent = imagen.getAttribute("src");
+
+  hueco.append(aviso, imagen.alt, document.createElement("br"), ruta);
+  imagen.replaceWith(hueco);
+}
+
+// Enseña la captura en grande. Se cierra con un clic o con Esc.
+function abrirVisor(imagen) {
+  const visor = document.createElement("div");
+  visor.className = "visor";
+
+  const grande = document.createElement("img");
+  grande.src = imagen.currentSrc || imagen.src;
+  grande.alt = imagen.alt;
+  visor.append(grande);
+
+  function cerrarConEscape(evento) {
+    if (evento.key === "Escape") {
+      cerrarVisor();
+    }
+  }
+
+  function cerrarVisor() {
+    visor.remove();
+    document.removeEventListener("keydown", cerrarConEscape);
+  }
+
+  visor.addEventListener("click", cerrarVisor);
+  document.addEventListener("keydown", cerrarConEscape);
+  document.body.append(visor);
 }
