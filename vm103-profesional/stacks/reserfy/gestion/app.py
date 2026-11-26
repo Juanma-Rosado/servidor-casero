@@ -90,6 +90,8 @@ def get_reservas():
         SELECT p.ID, p.post_date, p.post_status
         FROM wp_posts p
         WHERE p.post_type = 'flamingo_inbound'
+          -- Solo las reservas válidas: fuera las de spam (las frena el plugin de protección) y la papelera
+          AND p.post_status = 'publish'
         ORDER BY p.post_date DESC
     """)
     posts = cursor.fetchall()
@@ -277,9 +279,9 @@ def editar_reserva(reserva_id):
     horas = ['13:00','13:30','14:00','14:30','15:00','15:30',
              '20:00','20:30','21:00','21:30','22:00','22:30']
     comensales = ['1 persona','2 personas','3 personas','4 personas',
-                  '5 personas','6 personas','7 personas','8 personas','Mas de 8 (consultar)']
-    ocasiones = ['Sin ocasion especial','Cumpleanos','Aniversario',
-                 'Cena de empresa','Pedida de mano','Otra ocasion']
+                  '5 personas','6 personas','7 personas','8 personas','Más de 8 (consultar)']
+    ocasiones = ['Sin ocasión especial','Cumpleaños','Aniversario',
+                 'Cena de empresa','Pedida de mano','Otra ocasión']
     return render_template('editar.html',
                            reserva=reserva,
                            restaurant=RESTAURANT_NAME,

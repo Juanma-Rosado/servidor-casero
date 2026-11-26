@@ -1,5 +1,40 @@
 # Registro de cambios
 
+## 2026-11-26 · Reserfy: protección del formulario, limpieza de datos y seguridad de WordPress
+
+**Qué**
+- Tres plugins propios nuevos en `wordpress/mu-plugins/` (se cargan en las dos webs):
+  - `limpieza-reservas.php`: una tarea diaria de WP-Cron borra las reservas con más de 7 días, las marcadas como spam y los contactos de Flamingo antiguos. Las tres reservas de ejemplo de la aplicación de gestión llevan la marca `_reserva_demo_fija` y no se borran. A mano: `wp reserfy-limpiar`.
+  - `proteccion-reservas.php`: campo trampa oculto (`sitio_web`) que una persona no ve y un bot rellena. También pone un máximo de 5 reservas por hora desde la misma IP. Lo que para se marca como spam, con un mensaje claro para el visitante.
+  - `seguridad-wordpress.php`: `xmlrpc.php` contesta `403`; la API ya no lista los usuarios (`/wp-json/wp/v2/users` da `404`) y `/?author=1` va a la portada. Tras 5 contraseñas fallidas, esa IP espera 15 minutos.
+  - Las IP se guardan como resumen HMAC, nunca en claro. La IP real se lee de `CF-Connecting-IP`, porque `REMOTE_ADDR` es la del nginx de entrada.
+- `correo-demo.php`: la fecha de los correos se escribe como «sábado, 28 de noviembre de 2026». Flamingo y la aplicación de gestión siguen guardando `2026-11-28`.
+- Formulario de reservas: opciones con tilde («Cumpleaños», «Sin ocasión especial», «Otra ocasión», «Más de 8»). El correo al cliente ya no tiene la línea «Teléfono: XXX XXX XXX».
+- Aplicación de gestión 1.2 (`gestion/app.py`): las mismas opciones con tilde, y la lista solo enseña reservas válidas (`post_status = 'publish'`), sin spam ni papelera.
+- Mailpit: `MP_MAX_AGE: 7d`, para que los correos duren lo mismo que las reservas.
+- Reserfy: desinstalado WPForms Lite, que no usaba ninguna página. Se queda WPCode en Échale Queso, porque lleva el script del equipo que activa las horas al elegir fecha.
+- `scripts/sincronizar.sh` vigila los tres plugins nuevos y `gestion/app.py`.
+
+**Por qué**
+- El formulario es público. Sin límite, un bot podía llenar la base de datos, y los datos que deja la gente no tienen por qué guardarse más de una semana: así se cumple lo que dice la privacidad.
+- XML-RPC y la lista de usuarios son lo primero que prueban los ataques automáticos a WordPress, y estas webs no los necesitan.
+
+**Copia previa**
+- `copias/{reserfy,restaurante}-antes-proteccion-20261126-1459.sql.gz` (permisos 600).
+- `docker-compose.yml.bak-20261126-1502` y `gestion/app.py.bak-20261126-1459`. La imagen `reserfy-gestion:1.1` sigue en la VM.
+- Error real: `sincronizar.sh llevar` deja la copia `*.php.bak-*` junto al original. Dentro de `mu-plugins` esa copia quedaba descargable desde la web como texto (no tiene secretos, pero sobra). Se movió a `copias/`.
+
+**Comprobación**
+- Reserva desde el navegador: se acepta y el correo enseña la fecha legible, «Cumpleaños» y ya no tiene teléfono.
+- Por la API de Contact Form 7: con el campo trampa relleno, `spam`. Cuatro reservas más se aceptan, y la sexta de la hora da `spam`. La aplicación de gestión no enseña las de spam, y `wp reserfy-limpiar` las borró. Las reservas de prueba, sus correos y los contadores se borraron después.
+- Desde WP-CLI, con una IP de ejemplo: 5 fallos dan `invalid_username` y el sexto da `demasiados_intentos`.
+- `xmlrpc.php`: `403` en las dos webs. Portadas, demo, contacto, valoraciones y login de gestión: `200`.
+
+**Cómo deshacerlo**
+- Borrar los plugins nuevos de `/srv/data/stacks/reserfy/wordpress/mu-plugins/`.
+- Volver a `docker-compose.yml.bak-20261126-1502` y recrear con `docker compose up -d --pull never`; esto vuelve a la imagen de gestión 1.1.
+- Importar los volcados `*-antes-proteccion-*` para el formulario, el correo y WPForms.
+
 ## 2026-11-25 · Échale Queso: el correo de confirmación se ve en pantalla
 
 **Qué**

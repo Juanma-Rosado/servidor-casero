@@ -70,9 +70,13 @@ vm103-profesional/stacks/reserfy/php/subidas.ini|profesional|/srv/data/stacks/re
 vm103-profesional/stacks/reserfy/bases/02-usuario-gestion.sh|profesional|/srv/data/stacks/reserfy/bases/02-usuario-gestion.sh|no
 vm103-profesional/stacks/reserfy/gestion/Dockerfile|profesional|/srv/data/stacks/reserfy/gestion/Dockerfile|si
 vm103-profesional/stacks/reserfy/gestion/requirements.txt|profesional|/srv/data/stacks/reserfy/gestion/requirements.txt|si
+vm103-profesional/stacks/reserfy/gestion/app.py|profesional|/srv/data/stacks/reserfy/gestion/app.py|si
 vm103-profesional/stacks/reserfy/wordpress/mu-plugins/aviso-demo.php|profesional|/srv/data/stacks/reserfy/wordpress/mu-plugins/aviso-demo.php|si
 vm103-profesional/stacks/reserfy/wordpress/mu-plugins/validacion-reservas.php|profesional|/srv/data/stacks/reserfy/wordpress/mu-plugins/validacion-reservas.php|si
 vm103-profesional/stacks/reserfy/wordpress/mu-plugins/correo-demo.php|profesional|/srv/data/stacks/reserfy/wordpress/mu-plugins/correo-demo.php|si
+vm103-profesional/stacks/reserfy/wordpress/mu-plugins/limpieza-reservas.php|profesional|/srv/data/stacks/reserfy/wordpress/mu-plugins/limpieza-reservas.php|si
+vm103-profesional/stacks/reserfy/wordpress/mu-plugins/proteccion-reservas.php|profesional|/srv/data/stacks/reserfy/wordpress/mu-plugins/proteccion-reservas.php|si
+vm103-profesional/stacks/reserfy/wordpress/mu-plugins/seguridad-wordpress.php|profesional|/srv/data/stacks/reserfy/wordpress/mu-plugins/seguridad-wordpress.php|si
 vm103-profesional/etc-docker-daemon.json|profesional|/etc/docker/daemon.json|no
 LISTA
 }

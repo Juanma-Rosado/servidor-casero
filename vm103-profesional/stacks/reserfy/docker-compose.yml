@@ -119,7 +119,7 @@ services:
     volumes:
       - ./datos/web-reserfy:/var/www/html
       - ./php/subidas.ini:/usr/local/etc/php/conf.d/subidas.ini:ro
-      # Plugins propios que no se pueden desactivar: aviso de demo y validación de reservas
+      # Plugins propios que no se pueden desactivar (aviso, validación, correo, protección, limpieza y seguridad)
       - ./wordpress/mu-plugins:/var/www/html/wp-content/mu-plugins:ro
     networks:
       - reserfy
@@ -150,14 +150,14 @@ services:
     volumes:
       - ./datos/web-restaurante:/var/www/html
       - ./php/subidas.ini:/usr/local/etc/php/conf.d/subidas.ini:ro
-      # Plugins propios que no se pueden desactivar: aviso de demo y validación de reservas
+      # Plugins propios que no se pueden desactivar (aviso, validación, correo, protección, limpieza y seguridad)
       - ./wordpress/mu-plugins:/var/www/html/wp-content/mu-plugins:ro
     networks:
       - reserfy
 
   gestion:
     build: ./gestion
-    image: reserfy-gestion:1.1
+    image: reserfy-gestion:1.2
     container_name: reserfy-gestion
     restart: unless-stopped
     environment:
@@ -182,6 +182,8 @@ services:
     restart: unless-stopped
     environment:
       MP_MAX_MESSAGES: 500
+      # Los correos de la demo se borran solos a los 7 días, como las reservas
+      MP_MAX_AGE: 7d
       MP_SMTP_AUTH_ACCEPT_ANY: 1
       MP_SMTP_AUTH_ALLOW_INSECURE: 1
     ports:

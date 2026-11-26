@@ -15,6 +15,21 @@ if (!defined('ABSPATH')) {
   exit;
 }
 
+// En los correos, la fecha se escribe como «sábado, 28 de noviembre de 2026» y no 2026-11-28.
+// Solo cambia el texto del correo: Flamingo y la aplicación de gestión siguen guardando 2026-11-28.
+function escribirFechaLegible($sustituto, $enviado, $esHtml, $etiqueta) {
+  if ($etiqueta->field_name() !== 'fecha') {
+    return $sustituto;
+  }
+  $texto = is_array($enviado) ? (string) reset($enviado) : (string) $enviado;
+  $fecha = DateTimeImmutable::createFromFormat('!Y-m-d', $texto, wp_timezone());
+  if (!$fecha) {
+    return $sustituto;
+  }
+  return wp_date('l, j \d\e F \d\e Y', $fecha->getTimestamp());
+}
+add_filter('wpcf7_mail_tag_replaced', 'escribirFechaLegible', 10, 4);
+
 // Monta el correo al cliente (el "Correo 2" de Contact Form 7) con los datos enviados
 function montarCorreoDemo($formulario) {
   $correo = $formulario->prop('mail_2');
