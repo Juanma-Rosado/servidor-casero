@@ -2,6 +2,9 @@
 
 Un resumen de lo que voy cambiando en el servidor y en la web. Cómo está montado cada paso lo explico en la guía: https://juanmarosado.com/servidor/
 
+## 2026-11-27 · Jellyfin para ver las películas en casa
+- Las películas del servidor antiguo están ahora en Jellyfin, solo desde casa o por la VPN. Van en un disco aparte que no entra en las copias, porque se pueden recuperar.
+
 ## 2026-11-27 · Mejoras para los buscadores
 - Títulos y descripciones más claros, y la guía de arranque dual con su propia imagen para compartir.
 - Más información para los buscadores en Sobre mí, Proyectos, Contacto y las guías.

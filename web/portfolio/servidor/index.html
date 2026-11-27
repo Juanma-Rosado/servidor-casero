@@ -134,7 +134,7 @@
         <text class="detalle" x="217" y="198">Nginx Proxy Manager</text><text class="detalle" x="217" y="216">cloudflared</text>
         <rect class="caja" x="370" y="140" width="150" height="110" rx="8"/>
         <text class="dato" x="382" y="158">VM 102 · .250</text><text class="rotulo" x="382" y="178">personal</text>
-        <text class="detalle" x="382" y="198">Nextcloud · Kuma</text><text class="detalle" x="382" y="216">Homepage · Portainer</text>
+        <text class="detalle" x="382" y="198">Nextcloud · Jellyfin</text><text class="detalle" x="382" y="216">Kuma · Homepage</text><text class="detalle" x="382" y="234">Portainer</text>
         <rect class="caja" x="535" y="140" width="150" height="110" rx="8"/>
         <text class="dato" x="547" y="158">VM 103 · .251</text><text class="rotulo" x="547" y="178">profesional</text>
         <text class="detalle" x="547" y="198">Portfolio web</text><text class="detalle" x="547" y="216">Portainer</text>
@@ -579,6 +579,49 @@ volumes:
 cd /srv/data/stacks/portainer &amp;&amp; docker compose up -d</code></pre>
   <p>Entra en <code>https://IP-DE-LA-VM:9443</code> y crea el usuario administrador en los primeros minutos, porque pasado un rato Portainer bloquea el registro por seguridad.</p>
   <figure class="captura"><div class="capturas"><img src="img/134.webp" width="1000" height="70" alt="Comando Portainer" loading="lazy"><img src="img/122.webp" width="1000" height="699" alt="Administrador" loading="lazy"></div><figcaption>Arranque de Portainer en la VM 103 y primera pantalla para crear el administrador.</figcaption></figure>
+
+  <h3 class="t2">VM 102: Jellyfin, tus películas en casa</h3>
+  <p>Jellyfin es un servidor de vídeo libre, parecido a Plex pero sin cuenta externa: organiza tus películas con carátulas y sinopsis, y las reproduce en el navegador, el móvil o la tele. Aquí guarda las películas que había en un servidor anterior.</p>
+  <p>Lo importante es <b>dónde van las películas</b>. Si las metes en el disco de datos de la VM, entran en todas las copias: vzdump las copia cada noche, el pendrive se llena y, con las instantáneas de sanoid, borrar una película no libera espacio hasta pasado un mes. Las películas se pueden volver a conseguir; tus fotos no. Por eso van en un disco aparte, sin copia.</p>
+  <h4 class="t3">1. Un disco solo para las películas</h4>
+  <p>En el nodo, añade a la VM un disco de 150 GB en el pool, con <code>backup=0</code> para que vzdump lo salte:</p>
+<pre data-lenguaje="bash"><code>qm set 102 --scsi2 datos:150,backup=0,discard=on,iothread=1</code></pre>
+  <div class="aviso error"><strong>Error real: el disco se crea, pero no aparece en la VM</strong><p>Aquí el comando falló con <code>zfs create … got timeout</code>: crear un volumen de 150 GB tardó más de lo que Proxmox espera. El volumen sí se creó, pero no se conectó a la VM. No repitas el comando, o tendrás un segundo disco huérfano ocupando espacio. Comprueba con <code>zfs list | grep vm-102</code> y, si está, conéctalo: <code>qm set 102 --scsi2 datos:vm-102-disk-2,backup=0,discard=on,iothread=1</code>.</p></div>
+  <p>Excluye el disco de las instantáneas en <code>/etc/sanoid/sanoid.conf</code>, igual que la carpeta de copias:</p>
+<pre data-lenguaje="text"><code>[datos/vm-102-disk-2]
+        use_template = ninguno</code></pre>
+  <p>Dentro de la VM, como root, formatéalo y móntalo en <code>/srv/media</code>. Usa una etiqueta en vez de <code>/dev/sdc</code>, que puede cambiar, y <code>nofail</code> para que la VM arranque aunque falle el disco:</p>
+<pre data-lenguaje="bash"><code># Comprueba que el disco está vacío antes de formatear: no debe mostrar nada
+blkid /dev/sdc
+mkfs.ext4 -m 0 -T largefile -L media102 /dev/sdc
+echo "LABEL=media102 /srv/media ext4 defaults,nofail,discard 0 2" &gt;&gt; /etc/fstab
+mkdir -p /srv/media &amp;&amp; systemctl daemon-reload &amp;&amp; mount /srv/media
+mkdir -p /srv/media/peliculas /srv/media/series /srv/media/.cache-jellyfin
+chown -R 1000:1000 /srv/media</code></pre>
+  <p><code>-m 0</code> no reserva espacio para root (en un disco de datos no hace falta) y <code>-T largefile</code> crea menos índices, porque habrá pocos ficheros y muy grandes.</p>
+  <h4 class="t3">2. Copia las películas</h4>
+  <p>Cada película en su carpeta, con el título y el año, para que Jellyfin la reconozca: <code>peliculas/Interstellar (2014)/Interstellar (2014).mkv</code>. Desde tu PC:</p>
+<pre data-lenguaje="bash"><code>scp -r "Interstellar (2014)" usuario@IP-DE-LA-VM:/srv/media/peliculas/</code></pre>
+  <div class="aviso consejo"><strong>Cable mejor que Wi‑Fi</strong><p>Aquí la copia fue por Wi‑Fi a unos 8 MB/s: unos 137 GB tardaron más de cuatro horas. Con cable de 1 Gbit/s habría sido media hora.</p></div>
+  <h4 class="t3">3. El compose</h4>
+<pre data-lenguaje="yaml"><code>services:
+  jellyfin:
+    image: jellyfin/jellyfin:12.4.20261026-211555
+    container_name: jellyfin
+    restart: unless-stopped
+    user: "1000:1000"
+    ports: ["8096:8096"]
+    environment:
+      JELLYFIN_PublishedServerUrl: https://jellyfin.casa.tudominio.com
+    volumes:
+      - /srv/data/jellyfin/config:/config
+      - /srv/media/.cache-jellyfin:/cache
+      # Solo lectura: Jellyfin no puede borrar ni cambiar las películas
+      - /srv/media:/media:ro</code></pre>
+  <p>La configuración (bibliotecas, usuarios, lo que has visto) va en <code>/srv/data</code> y entra en las copias. La caché va en el disco de películas, porque se puede regenerar.</p>
+  <p>En NPM, crea <code>jellyfin.casa.tudominio.com</code> hacia <code>http://IP-DE-LA-VM:8096</code> con la lista <code>solo-lan</code>, el certificado <code>*.casa</code> y <b>WebSockets activado</b> (Jellyfin lo usa para el progreso y los controles). En el asistente inicial crea tu usuario y una biblioteca de tipo «Películas» en <code>/media/peliculas</code>. Fuera de casa entras por Tailscale.</p>
+  <div class="aviso cuidado"><strong>No lo publiques por Cloudflare Tunnel</strong><p>Las condiciones del plan gratuito de Cloudflare no permiten servir vídeo por el túnel, y te pueden cortar el servicio. Para verlo fuera de casa, usa la VPN.</p></div>
+  <p>Con dos núcleos, Jellyfin reproduce sin esfuerzo si el dispositivo admite el formato del fichero. Si tiene que convertirlo sobre la marcha, la CPU sufre: dale más núcleos a la VM si ves cortes.</p>
 
   <h3 class="t2">VM 103: portfolio</h3>
   <p>Una web estática servida con nginx. Los archivos de tu web están en <code>/srv/data/portfolio</code>.</p>
@@ -1101,6 +1144,7 @@ docker inspect NOMBRE --format '{{index .Config.Labels "org.opencontainers.image
     <tr><td>Proxmox no avisa de nada</td><td><code>default-matcher</code> sin el destino de Telegram</td><td>Añadir <code>telegram</code> en Matchers</td></tr>
     <tr><td>WordPress: «demasiadas redirecciones» al publicarlo</td><td>NPM recibe http del túnel y se lo dice a WordPress con <code>X-Forwarded-Proto</code></td><td>Leer el esquema real de la cabecera <code>CF-Visitor</code> en un nginx delante de WordPress</td></tr>
     <tr><td>Un subdominio nuevo funciona desde fuera pero en casa «no existe»</td><td>AdGuard preguntó antes de que existiera y guardó la respuesta negativa (hasta 30 min)</td><td>AdGuard → DNS → «Borrar caché» e <code>ipconfig /flushdns</code>; o crear el DNS antes de probar el nombre</td></tr>
+    <tr><td>Proxmox da «got timeout» al añadir un disco grande</td><td>El volumen ZFS se crea, pero tarda más de lo que Proxmox espera y no se conecta a la VM</td><td>No repetir el comando: comprobar con <code>zfs list</code> y conectar el volumen que ya existe con <code>qm set</code></td></tr>
     <tr><td>Cambias el CSS de la web y no se ve</td><td>Cloudflare guarda el fichero en caché (hasta 4 h)</td><td>Enlazarlo como <code>style.css?v=FECHA</code> y cambiar la fecha en cada cambio</td></tr>
   </table></div>
 

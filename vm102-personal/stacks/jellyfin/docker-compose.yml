@@ -1,0 +1,19 @@
+# Jellyfin: las películas del servidor antiguo, para verlas en casa o por Tailscale.
+# Las películas están en un disco aparte (/srv/media) que no entra en las copias: se pueden recuperar.
+# La configuración (bibliotecas, usuarios, lo visto) sí está en /srv/data y entra en las copias.
+services:
+  jellyfin:
+    image: jellyfin/jellyfin:12.4.20261026-211555
+    container_name: jellyfin
+    restart: unless-stopped
+    # Usuario juanma, el mismo que es dueño de la configuración
+    user: "1000:1000"
+    ports:
+      - "8096:8096"
+    environment:
+      JELLYFIN_PublishedServerUrl: https://jellyfin.casa.juanmarosado.com
+    volumes:
+      - /srv/data/jellyfin/config:/config
+      - /srv/media/.cache-jellyfin:/cache
+      # Solo lectura: Jellyfin no puede borrar ni cambiar las películas
+      - /srv/media:/media:ro

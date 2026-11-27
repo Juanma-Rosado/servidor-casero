@@ -14,6 +14,7 @@ He escrito una guía paso a paso de cómo lo monté: https://juanmarosado.com/se
 | `vm103-profesional/stacks/portfolio/` | Compose y nginx del portfolio | VM 103, `/srv/data/stacks/portfolio` |
 | `vm102-personal/stacks/nextcloud/` | Nextcloud con MariaDB y Redis | VM 102, `/srv/data/stacks/nextcloud` |
 | `vm102-personal/stacks/utilidades/` | Uptime Kuma y Homepage | VM 102, `/srv/data/stacks/utilidades` |
+| `vm102-personal/stacks/jellyfin/` | Jellyfin, para ver películas | VM 102, `/srv/data/stacks/jellyfin` |
 | `vm102-personal/crontab-juanma.txt` | Tareas de fondo de Nextcloud | VM 102, crontab de juanma |
 | `vm102-personal/usr-local-bin-dbdump.sh` | Volcado de la base de datos de Nextcloud | VM 102, `/usr/local/bin/dbdump.sh` |
 | `vm10x-*/stacks/portainer/` | Portainer en cada VM | VM 102 y 103, `/srv/data/stacks/portainer` |
@@ -49,7 +50,7 @@ El repositorio es la referencia: lo que hay aquí es lo que hay en el servidor. 
 - Nodo Proxmox `pve`: dos discos en espejo ZFS, donde están todas las máquinas, y copias diarias con vzdump.
 - LXC 100 `adguard`: AdGuard Home para el DNS y Tailscale para entrar desde fuera.
 - LXC 101 `npm`: Nginx Proxy Manager y el túnel de Cloudflare.
-- VM 102 `personal`: Nextcloud, Uptime Kuma, Homepage y Portainer.
+- VM 102 `personal`: Nextcloud, Jellyfin, Uptime Kuma, Homepage y Portainer.
 - VM 103 `profesional`: el portfolio. Está aislada y no puede llegar al resto de la red de casa.
 
 ## Contraseñas

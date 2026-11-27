@@ -62,6 +62,7 @@ vm102-personal/usr-local-bin-dbdump.sh|vm102|/usr/local/bin/dbdump.sh|si
 vm102-personal/stacks/nextcloud/docker-compose.yml|personal|/srv/data/stacks/nextcloud/docker-compose.yml|si
 vm102-personal/stacks/utilidades/docker-compose.yml|personal|/srv/data/stacks/utilidades/docker-compose.yml|si
 vm102-personal/stacks/portainer/docker-compose.yml|personal|/srv/data/stacks/portainer/docker-compose.yml|si
+vm102-personal/stacks/jellyfin/docker-compose.yml|personal|/srv/data/stacks/jellyfin/docker-compose.yml|si
 vm102-personal/etc-docker-daemon.json|personal|/etc/docker/daemon.json|no
 vm102-personal/crontab-juanma.txt|personal|crontab|no
 vm103-profesional/stacks/portfolio/docker-compose.yml|profesional|/srv/data/stacks/portfolio/docker-compose.yml|si
