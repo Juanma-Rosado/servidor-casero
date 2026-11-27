@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Proyectos | Juanma Rosado</title>
-  <meta name="description" content="Proyectos de Juanma Rosado: un servidor casero con Proxmox VE, ZFS, Docker y Cloudflare Tunnel, Reserfy (reservas online con WordPress y Flask) y el arranque dual de Windows 11 y Linux Mint.">
+  <meta name="description" content="Proyectos de Juanma Rosado: servidor casero con Proxmox, Docker y Cloudflare Tunnel, Reserfy (WordPress y Flask) y arranque dual Windows 11 y Linux Mint.">
   <link rel="icon" href="/img/logo.svg" type="image/svg+xml">
   <link rel="icon" href="/img/favicon-48.png" sizes="48x48" type="image/png">
   <link rel="apple-touch-icon" href="/img/apple-touch-icon.png">
@@ -21,6 +21,43 @@
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
   <meta name="twitter:card" content="summary_large_image">
+  <!-- Datos para los buscadores: la lista de mis proyectos -->
+  <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "CollectionPage",
+      "url": "https://juanmarosado.com/proyectos.html",
+      "inLanguage": "es",
+      "author": {
+        "@id": "https://juanmarosado.com/#persona"
+      },
+      "mainEntity": {
+        "@type": "ItemList",
+        "itemListElement": [
+          {
+            "@type": "ListItem",
+            "position": 1,
+            "url": "https://juanmarosado.com/guia-dual-w11-mint/",
+            "name": "Windows 11 y Linux Mint en la misma máquina"
+          },
+          {
+            "@type": "ListItem",
+            "position": 2,
+            "url": "https://juanmarosado.com/servidor/",
+            "name": "Mi servidor casero con Proxmox"
+          },
+          {
+            "@type": "ListItem",
+            "position": 3,
+            "url": "https://juanmarosado.com/proyectos.html#reserfy",
+            "name": "Reserfy, reservas online para restaurantes"
+          }
+        ]
+      }
+    }
+  </script>
+  <!-- La fuente del texto se pide antes, para que no cambie la letra al cargar -->
+  <link rel="preload" href="/comun/css/fonts/IBMPlexSans-latin.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="stylesheet" href="/comun/css/fonts.css">
   <link rel="stylesheet" href="/css/styles.css?v=20261126c">
   <script src="/js/tema.js?v=20261126"></script>

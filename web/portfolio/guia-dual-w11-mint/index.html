@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Arranque dual Windows 11 y Linux Mint en VirtualBox | Guía paso a paso</title>
+<title>Arranque dual de Windows 11 y Linux Mint: guía | Juanma Rosado</title>
 <meta name="description" content="Guía paso a paso para instalar Windows 11 Pro y Linux Mint XFCE con arranque dual en una misma máquina virtual de VirtualBox.">
 <link rel="canonical" href="https://juanmarosado.com/guia-dual-w11-mint/">
 <link rel="icon" href="/img/logo.svg" type="image/svg+xml">
@@ -11,44 +11,74 @@
 <link rel="apple-touch-icon" href="/img/apple-touch-icon.png">
 <meta property="og:type" content="article">
 <meta property="og:locale" content="es_ES">
+<meta property="og:site_name" content="Juanma Rosado">
 <meta property="og:title" content="Arranque dual de Windows 11 y Linux Mint en VirtualBox">
 <meta property="og:description" content="Arranque dual de Windows 11 Pro y Linux Mint XFCE en una misma máquina virtual de VirtualBox, paso a paso.">
 <meta property="og:url" content="https://juanmarosado.com/guia-dual-w11-mint/">
-<meta property="og:image" content="https://juanmarosado.com/guia-dual-w11-mint/img/paso-22.png">
-<meta property="og:image:width" content="800">
-<meta property="og:image:height" content="600">
-<meta property="og:image:alt" content="Menú GRUB con Linux Mint y Windows Boot Manager">
+<meta property="og:image" content="https://juanmarosado.com/guia-dual-w11-mint/img/og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Guía paso a paso: arranque dual de Windows 11 y Linux Mint">
 <meta name="twitter:card" content="summary_large_image">
-<!-- Datos estructurados: la guía como artículo técnico -->
+<!-- Datos estructurados: la guía como artículo técnico y las migas de pan (Inicio › Proyectos › guía) -->
 <script type="application/ld+json">
   {
     "@context": "https://schema.org",
-    "@type": "TechArticle",
-    "headline": "Arranque dual de Windows 11 y Linux Mint en VirtualBox",
-    "description": "Guía paso a paso para instalar Windows 11 Pro y Linux Mint XFCE con arranque dual en una misma máquina virtual de VirtualBox.",
-    "image": "https://juanmarosado.com/guia-dual-w11-mint/img/paso-22.png",
-    "url": "https://juanmarosado.com/guia-dual-w11-mint/",
-    "mainEntityOfPage": "https://juanmarosado.com/guia-dual-w11-mint/",
-    "inLanguage": "es",
-    "datePublished": "2026-11-23",
-    "dateModified": "2026-11-24",
-    "author": {
-      "@type": "Person",
-      "@id": "https://juanmarosado.com/#persona",
-      "name": "Juanma Rosado Trujillo",
-      "url": "https://juanmarosado.com/sobre-mi.html"
-    },
-    "publisher": {
-      "@id": "https://juanmarosado.com/#persona"
-    }
+    "@graph": [
+      {
+        "@type": "TechArticle",
+        "headline": "Arranque dual de Windows 11 y Linux Mint en VirtualBox",
+        "description": "Guía paso a paso para instalar Windows 11 Pro y Linux Mint XFCE con arranque dual en una misma máquina virtual de VirtualBox.",
+        "image": "https://juanmarosado.com/guia-dual-w11-mint/img/og.png",
+        "url": "https://juanmarosado.com/guia-dual-w11-mint/",
+        "mainEntityOfPage": "https://juanmarosado.com/guia-dual-w11-mint/",
+        "inLanguage": "es",
+        "datePublished": "2026-11-23",
+        "dateModified": "2026-11-27",
+        "author": {
+          "@type": "Person",
+          "@id": "https://juanmarosado.com/#persona",
+          "name": "Juanma Rosado Trujillo",
+          "url": "https://juanmarosado.com/sobre-mi.html"
+        },
+        "publisher": {
+          "@id": "https://juanmarosado.com/#persona"
+        }
+      },
+      {
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+          {
+            "@type": "ListItem",
+            "position": 1,
+            "name": "Inicio",
+            "item": "https://juanmarosado.com/"
+          },
+          {
+            "@type": "ListItem",
+            "position": 2,
+            "name": "Proyectos",
+            "item": "https://juanmarosado.com/proyectos.html"
+          },
+          {
+            "@type": "ListItem",
+            "position": 3,
+            "name": "Windows 11 y Linux Mint en la misma máquina",
+            "item": "https://juanmarosado.com/guia-dual-w11-mint/"
+          }
+        ]
+      }
+    ]
   }
 </script>
+<!-- La fuente del texto se pide antes, para que no cambie la letra al cargar -->
+<link rel="preload" href="/comun/css/fonts/IBMPlexSans-latin.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="/comun/css/fonts.css">
 <link rel="stylesheet" href="/comun/css/guia.css?v=20261126b">
 <script src="/js/tema.js?v=20261126"></script>
 <link rel="stylesheet" href="css/propio.css?v=20261126">
 </head>
-<body data-nombre-guia="Instalación dual W11 y Linux Mint">
+<body data-nombre-guia="Arranque dual de Windows 11 y Linux Mint">
   <a class="saltar" href="#contenido">Saltar al contenido</a>
 <div class="barra-movil"><button id="boton-menu" type="button">☰ Capítulos</button><span id="titulo-movil"></span></div>
 <div class="maqueta">
@@ -67,7 +97,7 @@
 <!-- Capítulo 00: Objetivo, entorno y planificación -->
 <article class="capitulo" id="inicio" data-titulo="Objetivo y planificación">
   <p class="antetitulo">Sistemas Informáticos · 1.º DAW · Unidad 2</p>
-  <h1>Instalación dual W11 y Linux Mint</h1>
+  <h1>Arranque dual de Windows 11 y Linux Mint</h1>
   <p class="entradilla">Arranque dual en una misma máquina virtual: primero Windows 11 Pro y después Linux Mint XFCE, de forma que al encender la máquina el gestor GRUB permita elegir cuál arrancar.</p>
   <ul class="ficha">
     <li><b>Autor:</b> Juanma Rosado Trujillo</li>

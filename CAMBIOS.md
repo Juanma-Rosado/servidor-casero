@@ -2,6 +2,11 @@
 
 Un resumen de lo que voy cambiando en el servidor y en la web. Cómo está montado cada paso lo explico en la guía: https://juanmarosado.com/servidor/
 
+## 2026-11-27 · Mejoras para los buscadores
+- Títulos y descripciones más claros, y la guía de arranque dual con su propia imagen para compartir.
+- Más información para los buscadores en Sobre mí, Proyectos, Contacto y las guías.
+- La letra principal carga antes.
+
 ## 2026-11-27 · El aviso de las copias vuelve a llegar
 - El aviso diario de las copias no llegaba a Telegram porque el mensaje era demasiado largo. Ahora llega con un resumen.
 - Los avisos llevan un emoji según si todo fue bien o falló, y el de las copias es una sola línea.

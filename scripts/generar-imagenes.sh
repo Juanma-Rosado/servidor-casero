@@ -2,6 +2,7 @@
 # Genera las imágenes de la web a partir de las plantillas HTML de scripts/imagenes:
 #
 #  - web/portfolio/img/og.png              imagen al compartir la web (1200 × 630)
+#  - web/portfolio/guia-dual-w11-mint/img/og.png  la de la guía de arranque dual (1200 × 630)
 #  - web/portfolio/img/favicon-48.png      icono de la pestaña (48 × 48)
 #  - web/portfolio/img/apple-touch-icon.png icono del iPhone (180 × 180, sin esquinas)
 #  - web/portfolio/favicon.ico             el mismo icono de 48 en formato .ico
@@ -53,6 +54,7 @@ EOF
 
 echo "== Generando imágenes"
 capturar "og.html" 1200 630 "$carpetaImagenes/og.png"
+capturar "og-guia-dual.html" 1200 630 "$raiz/web/portfolio/guia-dual-w11-mint/img/og.png"
 capturar "icono.html?tam=48" 48 48 "$carpetaImagenes/favicon-48.png"
 capturar "icono.html?tam=180&cuadrado" 180 180 "$carpetaImagenes/apple-touch-icon.png"
 crearIco

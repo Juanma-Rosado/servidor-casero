@@ -11,6 +11,7 @@
 <link rel="apple-touch-icon" href="/img/apple-touch-icon.png">
 <meta property="og:type" content="article">
 <meta property="og:locale" content="es_ES">
+<meta property="og:site_name" content="Juanma Rosado">
 <meta property="og:title" content="Servidor casero con Proxmox VE: guía paso a paso">
 <meta property="og:description" content="Guía paso a paso para montar un servidor casero con Proxmox VE, ZFS, Docker, Cloudflare Tunnel y copias automáticas.">
 <meta property="og:url" content="https://juanmarosado.com/servidor/">
@@ -19,30 +20,59 @@
 <meta property="og:image:height" content="630">
 <meta property="og:image:alt" content="Guía: un servidor casero con Proxmox, desde cero">
 <meta name="twitter:card" content="summary_large_image">
-<!-- Datos estructurados: la guía como artículo técnico -->
+<!-- Datos estructurados: la guía como artículo técnico y las migas de pan (Inicio › Proyectos › guía) -->
 <script type="application/ld+json">
   {
     "@context": "https://schema.org",
-    "@type": "TechArticle",
-    "headline": "Servidor casero con Proxmox VE: guía paso a paso",
-    "description": "Guía paso a paso para montar un servidor casero con Proxmox VE, ZFS, Docker, Cloudflare Tunnel y copias automáticas.",
-    "image": "https://juanmarosado.com/servidor/img/og.png",
-    "url": "https://juanmarosado.com/servidor/",
-    "mainEntityOfPage": "https://juanmarosado.com/servidor/",
-    "inLanguage": "es",
-    "datePublished": "2026-11-22",
-    "dateModified": "2026-11-24",
-    "author": {
-      "@type": "Person",
-      "@id": "https://juanmarosado.com/#persona",
-      "name": "Juanma Rosado Trujillo",
-      "url": "https://juanmarosado.com/sobre-mi.html"
-    },
-    "publisher": {
-      "@id": "https://juanmarosado.com/#persona"
-    }
+    "@graph": [
+      {
+        "@type": "TechArticle",
+        "headline": "Servidor casero con Proxmox VE: guía paso a paso",
+        "description": "Guía paso a paso para montar un servidor casero con Proxmox VE, ZFS, Docker, Cloudflare Tunnel y copias automáticas.",
+        "image": "https://juanmarosado.com/servidor/img/og.png",
+        "url": "https://juanmarosado.com/servidor/",
+        "mainEntityOfPage": "https://juanmarosado.com/servidor/",
+        "inLanguage": "es",
+        "datePublished": "2026-11-22",
+        "dateModified": "2026-11-27",
+        "author": {
+          "@type": "Person",
+          "@id": "https://juanmarosado.com/#persona",
+          "name": "Juanma Rosado Trujillo",
+          "url": "https://juanmarosado.com/sobre-mi.html"
+        },
+        "publisher": {
+          "@id": "https://juanmarosado.com/#persona"
+        }
+      },
+      {
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+          {
+            "@type": "ListItem",
+            "position": 1,
+            "name": "Inicio",
+            "item": "https://juanmarosado.com/"
+          },
+          {
+            "@type": "ListItem",
+            "position": 2,
+            "name": "Proyectos",
+            "item": "https://juanmarosado.com/proyectos.html"
+          },
+          {
+            "@type": "ListItem",
+            "position": 3,
+            "name": "Mi servidor casero con Proxmox",
+            "item": "https://juanmarosado.com/servidor/"
+          }
+        ]
+      }
+    ]
   }
 </script>
+<!-- La fuente del texto se pide antes, para que no cambie la letra al cargar -->
+<link rel="preload" href="/comun/css/fonts/IBMPlexSans-latin.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="/comun/css/fonts.css">
 <link rel="stylesheet" href="/comun/css/guia.css?v=20261126b">
 <script src="/js/tema.js?v=20261126"></script>

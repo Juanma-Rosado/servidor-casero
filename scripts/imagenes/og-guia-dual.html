@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Imagen para redes de la guía de arranque dual</title>
+  <!-- Plantilla de la imagen que sale al compartir la guía dual (1200 × 630).
+       Mismo estilo que la de la guía del servidor. La convierte en PNG scripts/generar-imagenes.sh. -->
+  <link rel="stylesheet" href="../../web/portfolio/comun/css/fonts.css">
+  <style>
+    body {
+      width: 1200px;
+      height: 630px;
+      margin: 0;
+      padding: 0 90px;
+      box-sizing: border-box;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      font-family: "IBM Plex Sans", sans-serif;
+      color: #ede8de;
+      background: #1c1a18;
+      /* La raya roja a la izquierda, como en la imagen de la otra guía */
+      border-left: 26px solid #b0442a;
+    }
+
+    .etiqueta {
+      margin: 0 0 24px;
+      font-size: 28px;
+      font-weight: 600;
+      text-transform: uppercase;
+      color: #e2826a;
+    }
+
+    h1 {
+      margin: 0 0 40px;
+      font-size: 72px;
+      font-weight: 600;
+      line-height: 1.15;
+    }
+
+    .temas {
+      margin: 0 0 40px;
+      font-size: 28px;
+      color: #b5aea3;
+    }
+
+    .web {
+      margin: 0;
+      font-size: 26px;
+      font-weight: 600;
+      color: #b0442a;
+    }
+  </style>
+</head>
+<body>
+  <p class="etiqueta">Guía paso a paso</p>
+  <!-- &nbsp; para que «Windows 11» no se parta en dos líneas -->
+  <h1>Arranque dual de Windows&nbsp;11 y Linux Mint</h1>
+  <p class="temas">VirtualBox · GRUB · Secure Boot · 32 capturas</p>
+  <p class="web">juanmarosado.com/guia-dual-w11-mint</p>
+</body>
+</html>

@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Projects | Juanma Rosado</title>
-  <meta name="description" content="Projects by Juanma Rosado: a home server with Proxmox VE, ZFS, Docker and Cloudflare Tunnel, Reserfy (online table bookings with WordPress and Flask) and a Windows 11 and Linux Mint dual boot.">
+  <meta name="description" content="Projects by Juanma Rosado: a home server with Proxmox, Docker and Cloudflare Tunnel, Reserfy (WordPress and Flask) and a Windows 11 and Linux Mint dual boot.">
   <link rel="icon" href="/img/logo.svg" type="image/svg+xml">
   <link rel="icon" href="/img/favicon-48.png" sizes="48x48" type="image/png">
   <link rel="apple-touch-icon" href="/img/apple-touch-icon.png">
@@ -21,6 +21,43 @@
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
   <meta name="twitter:card" content="summary_large_image">
+  <!-- Los mismos datos que Proyectos, con los textos en inglés -->
+  <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "CollectionPage",
+      "url": "https://juanmarosado.com/en/projects.html",
+      "inLanguage": "en",
+      "author": {
+        "@id": "https://juanmarosado.com/#persona"
+      },
+      "mainEntity": {
+        "@type": "ItemList",
+        "itemListElement": [
+          {
+            "@type": "ListItem",
+            "position": 1,
+            "url": "https://juanmarosado.com/guia-dual-w11-mint/",
+            "name": "Windows 11 and Linux Mint on the same machine"
+          },
+          {
+            "@type": "ListItem",
+            "position": 2,
+            "url": "https://juanmarosado.com/servidor/",
+            "name": "My home server with Proxmox"
+          },
+          {
+            "@type": "ListItem",
+            "position": 3,
+            "url": "https://juanmarosado.com/en/projects.html#reserfy",
+            "name": "Reserfy, online table bookings for restaurants"
+          }
+        ]
+      }
+    }
+  </script>
+  <!-- La fuente del texto se pide antes, para que no cambie la letra al cargar -->
+  <link rel="preload" href="/comun/css/fonts/IBMPlexSans-latin.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="stylesheet" href="/comun/css/fonts.css">
   <link rel="stylesheet" href="/css/styles.css?v=20261126c">
   <script src="/js/tema.js?v=20261126"></script>
