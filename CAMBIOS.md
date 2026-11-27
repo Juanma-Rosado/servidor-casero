@@ -2,6 +2,9 @@
 
 Un resumen de lo que voy cambiando en el servidor y en la web. Cómo está montado cada paso lo explico en la guía: https://juanmarosado.com/servidor/
 
+## 2026-11-27 · El aviso de las copias vuelve a llegar
+- El aviso diario de las copias no llegaba a Telegram porque el mensaje era demasiado largo. Ahora llega con un resumen.
+
 ## 2026-11-26 · Copia en un pendrive cifrado
 - Cada noche se guarda la última copia de cada máquina en un pendrive cifrado enchufado al servidor. Si falla, avisa por Telegram.
 
