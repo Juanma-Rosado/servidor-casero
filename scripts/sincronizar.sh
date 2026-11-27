@@ -40,6 +40,9 @@ ficheros() {
   cat <<'LISTA'
 pve/usr/local/bin/backup-config.sh|pve|/usr/local/bin/backup-config.sh|si
 pve/etc/cron.d/backup-config|pve|/etc/cron.d/backup-config|si
+pve/usr/local/bin/copia-usb.sh|pve|/usr/local/bin/copia-usb.sh|si
+pve/etc/systemd/system/copia-usb.service|pve|/etc/systemd/system/copia-usb.service|si
+pve/etc/cron.d/copia-usb|pve|/etc/cron.d/copia-usb|si
 pve/etc/sanoid/sanoid.conf|pve|/etc/sanoid/sanoid.conf|no
 pve/etc/pve/jobs.cfg|pve|/etc/pve/jobs.cfg|no
 pve/etc/pve/storage.cfg|pve|/etc/pve/storage.cfg|no

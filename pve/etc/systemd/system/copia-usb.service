@@ -1,4 +1,5 @@
-# Copia fuera de casa en el USB cifrado. La lanza la regla 99-copia-usb.rules al conectarlo.
+# Copia en el pendrive cifrado. La lanza cada noche /etc/cron.d/copia-usb.
+# Con systemd la copia va con poca prioridad para no frenar las máquinas.
 [Unit]
 Description=Copia de seguridad en el USB cifrado
 After=local-fs.target
@@ -6,7 +7,7 @@ After=local-fs.target
 [Service]
 Type=oneshot
 ExecStart=/usr/local/bin/copia-usb.sh
-# La copia puede tardar: ~7,5 GB a velocidad de USB
+# La copia puede tardar: ~9 GB a velocidad de USB
 TimeoutStartSec=3h
 Nice=10
 IOSchedulingClass=idle

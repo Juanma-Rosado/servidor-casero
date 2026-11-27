@@ -1,15 +1,17 @@
 #!/bin/bash
-# Copia fuera de casa en un USB cifrado (LUKS).
+# Copia fuera del ZFS en un pendrive cifrado (LUKS) enchufado al nodo.
 #
-# Copia en el USB la última copia vzdump de cada máquina y la última copia de
-# la configuración del nodo, comprueba que se han copiado bien, conserva las
-# últimas copias semanales y avisa por los avisos de Proxmox (correo a root,
-# que la regla default-matcher manda también a Telegram).
+# Copia en el pendrive la última copia vzdump de cada máquina y la última copia
+# de la configuración del nodo, comprueba que se han copiado bien, conserva las
+# últimas copias y avisa por los avisos de Proxmox (correo a root, que la regla
+# default-matcher manda a Telegram).
 #
-# Se lanza sola al conectar el USB (regla de udev y copia-usb.service) o a mano:
-#   copia-usb.sh
+# La lanza cada noche /etc/cron.d/copia-usb (a través de copia-usb.service),
+# después de vzdump. A mano:
+#   systemctl start copia-usb.service
 #
-# Preparación del USB, una sola vez: ver «Copia fuera de casa» en CAMBIOS.md.
+# El pendrive solo se abre mientras dura la copia: si se quita, el nodo arranca
+# igual y la copia de esa noche avisa del error.
 # Registro en /var/log/copia-usb.log.
 
 set -u
@@ -137,5 +139,5 @@ espacioLibre=$(df -h --output=avail "$MONTAJE" | tail -1 | tr -d ' ')
 cerrarUsb
 
 apuntar "OK $(basename "$carpeta") ($total, $guardadas copias en el USB, $espacioLibre libres)"
-avisar "Copia en USB: OK" "Copia $(basename "$carpeta") de $total terminada y comprobada. Hay $guardadas copias en el USB y quedan $espacioLibre libres. Ya puedes desconectarlo."
+avisar "Copia en USB: OK" "Copia $(basename "$carpeta") de $total terminada y comprobada. Hay $guardadas copias en el USB y quedan $espacioLibre libres."
 exit 0

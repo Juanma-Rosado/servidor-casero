@@ -72,7 +72,7 @@
     <li><b>Nivel:</b> 1.º de DAW, sin experiencia previa en servidores</li>
     <li><b>Tiempo:</b> un fin de semana largo</li>
     <li><b>Coste:</b> un dominio (unos 10 € al año)</li>
-    <li><b>Última revisión:</b> 26 de noviembre de 2026</li>
+    <li><b>Última revisión:</b> 27 de noviembre de 2026</li>
   </ul>
 
   <h2>Resultado final</h2>
@@ -992,7 +992,36 @@ env -i PATH=/usr/bin:/bin /usr/local/bin/backup-config.sh
 cat /var/log/backup-config.log</code></pre>
   <p>Se ejecuta a las <b>02:45</b>, antes de la copia de vzdump de las 03:00, para que la copia de la VM 102 ya lleve el volcado del día.</p>
   <div class="aviso error"><strong>Error real: el volcado no se hizo nunca</strong><p>La primera versión de este script terminaba con <code>&gt;/dev/null 2&gt;&amp;1</code> y el cron no definía <code>PATH</code>. Al probarlo a mano funcionaba, porque tu terminal sí encuentra <code>qm</code>. Desde cron fallaba cada noche sin dejar rastro: durante semanas no hubo ni un volcado. Moraleja: no tires los errores a <code>/dev/null</code>; guárdalos en un registro y pruébalo como lo ejecutará cron.</p></div>
-  <div class="aviso cuidado"><strong>Misma ubicación, mismo riesgo</strong><p>Estas copias están en el mismo pool. Si fallan los dos discos a la vez, se pierden también. Sube de vez en cuando un archivo comprimido con lo crítico a un servicio externo.</p></div>
+  <div class="aviso cuidado"><strong>Misma ubicación, mismo riesgo</strong><p>Estas copias están en el mismo pool. Si fallan los dos discos a la vez, se pierden también. Por eso hay una copia más en un pendrive, que se explica justo debajo.</p></div>
+
+  <h3 class="t2">Copia en un pendrive cifrado</h3>
+  <p>Un pendrive de 64 GB enchufado al nodo guarda cada noche la última copia de cada máquina y la de la configuración. Así, si fallan los dos discos del espejo, las máquinas se pueden restaurar desde el pendrive. Va cifrado con LUKS: si alguien se lo lleva, no puede leer nada.</p>
+  <ol class="pasos">
+    <li><strong>Cifra el pendrive</strong>
+      <p>Esto borra todo lo que tenga. Busca su nombre en <code>/dev/disk/by-id/</code> para no equivocarte de disco.</p>
+<pre data-lenguaje="bash"><code>apt install -y cryptsetup-bin
+USB=/dev/disk/by-id/usb-NOMBRE-DEL-PENDRIVE
+echo 'label: gpt
+type=linux' | sfdisk $USB
+# Clave en un fichero que solo lee root: así la copia abre el pendrive sola
+dd if=/dev/urandom of=/root/.copia-usb.key bs=4096 count=1
+chmod 0400 /root/.copia-usb.key
+cryptsetup luksFormat --type luks2 --key-file /root/.copia-usb.key --label copia-usb ${USB}-part1
+cryptsetup open --key-file /root/.copia-usb.key ${USB}-part1 copia-usb
+mkfs.ext4 -L copia-usb -m 0 /dev/mapper/copia-usb
+cryptsetup close copia-usb</code></pre></li>
+    <li><strong>Añade una contraseña tuya</strong>
+      <p>Si el servidor muere, el fichero de clave muere con él. Con una segunda clave puedes abrir el pendrive en cualquier Linux. Guárdala en tu gestor de contraseñas.</p>
+<pre data-lenguaje="bash"><code>cryptsetup luksAddKey --key-file /root/.copia-usb.key /dev/disk/by-label/copia-usb</code></pre></li>
+    <li><strong>Programa la copia</strong>
+      <p>El script <code>/usr/local/bin/copia-usb.sh</code> abre el pendrive, copia, comprueba cada fichero con <code>sha256sum</code>, borra las copias antiguas y lo vuelve a cerrar. Si falla, avisa por Telegram. Lo lanza un servicio de systemd con poca prioridad, a las 04:30, cuando vzdump ya ha terminado:</p>
+<pre data-lenguaje="bash"><code>echo '30 4 * * * root systemctl start copia-usb.service' &gt; /etc/cron.d/copia-usb
+systemctl start copia-usb.service
+cat /var/log/copia-usb.log</code></pre></li>
+  </ol>
+  <div class="aviso consejo"><strong>En este servidor</strong><p>Cada juego (las cuatro máquinas y la configuración) ocupa 8,7 GB y tarda unos 11 minutos en copiarse y comprobarse. En el pendrive de 64 GB caben de sobra las 3 copias que se guardan, y al terminar llega a Telegram «Copia en USB: OK» con el espacio libre.</p></div>
+  <p>Para restaurar desde otro ordenador: <code>cryptsetup open /dev/sdX1 copia-usb</code> con tu contraseña, <code>mount /dev/mapper/copia-usb /mnt</code>, y la copia de la máquina se restaura con <code>qmrestore</code> o <code>pct restore</code> como en el capítulo de copias.</p>
+  <p>Ojo: el pendrive está en casa, junto al servidor. Un robo o un incendio se llevan los dos.</p>
 
   <h3 class="t2">Fijar versiones de las imágenes Docker</h3>
   <p>Con <code>latest</code>, una actualización automática puede romper un servicio sin que lo notes. Fija la versión exacta en el compose:</p>
@@ -1047,7 +1076,7 @@ docker inspect NOMBRE --format '{{index .Config.Labels "org.opencontainers.image
   <h3 class="t2">Lecciones</h3>
   <ul>
     <li><b>Documenta mientras lo haces.</b> Guarda cada comando y cada error. Reconstruirlo después es mucho más difícil.</li>
-    <li><b>Un espejo no es una copia.</b> Necesitas snapshots, copias y, si puedes, una copia fuera de casa.</li>
+    <li><b>Un espejo no es una copia.</b> Necesitas snapshots, copias y una copia fuera del pool, aunque sea en un pendrive.</li>
     <li><b>Separa por riesgo.</b> Lo público y lo experimental, lejos de tus datos personales.</li>
     <li><b>Fija versiones.</b> Actualizar es una decisión, no algo que te pasa.</li>
     <li><b>Un token es una contraseña.</b> Si lo ves en un chat o captura, regénéralo.</li>
@@ -1058,7 +1087,7 @@ docker inspect NOMBRE --format '{{index .Config.Labels "org.opencontainers.image
 
   <h3 class="t2">Próximos pasos</h3>
   <ul>
-    <li>Subir una copia cifrada de lo crítico a un almacenamiento externo.</li>
+    <li>Subir una copia cifrada de lo crítico fuera de casa: el pendrive no protege de un robo o un incendio.</li>
     <li>Revisar la configuración si cambias de operadora (puede aparecer CGNAT; el túnel y la VPN siguen funcionando).</li>
     <li>Añadir un entorno de pruebas (<i>staging</i>) en la VM profesional para tus proyectos de DAW.</li>
   </ul>

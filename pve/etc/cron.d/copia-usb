@@ -1,0 +1,3 @@
+# Copia en el pendrive cifrado, después de vzdump (03:00, termina sobre las 03:15)
+PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+30 4 * * * root systemctl start copia-usb.service
