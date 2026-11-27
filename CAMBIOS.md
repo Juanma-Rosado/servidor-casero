@@ -4,6 +4,7 @@ Un resumen de lo que voy cambiando en el servidor y en la web. Cómo está monta
 
 ## 2026-11-27 · El aviso de las copias vuelve a llegar
 - El aviso diario de las copias no llegaba a Telegram porque el mensaje era demasiado largo. Ahora llega con un resumen.
+- Los avisos llevan un emoji según si todo fue bien o falló, y el de las copias es una sola línea.
 
 ## 2026-11-26 · Copia en un pendrive cifrado
 - Cada noche se guarda la última copia de cada máquina en un pendrive cifrado enchufado al servidor. Si falla, avisa por Telegram.

@@ -35,11 +35,14 @@ apuntar() {
   echo "$(date '+%F %T') $*" >> "$REGISTRO"
 }
 
-# Manda el aviso a root: Proxmox lo reenvía por sus avisos (Telegram y correo)
+# Manda el aviso a root: Proxmox lo reenvía a Telegram.
+# El asunto lleva emojis, así que va codificado en UTF-8 (RFC 2047).
 avisar() {
   local asunto="$1"
   local texto="$2"
-  printf 'Subject: %s\n\n%s\n' "$asunto" "$texto" | sendmail root
+  local asuntoCodificado
+  asuntoCodificado="=?UTF-8?B?$(printf '%s' "$asunto" | base64 -w0)?="
+  printf 'Subject: %s\nContent-Type: text/plain; charset=UTF-8\n\n%s\n' "$asuntoCodificado" "$texto" | sendmail root
 }
 
 # Desmonta y cierra el USB, pase lo que pase
@@ -53,7 +56,7 @@ cerrarUsb() {
 fallar() {
   apuntar "ERROR $*"
   logger -t copia-usb -p user.err "$*"
-  avisar "Copia en USB: ERROR" "$*"
+  avisar "❌ Copia en el pendrive: ERROR" "$*"
   cerrarUsb
   exit 1
 }
@@ -139,5 +142,5 @@ espacioLibre=$(df -h --output=avail "$MONTAJE" | tail -1 | tr -d ' ')
 cerrarUsb
 
 apuntar "OK $(basename "$carpeta") ($total, $guardadas copias en el USB, $espacioLibre libres)"
-avisar "Copia en USB: OK" "Copia $(basename "$carpeta") de $total terminada y comprobada. Hay $guardadas copias en el USB y quedan $espacioLibre libres."
+avisar "✅ Copia en el pendrive: OK" "$total copiados y comprobados. $guardadas copias guardadas, $espacioLibre libres."
 exit 0
